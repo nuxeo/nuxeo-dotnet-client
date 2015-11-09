@@ -1,0 +1,30 @@
+﻿{
+  "version": "1.0.0",
+  "description": "TCK Class Library",
+  "authors": [ "Gabriel Barata" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+
+  "dependencies": {
+    "System.Runtime": "4.0.21-beta-23405",
+    "System.Collections": "4.0.10-beta-23019",
+    "System.Linq": "4.0.0-beta-23019",
+    "System.Threading": "4.0.10-beta-23019",
+    "Microsoft.CSharp": "4.0.0-beta-23019",
+    "Microsoft.Framework.Configuration": "1.0.0-beta8-15638",
+    "Microsoft.Framework.Configuration.Json": "1.0.0-beta8-15638",
+    "xunit": "2.1.0",
+    "xunit.runner.dnx": "2.1.0-beta6-build191",
+    "xunit.runner.visualstudio": "2.1.0",
+    "NuxeoClient": "1.0.0-*"
+  },
+
+  "commands": {
+    "test": "xunit.runner.dnx -parallel none"
+  },
+
+  "frameworks": {
+    "dnxcore50": { }
+  }
+}

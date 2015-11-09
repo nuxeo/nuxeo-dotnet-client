@@ -1,0 +1,9 @@
+.xproj.user
+*.xproj.user
+.lock.json
+*.lock.json
+*.suo
+applicationhost.config
+artifacts/
+src/NuxeoDotNetClient/bin/
+src/NuxeoClient/bin/

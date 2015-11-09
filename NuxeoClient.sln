@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B944EAF6-8EC7-439F-9AFF-AA38EC2CCC52}"
+	ProjectSection(SolutionItems) = preProject
+		global.json = global.json
+	EndProjectSection
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NuxeoClient", "src\NuxeoClient\NuxeoClient.xproj", "{21FA4295-07BD-4BEF-95AA-F47E412E0F1A}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "TCK", "test\TCK\TCK.xproj", "{E54C5CD2-D041-43B9-B0DB-5917B0C3274D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{468D8FE1-61FB-4EA9-8187-3C06C65189EF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{3BF2BD09-C335-48C3-AC25-0362925BE1DA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{21FA4295-07BD-4BEF-95AA-F47E412E0F1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21FA4295-07BD-4BEF-95AA-F47E412E0F1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21FA4295-07BD-4BEF-95AA-F47E412E0F1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21FA4295-07BD-4BEF-95AA-F47E412E0F1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E54C5CD2-D041-43B9-B0DB-5917B0C3274D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E54C5CD2-D041-43B9-B0DB-5917B0C3274D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E54C5CD2-D041-43B9-B0DB-5917B0C3274D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E54C5CD2-D041-43B9-B0DB-5917B0C3274D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{21FA4295-07BD-4BEF-95AA-F47E412E0F1A} = {468D8FE1-61FB-4EA9-8187-3C06C65189EF}
+		{E54C5CD2-D041-43B9-B0DB-5917B0C3274D} = {3BF2BD09-C335-48C3-AC25-0362925BE1DA}
+	EndGlobalSection
+EndGlobal
