@@ -14,7 +14,7 @@ Nuxeo .NET Client targets two platforms: `net45` and `dnxcore50`. This allows it
 | DNX Console App (Native & CoreCLR) | Yes        |
 | Windows 8/8.1 Store APP            | No         |
 | Windows Phone 8/8.1                | No         |
-| Windows 10 (UWP)                   | No         |
+| Universal Windows Platform (UWP)   | No         |
 | Xamarin.Android                    | Yes?       |
 | Xamarin.iOS                        | Yes?       |
 +------------------------------------+------------+
