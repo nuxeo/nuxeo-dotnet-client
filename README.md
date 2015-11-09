@@ -83,20 +83,20 @@ Include NuxeClient dependency in your project.json file:
 
 Reference *NuxeoClient* and *NuxeoClient.Wrappers* namespaces:
 
-```Java
+```csharp
 using NuxeoClient;
 using NuxeoClient.Wrappers;
 ```
 
 Create a new instance of NuxeoClient:
 
-```Java
+```csharp
 Client client = new Client(); // server running on localhost:8080
 ```
 
 Create a folder named "Test Folder 1" on the root:
 
-```Java
+```csharp
 client.Operation("Document.Create")
       .SetInput("doc:/")
       .SetParameter("type", "Folder")
@@ -178,7 +178,7 @@ Let's make a quick DNX Console App that creates a folder on the server's root an
 
 * Inside the project directory, create a new file named *Program.cs*. Make it create a new Nuxeo Client, create a folder in the server's root directory named "My Folder", and then a file inside My Folder named "My File". It should look something like this:
 
-```Java
+```csharp
 using System;
 using NuxeoClient;
 using NuxeoClient.Wrappers;
@@ -215,8 +215,8 @@ namespace TestNuxeoApp
 							}).Wait();
 					  }).Wait();
 			}
-		}	
-		
+		}
+
 	}
 }
 ```
