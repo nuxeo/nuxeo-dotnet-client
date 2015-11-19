@@ -680,6 +680,11 @@ namespace NuxeoClient
             return mappings;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="extension"></param>
+        /// <returns></returns>
         public static string GetMimeType(string extension)
         {
             if (extension == null)
@@ -697,6 +702,11 @@ namespace NuxeoClient
             return _mappings.Value.TryGetValue(extension, out mime) ? mime : "application/octet-stream";
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="mimeType"></param>
+        /// <returns></returns>
         public static string GetExtension(string mimeType)
         {
             if (mimeType == null)

@@ -21,7 +21,7 @@ namespace NuxeoClient.Wrappers
 {
     /// <summary>
     /// Represents a Business Object that is retrieved and created through a
-    /// <see cref="BusinessAdapter"/>.
+    /// <see cref="Adapters.BusinessAdapter"/>.
     /// </summary>
     /// <remarks>For more details about Business Objects, check
     /// <a href="https://doc.nuxeo.com/display/NXDOC/Web+Adapters+for+the+REST+API#WebAdaptersfortheRESTAPI-CustomAdapters">Nuxeo Documentation Page</a>.</remarks>
@@ -35,6 +35,10 @@ namespace NuxeoClient.Wrappers
         [JsonIgnore]
         public string Name { get; set; } = string.Empty;
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="BusinessObject"/>.
+        /// </summary>
+        /// <param name="adapter"></param>
         public BusinessObject(string adapter)
         {
             EntityType = adapter;

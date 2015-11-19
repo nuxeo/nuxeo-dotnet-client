@@ -3,7 +3,15 @@
 .lock.json
 *.lock.json
 *.suo
-applicationhost.config
 artifacts/
-src/NuxeoDotNetClient/bin/
 src/NuxeoClient/bin/
+test/TCK/bin/
+src/NuxeoClient_net45/bin/
+src/NuxeoClient_net45/obj/
+packages/
+test/TCK_net45/bin/
+test/TCK_net45/obj/
+tools/Invoke-MsBuild.psm1
+tools/nuget.exe
+.vs/
+tools/*.nupkg

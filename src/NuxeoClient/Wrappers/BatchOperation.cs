@@ -37,7 +37,7 @@ namespace NuxeoClient.Wrappers
             base(client, id)
         {
             Batch = batch;
-            Endpoint = client.ServerURL + client.RestPath + "upload/" + Batch.BatchId + "/execute/" + Id;
+            Endpoint = UrlCombiner.Combine(client.RestPath, "upload/", Batch.BatchId, "execute/", Id);
         }
     }
 }

@@ -38,12 +38,57 @@ namespace NuxeoClient
         /// <summary>
         /// Type of content of a  requests.
         /// </summary>
-        protected sealed class ContentType
+        public sealed class ContentType
         {
+            /// <summary>
+            /// The "application/json" content type.
+            /// </summary>
             public const string JSON = "application/json";
+            /// <summary>
+            /// The "application/json+nxrequest" content type.
+            /// </summary>
             public const string NXREQUEST = "application/json+nxrequest";
+            /// <summary>
+            /// The "application/octet-stream" content type.
+            /// </summary>
             public const string OCTETSTREAM = "application/octet-stream";
+            /// <summary>
+            /// The "*/*" content type.
+            /// </summary>
             public const string ALL = "*/*";
+        }
+
+        /// <summary>
+        /// Type of requests that can be made to the server.
+        /// </summary>
+        public sealed class RequestType
+        {
+            /// <summary>
+            /// The HTTP GET method.
+            /// </summary>
+            public static RequestType GET = new RequestType(HttpMethod.Get);
+            /// <summary>
+            /// The HTTP POST method.
+            /// </summary>
+            public static RequestType POST = new RequestType(HttpMethod.Post);
+            /// <summary>
+            /// The HTTP PUT method.
+            /// </summary>
+            public static RequestType PUT = new RequestType(HttpMethod.Put);
+            /// <summary>
+            /// The HTTP DELETE method.
+            /// </summary>
+            public static RequestType DELETE = new RequestType(HttpMethod.Delete);
+
+            /// <summary>
+            /// Gets the corresponding <see cref="HttpMethod"/> object.
+            /// </summary>
+            public HttpMethod Method { get; private set; }
+
+            private RequestType(HttpMethod method)
+            {
+                Method = method;
+            }
         }
 
         /// <summary>
@@ -95,9 +140,7 @@ namespace NuxeoClient
             http = new HttpClient(new HttpClientHandler()
             {
                 AutomaticDecompression = System.Net.DecompressionMethods.None,
-                AllowAutoRedirect = false/*,
-                Proxy = new WebProxy(new Uri("http://127.0.0.1:8888")),
-                UseProxy = true*/ // used to debug with Fiddler and Charles Proxy
+                AllowAutoRedirect = false
             });
             SetServerURL(serverURL);
             SetAuthorization(authorization);
@@ -105,7 +148,10 @@ namespace NuxeoClient
             SetRestPath(restPath);
             SetAuthorization(authorization);
             http.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(ContentType.ALL));
-            Marshaller = new Marshaller(this);
+            Marshaller = new Marshaller(this).RegisterEntity("workflow", typeof(Workflow))
+                                             .RegisterEntity("worflows", typeof(Workflows))
+                                             .RegisterEntity("task", typeof(NuxeoClient.Wrappers.Task))
+                                             .RegisterEntity("tasks", typeof(Tasks));
         }
 
         /// <summary>
@@ -303,7 +349,7 @@ namespace NuxeoClient
         /// representing the remote batch.</returns>
         public async Task<Batch> Batch()
         {
-            return (Batch)await Post(ServerURL + RestPath + "upload/");
+            return (Batch)await Post(RestPath + "upload/");
         }
 
         /// <summary>
@@ -314,37 +360,81 @@ namespace NuxeoClient
             http.Dispose();
         }
 
+        /// <summary>
+        /// Performs a RESTful request to the Nuxeo Server.
+        /// </summary>
+        /// <param name="type">The type of the request.</param>
+        /// <param name="endpoint">The end point, following "api/v1/".</param>
+        /// <param name="parameters">The query parameters to follow the url.</param>
+        /// <param name="data">The JSON data to be send.</param>
+        /// <param name="additionalHeaders">The additional request headers, besides those already specified in the client.</param>
+        /// <param name="contentType">The type of the content to be sent.</param>
+        /// <returns>Returns an <see cref="Entity"/> with the result from the request.</returns>
+        public async Task<Entity> Request(RequestType type,
+                                          string endpoint,
+                                          QueryParams parameters = null,
+                                          JToken data = null,
+                                          Dictionary<string, string> additionalHeaders = null,
+                                          string contentType = ContentType.JSON)
+        {
+            if (type == RequestType.GET)
+            {
+                return await Get(UrlCombiner.Combine(RestPath, endpoint), parameters, additionalHeaders, contentType);
+            }
+            else if (type == RequestType.POST)
+            {
+                return await Post(UrlCombiner.Combine(RestPath, endpoint), parameters, data, additionalHeaders, contentType);
+            }
+            else if (type == RequestType.PUT)
+            {
+                return await Put(UrlCombiner.Combine(RestPath, endpoint), parameters, data, additionalHeaders, contentType);
+            }
+            else if (type == RequestType.DELETE)
+            {
+                return await Delete(UrlCombiner.Combine(RestPath, endpoint), parameters, additionalHeaders, contentType);
+            }
+            else
+            {
+                throw new Exception("Invalid request type.");
+            }
+        }
+
         internal async Task<Entity> Get(string endpoint,
+                                       QueryParams parameters = null,
                                        Dictionary<string, string> additionalHeaders = null,
                                        string contentType = ContentType.JSON)
         {
-            return await RequestJson(endpoint, null, HttpMethod.Get, additionalHeaders, contentType);
+            return await RequestJson(endpoint, parameters, null, HttpMethod.Get, additionalHeaders, contentType);
         }
 
         internal async Task<Entity> Post(string endpoint,
+                                         QueryParams parameters = null,
                                          JToken data = null,
                                          Dictionary<string, string> additionalHeaders = null,
                                          string contentType = ContentType.JSON)
         {
-            return await RequestJson(endpoint, data, HttpMethod.Post, additionalHeaders, contentType);
+            return await RequestJson(endpoint, parameters, data, HttpMethod.Post, additionalHeaders, contentType);
         }
 
         internal async Task<Entity> PostBin(string endpoint,
+                                            QueryParams parameters = null,
                                             byte[] data = null,
                                             Dictionary<string, string> additionalHeaders = null)
         {
-            return await RequestBin(endpoint, data, HttpMethod.Post, additionalHeaders);
+            return await RequestBin(endpoint, parameters, data, HttpMethod.Post, additionalHeaders);
         }
 
         internal async Task<Entity> Put(string endpoint,
+                                        QueryParams parameters = null,
                                         JToken data = null,
                                         Dictionary<string, string> additionalHeaders = null,
                                         string contentType = ContentType.JSON)
         {
-            return await RequestJson(endpoint, data, HttpMethod.Put, additionalHeaders, contentType);
+            return await RequestJson(endpoint, parameters, data, HttpMethod.Put, additionalHeaders, contentType);
         }
 
         internal async Task<Entity> Delete(string endpoint,
+                                           QueryParams parameters = null,
                                            Dictionary<string, string> additionalHeaders = null,
                                            string contentType = ContentType.JSON)
         {
@@ -352,16 +442,17 @@ namespace NuxeoClient
             // On Mac OS and Linux, DELETE requests will be sent as GET, which make it impossible for now
             // to delete documents and drop batches using the REST API.
             // This issue is documented here: https://github.com/dotnet/corefx/issues/4134
-            return await RequestJson(endpoint, null, HttpMethod.Delete, additionalHeaders, contentType);
+            return await RequestJson(endpoint, parameters, null, HttpMethod.Delete, additionalHeaders, contentType);
         }
 
         internal async Task<Entity> RequestJson(string endpoint,
-                                                  JToken data = null,
-                                                  HttpMethod httpMethod = null,
-                                                  Dictionary<string, string> additionalHeaders = null,
-                                                  string contentType = ContentType.JSON)
+                                                QueryParams parameters = null,
+                                                JToken data = null,
+                                                HttpMethod httpMethod = null,
+                                                Dictionary<string, string> additionalHeaders = null,
+                                                string contentType = ContentType.JSON)
         {
-            HttpRequestMessage request = new HttpRequestMessage(httpMethod ?? HttpMethod.Get, endpoint);
+            HttpRequestMessage request = new HttpRequestMessage(httpMethod ?? HttpMethod.Get, (endpoint.StartsWith("/") ? endpoint.Substring(1) : endpoint) + (parameters?.ToString() ?? string.Empty));
             if (data != null)
             {
                 string serializedData = JsonConvert.SerializeObject(data);
@@ -372,12 +463,13 @@ namespace NuxeoClient
         }
 
         internal async Task<Entity> RequestBin(string endpoint,
+                                                 QueryParams parameters = null,
                                                  byte[] data = null,
                                                  HttpMethod httpMethod = null,
                                                  Dictionary<string, string> additionalHeaders = null,
                                                  string contentType = ContentType.OCTETSTREAM)
         {
-            HttpRequestMessage request = new HttpRequestMessage(httpMethod ?? HttpMethod.Get, endpoint);
+            HttpRequestMessage request = new HttpRequestMessage(httpMethod ?? HttpMethod.Get, (endpoint.StartsWith("/") ? endpoint.Substring(1) : endpoint) + (parameters?.ToString() ?? string.Empty));
             if (data != null)
             {
                 request.Content = new ByteArrayContent(data);
@@ -402,7 +494,7 @@ namespace NuxeoClient
                 throw new NullReferenceException("input parameter was null.");
             }
 
-            HttpRequestMessage request = new HttpRequestMessage(htttpMethod ?? HttpMethod.Post, endpoint);
+            HttpRequestMessage request = new HttpRequestMessage(htttpMethod ?? HttpMethod.Post, (endpoint.StartsWith("/") ? endpoint.Substring(1) : endpoint));
             MultipartContent requestContent = new MultipartContent("related");
 
             string firstPartStr = JsonConvert.SerializeObject(data);
@@ -435,7 +527,7 @@ namespace NuxeoClient
             return await ProcessRequest(request, additionalHeaders);
         }
 
-        internal async Task<Entity> ProcessRequest(HttpRequestMessage request, Dictionary<string, string> additionalHeaders = null)
+        private async Task<Entity> ProcessRequest(HttpRequestMessage request, Dictionary<string, string> additionalHeaders = null)
         {
             if (additionalHeaders != null)
             {

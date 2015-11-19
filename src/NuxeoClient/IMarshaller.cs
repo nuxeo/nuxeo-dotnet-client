@@ -33,7 +33,16 @@ namespace NuxeoClient
         /// objects of this type to be marshalled and unmarshalled.</remarks>
         /// <param name="adapterType">A string with the type of the adapter for the business object</param>
         /// <param name="objectType">The type of the business object.</param>
-        void RegisterBO(string entityType, Type objectType);
+        /// <returns>The current <see cref="IMarshaller"/> instance.</returns>
+        IMarshaller RegisterBO(string adapterType, Type objectType);
+
+        /// <summary>
+        /// Registers a new entity type in the marshaller.
+        /// </summary>
+        /// <param name="entityType">The entity type.</param>
+        /// <param name="objectType">The type extending <see cref="Entity"/>.</param>
+        /// <returns>The current <see cref="IMarshaller"/> instance.</returns>
+        IMarshaller RegisterEntity(string entityType, Type objectType);
 
         /// <summary>
         /// Marshals a nuxeo <see cref="Entity"/> to JSON.

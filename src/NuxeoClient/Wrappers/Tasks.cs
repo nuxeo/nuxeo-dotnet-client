@@ -15,23 +15,30 @@
  *     Gabriel Barata <gbarata@nuxeo.com>
  */
 
+using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Linq;
 
-namespace NuxeoClient.Adapters
+namespace NuxeoClient.Wrappers
 {
     /// <summary>
-    /// Represents URL the parameters to be send in a query.
+    /// Represents a Tasks entity, which contains a collection of <see cref="Task"/>.
     /// </summary>
-    public class QueryParams : Dictionary<string, string>
+    /// <remarks>For more information about tasks, check
+    /// <a href="https://doc.nuxeo.com/display/NXDOC60/About+Tasks">Nuxeo Documentation Center</a>.
+    public class Tasks : Entity
     {
         /// <summary>
-        /// Creates and returns a string representation of the current <see cref="QueryParams"/> object.
+        /// Gets the list of tasks.
         /// </summary>
-        /// <returns>A string representation of the current <see cref="QueryParams"/> object.</returns>
-        public override string ToString()
+        [JsonProperty(PropertyName = "entries")]
+        public List<Task> Entries { get; protected set; }
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="Tasks"/>.
+        /// </summary>
+        public Tasks()
         {
-            return @"?" + string.Join(@"&", (from pair in this select pair.Key + @"=" + pair.Value));
+            EntityType = "tasks";
         }
     }
 }

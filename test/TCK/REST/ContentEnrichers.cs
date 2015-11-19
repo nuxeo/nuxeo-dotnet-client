@@ -45,7 +45,7 @@ namespace TCK.REST
 
         public void CreateFolder()
         {
-            Document document = (Document)client.DocumentFromPath("/").Create(new Document
+            Document document = (Document)client.DocumentFromPath("/").Post(new Document
             {
                 Type = "Folder",
                 Name = "folder2",
@@ -60,7 +60,7 @@ namespace TCK.REST
         {
             Document document = (Document)client.DocumentFromPath("/folder2")
                                             .AddContentEnricher("thumbnail")
-                                            .Fetch().Result;
+                                            .Get().Result;
             Assert.NotNull(document);
             Assert.NotNull(document.ContextParameters);
             Assert.NotNull(document.ContextParameters["thumbnail"]);
@@ -71,7 +71,7 @@ namespace TCK.REST
         {
             Document document = (Document)client.DocumentFromPath("/folder2")
                                             .AddContentEnricher("acls")
-                                            .Fetch().Result;
+                                            .Get().Result;
             Assert.NotNull(document);
             Assert.NotNull(document.ContextParameters);
             Assert.NotNull(document.ContextParameters["acls"]);
@@ -81,7 +81,7 @@ namespace TCK.REST
         {
             Document document = (Document)client.DocumentFromPath("/folder2")
                                             .AddContentEnricher("preview")
-                                            .Fetch().Result;
+                                            .Get().Result;
             Assert.NotNull(document);
             Assert.NotNull(document.ContextParameters);
             Assert.NotNull(document.ContextParameters["preview"]);
@@ -92,7 +92,7 @@ namespace TCK.REST
         {
             Document document = (Document)client.DocumentFromPath("/folder2")
                                             .AddContentEnricher("breadcrumb")
-                                            .Fetch().Result;
+                                            .Get().Result;
             Assert.NotNull(document);
             Assert.NotNull(document.ContextParameters);
             Assert.NotNull(document.ContextParameters["breadcrumb"]);

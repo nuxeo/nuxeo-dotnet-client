@@ -49,7 +49,7 @@ namespace TCK.REST
             UploadFileChuncked();
             CreateDocumentFromUpload();
             BatchUploadWithUploader();
-            BatchOperation();
+            BatchOperation(); // on 7.10 only
             DeleteTestFolder();
         }
 
@@ -144,7 +144,7 @@ namespace TCK.REST
 
         public void CreateDocumentFromUpload()
         {
-            Document testFolder = (Document)client.DocumentFromPath("/").Create(new Document
+            Document testFolder = (Document)client.DocumentFromPath("/").Post(new Document
             {
                 Type = "Folder",
                 Name = "TestFolder3",
@@ -152,7 +152,7 @@ namespace TCK.REST
             }).Result;
             Assert.NotNull(testFolder);
 
-            Document document = (Document)client.DocumentFromPath(testFolder.Path).Create(new Document
+            Document document = (Document)client.DocumentFromPath(testFolder.Path).Post(new Document
             {
                 Type = "File",
                 Name = "TestDocument",
@@ -173,8 +173,8 @@ namespace TCK.REST
         public void BatchUploadWithUploader()
         {
             uploader = client.Uploader().SetChunked(true).SetChunkSize(1048576); // 1MB = 1048576B, 1KB = 1024B
-            Entity result = uploader.AddFile("Test Files/Test.txt")
-                                      .AddFile("Test Files/Puppy.rtf")
+            Entity result = uploader.AddFile("Test.txt")
+                                      .AddFile("Puppy.rtf")
                                       .UploadFiles().Result;
             Assert.NotNull(result);
             Assert.True(result is EntityList);

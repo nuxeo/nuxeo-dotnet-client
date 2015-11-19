@@ -33,11 +33,23 @@ namespace NuxeoClient.Wrappers
     /// </remarks>
     public class Document : Entity
     {
+        /// <summary>
+        /// The <see cref="Client"/> instance through which operations to this document will be performed.
+        /// </summary>
         protected Client client { get; private set; } = null;
 
+        /// <summary>
+        /// The type of endpoint used to reference the document.
+        /// </summary>
         protected enum EndpointType
         {
+            /// <summary>
+            /// UID
+            /// </summary>
             UID,
+            /// <summary>
+            /// Path
+            /// </summary>
             PATH
         }
 
@@ -182,6 +194,18 @@ namespace NuxeoClient.Wrappers
         }
 
         /// <summary>
+        /// Gets the document's endpoint with the adapter.
+        /// </summary>
+        [JsonIgnore]
+        public string EndpointWithAdapter
+        {
+            get
+            {
+                return GenerateEndpoint(true);
+            }
+        }
+
+        /// <summary>
         /// Initializes a new instance of <see cref="Document"/>.
         /// </summary>
         public Document()
@@ -312,8 +336,8 @@ namespace NuxeoClient.Wrappers
         /// <summary>
         /// Sets the Nuxeo <see cref="Client"/> through which operations to this document can be performed.
         /// </summary>
-        /// <remarks>The client is used for operations like <see cref="Fetch"/>, <see cref="Create(Entity)"/>,
-        /// <see cref="Update(Entity)"/> and <see cref="Save"/>.</remarks>
+        /// <remarks>The client is used for operations like <see cref="Get(string)"/>, <see cref="Post(Entity, string)"/>,
+        /// <see cref="Put(Entity, string)"/> and <see cref="Save"/>.</remarks>
         /// <param name="client">The Nuxeo <see cref="Client"/> through which operations to this document can be performed.</param>
         /// <returns>The current <see cref="Document"/> instance.</returns>
         public Document SetClient(Client client)
@@ -336,7 +360,7 @@ namespace NuxeoClient.Wrappers
         /// <summary>
         /// Sets the document's uid.
         /// </summary>
-        /// <param name="repository">The document's uid.</param>
+        /// <param name="uid">The document's uid.</param>
         /// <returns>The current <see cref="Document"/> instance.</returns>
         public Document SetUid(string uid)
         {
@@ -347,7 +371,7 @@ namespace NuxeoClient.Wrappers
         /// <summary>
         /// Sets the document's path.
         /// </summary>
-        /// <param name="repository">The document's path.</param>
+        /// <param name="path">The document's path.</param>
         /// <returns>The current <see cref="Document"/> instance.</returns>
         public Document SetPath(string path)
         {
@@ -358,7 +382,7 @@ namespace NuxeoClient.Wrappers
         /// <summary>
         /// Sets the document's name.
         /// </summary>
-        /// <param name="repository">The document's name.</param>
+        /// <param name="name">The document's name.</param>
         /// <returns>The current <see cref="Document"/> instance.</returns>
         public Document SetName(string name)
         {
@@ -369,7 +393,7 @@ namespace NuxeoClient.Wrappers
         /// <summary>
         /// Sets the document's type.
         /// </summary>
-        /// <param name="repository">The document's type.</param>
+        /// <param name="type">The document's type.</param>
         /// <returns>The current <see cref="Document"/> instance.</returns>
         public Document SetType(string type)
         {
@@ -380,7 +404,7 @@ namespace NuxeoClient.Wrappers
         /// <summary>
         /// Sets the document's title.
         /// </summary>
-        /// <param name="repository">The document's title.</param>
+        /// <param name="title">The document's title.</param>
         /// <returns>The current <see cref="Document"/> instance.</returns>
         public Document SetTitle(string title)
         {
@@ -391,7 +415,7 @@ namespace NuxeoClient.Wrappers
         /// <summary>
         /// Sets the document's properties.
         /// </summary>
-        /// <param name="repository">The document's properties.</param>
+        /// <param name="properties">The document's properties.</param>
         /// <returns>The current <see cref="Document"/> instance.</returns>
         public Document SetProperties(Properties properties)
         {
@@ -402,7 +426,7 @@ namespace NuxeoClient.Wrappers
         /// <summary>
         /// Sets the document's context parameters.
         /// </summary>
-        /// <param name="repository">The document's context parameters.</param>
+        /// <param name="contextParameters">The document's context parameters.</param>
         /// <returns>The current <see cref="Document"/> instance.</returns>
         public Document SetContextParameters(Properties contextParameters)
         {
@@ -411,59 +435,100 @@ namespace NuxeoClient.Wrappers
         }
 
         /// <summary>
-        /// Fetches the document from the server. A <see cref="BusinessObject"/> is returned instead if a
-        /// <see cref="BusinessAdapter"/> is set via <see cref="SetAdapter(Adapter)"/>.
+        /// Performs a GET request to this document's endpoint. A <see cref="Document"/> will be
+        /// returned unless an <see cref="Adapter"/> is specified. In this case, different <see cref="Entity"/>
+        /// objects may be returned.
         /// </summary>
         /// <remarks>For more details about RESTful Document CRUD, check
         /// <a href="https://doc.nuxeo.com/display/NXDOC/Document+Resources+Endpoints">Nuxeo Documentation Center</a>.
         /// </remarks>
-        /// <returns>A <see cref="Task"/> that will return a new <see cref="Entity"/>, representing this <see cref="Document"/> or a <see cref="BusinessObject"/>.</returns>
-        public async Task<Entity> Fetch()
+        /// <param name="extendEndpoint">A path suffix to be apeended to the document's enpoint, including the adapter.</param>
+        /// <returns>A <see cref="Task"/> that will return the respective <see cref="Entity"/>.</returns>
+        public async Task<Entity> Get(string extendEndpoint = "")
         {
-            return await client.Get(GenerateEndpoint(withAdapter: true), GenerateHeaders());
+            return await client.Get(GenerateEndpoint(true, extendEndpoint), null, GenerateHeaders());
         }
 
         /// <summary>
-        /// Creates a child of this document.
+        /// Performs a post request to this documents endpoint.
         /// </summary>
         /// <remarks>For more details about RESTful Document CRUD, check
         /// <a href="https://doc.nuxeo.com/display/NXDOC/Document+Resources+Endpoints">Nuxeo Documentation Center</a>.
         /// </remarks>
-        /// <param name="data">The child document.</param>
-        /// <returns>A <see cref="Task"/> that will return a new <see cref="Entity"/>, representing the child <see cref="Document"/> or <see cref="BusinessObject"/>.</returns>
-        public async Task<Entity> Create(Entity entity)
+        /// <param name="entity">The <see cref="Entity"/> to be posted.</param>
+        /// <param name="extendEndpoint">A path suffix to be apeended to the document's enpoint, including the adapter.</param>
+        /// <returns>A <see cref="Task"/> that will return the resulting <see cref="Entity"/>.</returns>
+        public async Task<Entity> Post(Entity entity, string extendEndpoint = "")
         {
-            return await client.Post(GenerateEndpoint(withAdapter: (entity is BusinessObject ? true : false)) + (entity is BusinessObject ? "/" + ((BusinessObject)entity).Name : string.Empty),
+            return await client.Post(GenerateEndpoint(true, UrlCombiner.Combine((entity is BusinessObject ? ((BusinessObject)entity).Name : string.Empty), extendEndpoint)),
+                null,
                 client.Marshaller.Marshal(entity),
                 GenerateHeaders());
         }
 
         /// <summary>
-        /// Updates a child of this document.
+        /// Performs a POST request to this document's endpoint.
         /// </summary>
         /// <remarks>For more details about RESTful Document CRUD, check
         /// <a href="https://doc.nuxeo.com/display/NXDOC/Document+Resources+Endpoints">Nuxeo Documentation Center</a>.
         /// </remarks>
-        /// <param name="data">The child document.</param>
-        /// <returns>A <see cref="Task"/> that will return a new <see cref="Entity"/>, representing the child <see cref="Document"/> or <see cref="BusinessObject"/>.</returns>
-        public async Task<Entity> Update(Entity entity)
+        /// <param name="data">The JSON object to be sent.</param>
+        /// <param name="extendEndpoint">A path suffix to be apeended to the document's enpoint, including the adapter.</param>
+        /// <returns>A <see cref="Task"/> that will return the resulting <see cref="Entity"/>.</returns>
+        public async Task<Entity> Post(JToken data, string extendEndpoint = "")
         {
-            return await client.Put(GenerateEndpoint(withAdapter: (entity is BusinessObject ? true : false)),
+            return await client.Post( GenerateEndpoint(true, extendEndpoint),
+                null,
+                data,
+                GenerateHeaders());
+        }
+
+        /// <summary>
+        /// Performs a PUT request to this document's endpoint.
+        /// </summary>
+        /// <remarks>For more details about RESTful Document CRUD, check
+        /// <a href="https://doc.nuxeo.com/display/NXDOC/Document+Resources+Endpoints">Nuxeo Documentation Center</a>.
+        /// </remarks>
+        /// <param name="entity">The <see cref="Entity"/> to be updated.</param>
+        /// <param name="extendEndpoint">A path suffix to be apeended to the document's enpoint, including the adapter.</param>
+        /// <returns>A <see cref="Task"/> that will return the resulting <see cref="Entity"/>.</returns>
+        public async Task<Entity> Put(Entity entity, string extendEndpoint = "")
+        {
+            return await client.Put(GenerateEndpoint(true, extendEndpoint),
+                null,
                 client.Marshaller.Marshal(entity),
                 GenerateHeaders());
         }
 
         /// <summary>
-        /// Deletes this document on the remote server.
+        /// Performs a PUT request to this document's endpoint.
         /// </summary>
         /// <remarks>For more details about RESTful Document CRUD, check
         /// <a href="https://doc.nuxeo.com/display/NXDOC/Document+Resources+Endpoints">Nuxeo Documentation Center</a>.
         /// </remarks>
+        /// <param name="data">The JSON object to be sent.</param>
+        /// <param name="extendEndpoint">A path suffix to be apeended to the document's enpoint, including the adapter.</param>
+        /// <returns>A <see cref="Task"/> that will return the resulting <see cref="Entity"/>.</returns>
+        public async Task<Entity> Put(JToken data, string extendEndpoint = "")
+        {
+            return await client.Put(GenerateEndpoint(true, extendEndpoint),
+                null,
+                data,
+                GenerateHeaders());
+        }
+
+        /// <summary>
+        /// Performs a DELETE request to this document's endpoint.
+        /// </summary>
+        /// <remarks>For more details about RESTful Document CRUD, check
+        /// <a href="https://doc.nuxeo.com/display/NXDOC/Document+Resources+Endpoints">Nuxeo Documentation Center</a>.
+        /// </remarks>
+        /// <param name="extendEndpoint">A path suffix to be apeended to the document's enpoint, including the adapter.</param>
         /// <returns>A <see cref="Task"/> that will return <c>null</c> if the deletion of the remote document
         /// was successful.</returns>
-        public async Task<Entity> Delete()
+        public async Task<Entity> Delete(string extendEndpoint = "")
         {
-            return await client.Delete(GenerateEndpoint(), GenerateHeaders());
+            return await client.Delete(GenerateEndpoint(true, extendEndpoint), null, GenerateHeaders());
         }
 
         /// <summary>
@@ -485,7 +550,7 @@ namespace NuxeoClient.Wrappers
         /// <returns>A <see cref="Task"/> that will return a new and updated instance of this <see cref="Document"/>.</returns>
         public async Task<Document> Save()
         {
-            return (Document)await Update(new Document { Properties = DirtyProperties });
+            return (Document)await Put(new Document { Properties = DirtyProperties });
         }
 
         /// <summary>
@@ -533,7 +598,7 @@ namespace NuxeoClient.Wrappers
             return headers;
         }
 
-        private string GenerateEndpoint(bool withAdapter = false)
+        private string GenerateEndpoint(bool withAdapter = false, string extension = "")
         {
             bool noUid = string.IsNullOrEmpty(Uid);
             bool noPath = string.IsNullOrEmpty(Path);
@@ -543,22 +608,32 @@ namespace NuxeoClient.Wrappers
             }
             else
             {
-                return BuildEndpointForDoc((noPath ? Uid : Path), (noPath ? EndpointType.UID : EndpointType.PATH), withAdapter);
+                return BuildEndpointForDoc((noPath ? Uid : Path), extension, (noPath ? EndpointType.UID : EndpointType.PATH), withAdapter);
             }
         }
 
-        private string BuildEndpointForDoc(string doc, EndpointType type = EndpointType.UID, bool withAdapter = false)
+        private string BuildEndpointForDoc(string doc, string extension = "", EndpointType type = EndpointType.UID, bool withAdapter = false)
         {
-            string endpoint = client.ServerURL;
-            endpoint += client.RestPath;
-            endpoint += ((Repository != null && Repository != string.Empty) ? "repo/" + Repository + "/" : string.Empty);
-            endpoint += (type == EndpointType.UID ? "id" : "path");
-            endpoint += (doc.Length > 0 && doc[0] != '/' ? "/" : string.Empty) + doc;
-            if (withAdapter)
+            List<string> segments = new List<string>();
+            
+            segments.Add(client.RestPath);
+            if (!string.IsNullOrEmpty(Repository))
             {
-                endpoint += (Adapter != null ? "/" + Adapter.GetEndpointSuffix() : string.Empty);
+                segments.Add("repo");
+                segments.Add(Repository);
             }
-            return endpoint;
+            segments.Add(type == EndpointType.UID ? "id" : "path");
+            segments.Add(doc);
+            if (withAdapter && Adapter != null)
+            {
+                segments.Add(Adapter.GetEndpointSuffix());
+            }
+            if (!string.IsNullOrEmpty(extension))
+            {
+                segments.Add(extension);
+            }
+            
+            return UrlCombiner.Combine(segments.ToArray());
         }
     }
 }

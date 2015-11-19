@@ -18,7 +18,7 @@
 namespace NuxeoClient.Adapters
 {
     /// <summary>
-    /// Represents a Search Adapter, which returns paged results a <see cref="SearchQuery">.
+    /// Represents a Search Adapter, which returns paged results a <see cref="SearchQuery"/>.
     /// </summary>
     /// <remarks>For more details about Adapters, check
     /// <a href="https://doc.nuxeo.com/display/NXDOC/Web+Adapters+for+the+REST+API">Nuxeo Documentation Page</a>.</remarks>
@@ -29,7 +29,14 @@ namespace NuxeoClient.Adapters
         /// </summary>
         public enum SearchMode
         {
-            FULLTEXT, NXQL
+            /// <summary>
+            /// Full text search.
+            /// </summary>
+            FULLTEXT,
+            /// <summary>
+            /// Search via NXQL.
+            /// </summary>
+            NXQL
         }
 
         /// <summary>

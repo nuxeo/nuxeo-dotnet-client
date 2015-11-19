@@ -19,7 +19,7 @@ namespace NuxeoClient
 {
     /// <summary>
     /// Represents an upload job, used either by the <see cref="Uploader"/>
-    /// and the <see cref="Batch"/> classes. And upload job might refer to
+    /// and the <see cref="Wrappers.Batch"/> classes. And upload job might refer to
     /// the upload of a whole file or a chunk of a file.
     /// </summary>
     public class UploadJob

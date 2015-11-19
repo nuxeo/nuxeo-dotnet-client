@@ -180,6 +180,7 @@ Let's make a quick DNX Console App that creates a folder on the server's root an
 
 ```csharp
 using System;
+using System.Threading.Tasks;
 using NuxeoClient;
 using NuxeoClient.Wrappers;
 
@@ -192,31 +193,31 @@ namespace TestNuxeoApp
 			// create a new Nuxeo Client, which is a disposable objects
 			using(var client = new Client())
 			{
-				// perform an async request to create a folder on the root with the title "My Folder"
-				// let's wait for it to finish so we can see the prints
-				client.Operation("Document.Create")
-					  .SetInput("doc:/")
-					  .SetParameter("type", "Folder")
-					  .SetParameter("name", "MyFolder")
-					  .SetParameter("properties", new ParamProperties { { "dc:title", "My Folder" } })
-					  .Execute().ContinueWith((folderResponse) => {
-							Document folder = folderResponse.Result as Document;
-							// print the returned folder object if it is not null
-							Console.WriteLine(folder == null ? "Failed to create folder." : "Created " + folder.Path);
-							// perform an async request to create a child file named "My File"
-							folder.Create(new Document {
-								Type = "File",
-								Name = "MyFile",
-								Properties = new Properties { { "dc:title", "My File" } }
-							}).ContinueWith((fileResponse) => {
-								Document file = fileResponse.Result as Document;
-								// print the returned file object if it is not null					   
-								Console.WriteLine(file == null ? "Failed to create file." : "Created " + file.Path);
-							}).Wait();
-					  }).Wait();
+				// let's create an async job that doesn't block
+				Task.Run(async () => {
+					// perform an async request to create a folder on the root with the title "My Folder"
+					Document folder = (Document)await client.Operation("Document.Create")
+															.SetInput("doc:/")
+															.SetParameter("type", "Folder")
+															.SetParameter("name", "MyFolder")
+															.SetParameter("properties", new ParamProperties { { "dc:title", "My Folder" } })
+															.Execute();
+					
+					// print the returned folder object if it is not null			
+					Console.WriteLine(folder == null ? "Failed to create folder." : "Created " + folder.Path);
+
+					// perform an async request to create a child file named "My File"						
+					Document file = (Document)await folder.Create(new Document {
+						Type = "File",
+						Name = "MyFile",
+						Properties = new Properties { { "dc:title", "My File" } }
+					});
+
+					// print the returned file object if it is not null					   
+					Console.WriteLine(file == null ? "Failed to create file." : "Created " + file.Path);
+				}).Wait(); // let's wait for the task to complete
 			}
 		}
-
 	}
 }
 ```

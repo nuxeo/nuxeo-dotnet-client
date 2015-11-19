@@ -45,7 +45,7 @@ namespace TCK.REST
 
         public void CreateFolderAndFiles()
         {
-            folder = (Document)client.DocumentFromPath("/").Create(new Document
+            folder = (Document)client.DocumentFromPath("/").Post(new Document
             {
                 Type = "Folder",
                 Name = "TestFolder4",
@@ -53,7 +53,7 @@ namespace TCK.REST
             }).Result;
             Assert.NotNull(folder);
 
-            Document document = (Document)client.DocumentFromPath(folder.Path).Create(new Document
+            Document document = (Document)client.DocumentFromPath(folder.Path).Post(new Document
             {
                 Type = "File",
                 Name = "TestFile1",
@@ -61,7 +61,7 @@ namespace TCK.REST
             }).Result;
             Assert.NotNull(document);
 
-            document = (Document)client.DocumentFromPath(folder.Path).Create(new Document
+            document = (Document)client.DocumentFromPath(folder.Path).Post(new Document
             {
                 Type = "File",
                 Name = "TestFIle2",
@@ -72,8 +72,7 @@ namespace TCK.REST
 
         public void TestChildrenAdapter()
         {
-            Adapter adapter = new ChildrenAdapter();
-            Documents documents = (Documents)folder.SetAdapter(adapter).Fetch().Result;
+            Documents documents = (Documents)folder.SetAdapter(new ChildrenAdapter()).Get().Result;
             Assert.NotNull(documents);
             Assert.Equal(2, documents.Entries.Count);
         }
@@ -82,7 +81,7 @@ namespace TCK.REST
         {
             Adapter adapter = new SearchAdapter().SetSearchMode(SearchAdapter.SearchMode.NXQL)
                                                  .SetSearchQuery("SELECT * FROM File WHERE ecm:parentId = \"" + folder.Uid + "\"");
-            Documents documents = (Documents)folder.SetAdapter(adapter).Fetch().Result;
+            Documents documents = (Documents)folder.SetAdapter(adapter).Get().Result;
             Assert.NotNull(documents);
             Assert.Equal(2, documents.Entries.Count);
         }

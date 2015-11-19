@@ -18,7 +18,7 @@
 namespace NuxeoClient.Adapters
 {
     /// <summary>
-    /// Represents a Children Adapter, which returns the children of the target <see cref="Document"/>.
+    /// Represents a Children Adapter, which returns the children of the target <see cref="Wrappers.Document"/>.
     /// </summary>
     /// <remarks>For more details about Adapters, check
     /// <a href="https://doc.nuxeo.com/display/NXDOC/Web+Adapters+for+the+REST+API">Nuxeo Documentation Page</a>.</remarks>

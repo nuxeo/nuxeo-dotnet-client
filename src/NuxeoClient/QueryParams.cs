@@ -15,15 +15,23 @@
  *     Gabriel Barata <gbarata@nuxeo.com>
  */
 
-using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
+using System.Linq;
 
-namespace NuxeoClient.Wrappers
+namespace NuxeoClient
 {
     /// <summary>
-    /// Represents a <see cref="Dictionary{strng, JToken}"/> to hold document properties.
+    /// Represents URL the parameters to be send in a query.
     /// </summary>
-    public class Properties : Dictionary<string, JToken>
+    public class QueryParams : Dictionary<string, string>
     {
+        /// <summary>
+        /// Creates and returns a string representation of the current <see cref="QueryParams"/> object.
+        /// </summary>
+        /// <returns>A string representation of the current <see cref="QueryParams"/> object.</returns>
+        public override string ToString()
+        {
+            return @"?" + string.Join(@"&", (from pair in this select pair.Key + @"=" + pair.Value));
+        }
     }
 }

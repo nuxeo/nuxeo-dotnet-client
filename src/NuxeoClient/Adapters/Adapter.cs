@@ -53,7 +53,7 @@ namespace NuxeoClient.Adapters
         /// <returns>A string with the endpoint suffix.</returns>
         public string GetEndpointSuffix()
         {
-            return "@" + Id + (Parameters != string.Empty ? (Parameters[0] != '?' ? "/" : string.Empty) + Parameters : string.Empty);
+            return "@" + UrlCombiner.Combine(Id, (Parameters != string.Empty ? (Parameters[0] != '?' ? "/" : string.Empty) + Parameters : string.Empty));
         }
     }
 }

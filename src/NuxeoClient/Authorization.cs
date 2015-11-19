@@ -31,6 +31,9 @@ namespace NuxeoClient
         /// </summary>
         public enum Methods
         {
+            /// <summary>
+            /// Represents the basic authentication type
+            /// </summary>
             Basic/*,
             Proxy,
             Portal*/

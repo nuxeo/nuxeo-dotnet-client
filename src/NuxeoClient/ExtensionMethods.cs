@@ -38,5 +38,34 @@ namespace NuxeoClient
             Array.Copy(data, index, result, 0, length);
             return result;
         }
+
+        /// <summary>
+        /// Adds a path to an <see cref="UriBuilder"/>.
+        /// </summary>
+        /// <param name="builder">The instance of <see cref="UriBuilder"/> to which the path should be added.</param>
+        /// <param name="pathValue">The path to be added.</param>
+        /// <returns>The current <see cref="UriBuilder"/> instance.</returns>
+        public static UriBuilder AddPath(this UriBuilder builder, string pathValue)
+        {
+            if (string.IsNullOrEmpty(pathValue))
+            {
+                return builder;
+            }
+
+            string path = builder.Path;
+
+            if (path.EndsWith("/") == false)
+            {
+                path = path + "/";
+            }
+
+            int i = (pathValue[0] == '/' ? 1 : 0);
+            int j = pathValue.Length - (pathValue[pathValue.Length - 1] == '/' ? 1 : 0);
+            path += (j > 0 ? pathValue.Substring(i, j-i) : string.Empty);
+
+            builder.Path = path;
+
+            return builder;
+        }
     }
 }

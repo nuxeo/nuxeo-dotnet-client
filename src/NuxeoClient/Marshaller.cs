@@ -31,6 +31,7 @@ namespace NuxeoClient
     {
         private Client client;
         private Dictionary<string, Type> businessObjects;
+        private Dictionary<string, Type> entityMap;
 
         /// <summary>
         /// Initializes a new instance of <see cref="Marshaller"/>.
@@ -40,6 +41,7 @@ namespace NuxeoClient
         {
             this.client = client;
             businessObjects = new Dictionary<string, Type>();
+            entityMap = new Dictionary<string, Type>();
         }
 
         /// <summary>
@@ -49,9 +51,23 @@ namespace NuxeoClient
         /// objects of this type to be marshalled and unmarshalled.</remarks>
         /// <param name="adapterType">A string with the type of the adapter for the business object</param>
         /// <param name="objectType">The type of the business object.</param>
-        public void RegisterBO(string adapterType, Type objectType)
+        /// <returns>The current <see cref="Marshaller"/> intance.</returns>
+        public IMarshaller RegisterBO(string adapterType, Type objectType)
         {
             businessObjects.Add(adapterType, objectType);
+            return this;
+        }
+
+        /// <summary>
+        /// Registers a new entity type in the marshaller.
+        /// </summary>
+        /// <param name="entityType">The entity type.</param>
+        /// <param name="objectType">The type extending <see cref="Entity"/>.</param>
+        /// <returns>The current <see cref="Marshaller"/> intance.</returns>
+        public IMarshaller RegisterEntity(string entityType, Type objectType)
+        {
+            entityMap.Add(entityType, objectType);
+            return this;
         }
 
         /// <summary>
@@ -142,11 +158,21 @@ namespace NuxeoClient
                     if (jObj["isPaginable"] != null &&
                         jObj["isPaginable"].ToObject<bool>() == true)
                     {
-                        result = JsonConvert.DeserializeObject<Pageable>(jObj.ToString());
+                        Pageable page = JsonConvert.DeserializeObject<Pageable>(jObj.ToString());
+                        foreach (Document document in page.Entries)
+                        {
+                            document.SetClient(client);
+                        }
+                        result = page;
                     }
                     else
                     {
-                        result = JsonConvert.DeserializeObject<Documents>(jObj.ToString());
+                        Documents docs = JsonConvert.DeserializeObject<Documents>(jObj.ToString());
+                        foreach (Document document in docs.Entries)
+                        {
+                            document.SetClient(client);
+                        }
+                        result = docs;
                     }
                 }
                 else if (entityType == "document")
@@ -156,6 +182,10 @@ namespace NuxeoClient
                 else if (entityType == "null")
                 {
                     result = null;
+                }
+                else if (entityMap.ContainsKey(entityType))
+                {
+                    result = (Entity)JsonConvert.DeserializeObject(jObj.ToString(), entityMap[entityType]);
                 }
                 else if (businessObjects.ContainsKey(entityType))
                 {
@@ -177,11 +207,12 @@ namespace NuxeoClient
                 else
                 {
                     result = new UnknowEntity(jObj);
+                    result.EntityType = entityType;
                 }
             }
             else if (jObj["batchId"] != null)
             {
-                result = JsonConvert.DeserializeObject<Batch>(jObj.ToString()).SetClient(client);
+                result = JsonConvert.DeserializeObject<Batch>(jObj.ToString()).SetClient(client).SetClient(client);
             }
             else if (jObj["name"] != null &&
                      jObj["size"] != null &&
@@ -191,7 +222,7 @@ namespace NuxeoClient
             }
             else
             {
-                throw new InvalidEntityException(jObj.ToString());
+                result = new UnknowEntity(jObj);
             }
             return result;
         }

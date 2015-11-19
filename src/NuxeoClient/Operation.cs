@@ -17,6 +17,7 @@
 
 using Newtonsoft.Json.Linq;
 using NuxeoClient.Wrappers;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -97,7 +98,7 @@ namespace NuxeoClient
             Input = null;
             Parameters = null;
             Context = null;
-            Endpoint = this.client.ServerURL + this.client.AutomationPath + Id;
+            Endpoint = UrlCombiner.Combine(this.client.AutomationPath, Id);
         }
 
         /// <summary>
@@ -127,7 +128,7 @@ namespace NuxeoClient
         /// <summary>
         /// Sets the operation input.
         /// </summary>
-        /// <param name="input">The operation input.</param>
+        /// <param name="blob">The operation input.</param>
         /// <returns>The current <see cref="Operation"/> instance.</returns>
         public Operation SetInput(Blob blob)
         {
@@ -266,7 +267,7 @@ namespace NuxeoClient
         /// <remarks>For more details about schemas, check
         /// <a href="https://doc.nuxeo.com/display/NXDOC60/How+to+Override+Existing+Document+Types">Nuxeo Documentation Center</a>.
         /// </remarks>
-        /// <param name="schemas">A <see cref="ICollection{string}"/> containing the schema names.</param>
+        /// <param name="schemas">A collection of strings containing the schema names.</param>
         /// <returns>The current <see cref="Operation"/> instance.</returns>
         public Operation SetSchemas(ICollection<string> schemas)
         {
@@ -400,15 +401,10 @@ namespace NuxeoClient
             }
             else
             {
-                await client.RequestJson(Endpoint, data, HttpMethod.Post, headers).ContinueWith(output =>
+                await client.RequestJson(Endpoint, null, data, HttpMethod.Post, headers).ContinueWith(output =>
                 {
                     result = output.Result;
                 });
-            }
-
-            if (result is Document)
-            {
-                result = ((Document)result).SetClient(client);
             }
 
             return result;

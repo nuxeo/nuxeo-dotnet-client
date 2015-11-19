@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace NuxeoClient
@@ -34,9 +35,9 @@ namespace NuxeoClient
     {
         private Client client;
         private Queue<string> filesToUpload = new Queue<string>();
-        private object syncFiles = new object();
         private int processedFilesCounter = 0;
         private object syncCounter = new object();
+        private SemaphoreSlim semaphore;
 
         /// <summary>
         /// Gets the batch to upload.
@@ -65,6 +66,7 @@ namespace NuxeoClient
         public Uploader(Client client)
         {
             this.client = client;
+            semaphore = new SemaphoreSlim(NumConcurrentUploads);
         }
 
         /// <summary>
@@ -86,6 +88,18 @@ namespace NuxeoClient
         public Uploader SetChunkSize(int size)
         {
             ChunkSize = size;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the number of maximum concurent uploads.
+        /// </summary>
+        /// <param name="num">The number of concurrent uploads.</param>
+        /// <returns>The current <see cref="Uploader"/> instance.</returns>
+        public Uploader SetNumConcurrentUploads(int num)
+        {
+            NumConcurrentUploads = num;
+            semaphore = new SemaphoreSlim(NumConcurrentUploads);
             return this;
         }
 
@@ -133,77 +147,89 @@ namespace NuxeoClient
             try
             {
                 // perform handshake if needed
-                Batch = Batch ?? client.Batch().Result;
+                Batch = Batch ?? await client.Batch();
             }
             catch (ServerException exception)
             {
                 throw new FailedHandshakeException("Failed to initialize batch with the server.", exception);
             }
 
-            lock (syncFiles)
+            foreach (string path in filesToUpload)
             {
-                Parallel.ForEach(filesToUpload, new ParallelOptions { MaxDegreeOfParallelism = NumConcurrentUploads }, path =>
-                {
-                    if (!File.Exists(path))
-                    {
-                        throw new FileNotFoundException(path);
-                    }
-
-                    int i;
-                    lock (syncCounter)
-                    {
-                        i = processedFilesCounter++;
-                    }
-
-                    if (IsChunkedUpload)
-                    {
-                        FileStream fs = File.OpenRead(path);
-                        int readBytes;
-                        byte[] buffer = new byte[ChunkSize];
-                        UploadJob job;
-                        List<Blob> blobs = new List<Blob>();
-
-                        while ((readBytes = fs.Read(buffer, 0, buffer.Length)) > 0)
-                        {
-                            byte[] temp = new byte[readBytes];
-                            Array.Copy(buffer, temp, readBytes);
-                            blobs.Add(new Blob(Path.GetFileName(path)).SetContent(temp));
-                            Array.Clear(buffer, 0, ChunkSize);
-                        }
-
-                        int chunksProcessed = 0;
-                        foreach (Blob blob in blobs)
-                        {
-                            job = new UploadJob(blob).SetFileId(i)
-                                                     .SetChunkIndex(chunksProcessed)
-                                                     .SetChunkCount(blobs.Count);
-                            UploadBlob(job, true);
-                            chunksProcessed++;
-                        }
-                    }
-                    else
-                    {
-                        byte[] contents = File.ReadAllBytes(path);
-                        Blob blob = new Blob(Path.GetFileName(path)).SetContent(contents);
-                        UploadJob job = new UploadJob(blob).SetFileId(i);
-                        UploadBlob(job);
-                    }
-                });
+                await ProcessFile(path);
             }
             return await Batch.Info();
         }
 
-        private void UploadBlob(UploadJob job, bool isChuncked = false)
+        private async Task<Batch> ProcessFile(string path)
+        {
+            Batch batch = null;
+            await semaphore.WaitAsync();
+            try
+            {
+                if (!File.Exists(path))
+                {
+                    throw new FileNotFoundException(path);
+                }
+
+                int i;
+                lock (syncCounter)
+                {
+                    i = processedFilesCounter++;
+                }
+
+                if (IsChunkedUpload)
+                {
+                    FileStream fs = File.OpenRead(path);
+                    int readBytes;
+                    byte[] buffer = new byte[ChunkSize];
+                    UploadJob job;
+                    List<Blob> blobs = new List<Blob>();
+
+                    while ((readBytes = fs.Read(buffer, 0, buffer.Length)) > 0)
+                    {
+                        byte[] temp = new byte[readBytes];
+                        Array.Copy(buffer, temp, readBytes);
+                        blobs.Add(new Blob(Path.GetFileName(path)).SetContent(temp));
+                        Array.Clear(buffer, 0, ChunkSize);
+                    }
+
+                    int chunksProcessed = 0;
+                    foreach (Blob blob in blobs)
+                    {
+                        job = new UploadJob(blob).SetFileId(i)
+                                                 .SetChunkIndex(chunksProcessed)
+                                                 .SetChunkCount(blobs.Count);
+                        batch = await UploadBlob(job, true);
+                        chunksProcessed++;
+                    }
+                }
+                else
+                {
+                    byte[] contents = File.ReadAllBytes(path);
+                    Blob blob = new Blob(Path.GetFileName(path)).SetContent(contents);
+                    UploadJob job = new UploadJob(blob).SetFileId(i);
+                    batch = await UploadBlob(job);
+                }
+            }
+            finally
+            {
+                semaphore.Release();
+            }
+            return batch;
+        }
+
+        private async Task<Batch> UploadBlob(UploadJob job, bool isChuncked = false)
         {
             try
             {
                 if (isChuncked)
                 {
-                    Batch.UploadChunk(job).Wait();
+                    return await Batch.UploadChunk(job);
                 }
                 else
                 {
-                    Batch.Upload(job).Wait();
+                    return await Batch.Upload(job);
                 }
             }
             catch (ServerException exception)

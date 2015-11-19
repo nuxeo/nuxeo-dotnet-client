@@ -39,6 +39,9 @@ namespace NuxeoClient.Wrappers
         [JsonIgnore]
         public string Endpoint { get; private set; }
 
+        /// <summary>
+        /// Gets the <see cref="Client"/> instace through which operations for this batch will be performed.
+        /// </summary>
         protected Client client { get; private set; } = null;
 
         /// <summary>
@@ -54,7 +57,7 @@ namespace NuxeoClient.Wrappers
         public Batch SetClient(Client client)
         {
             this.client = client;
-            Endpoint = client.ServerURL + client.RestPath + "upload/" + BatchId;
+            Endpoint = UrlCombiner.Combine(client.RestPath, "upload/", BatchId);
             return this;
         }
 
@@ -78,12 +81,13 @@ namespace NuxeoClient.Wrappers
         /// <returns>A new and updated <see cref="Batch"/> instance of the current batch.</returns>
         public async Task<Batch> Upload(UploadJob job)
         {
-            return (Batch)await client.PostBin(Endpoint + "/" + job.FileId,
-                                            job.Blob.Content,
-                                            new Dictionary<string, string>() {
-                                                { "X-File-Name", job.Blob.Filename },
-                                                { "X-File-Type", job.Blob.MimeType }
-                                            });
+            return (Batch)await client.PostBin(UrlCombiner.Combine(Endpoint, job.FileId.ToString()),
+                                                null,
+                                                job.Blob.Content,
+                                                new Dictionary<string, string>() {
+                                                    { "X-File-Name", job.Blob.Filename },
+                                                    { "X-File-Type", job.Blob.MimeType }
+                                                });
         }
 
         /// <summary>
@@ -93,7 +97,8 @@ namespace NuxeoClient.Wrappers
         /// <returns>A new and updated <see cref="Batch"/> instance of the current batch.</returns>
         public async Task<Batch> UploadChunk(UploadJob job)
         {
-            return (Batch)await client.PostBin(Endpoint + "/" + job.FileId,
+            return (Batch)await client.PostBin(UrlCombiner.Combine(Endpoint, job.FileId.ToString()),
+                                            null,
                                             job.Blob.Content,
                                             new Dictionary<string, string>() {
                                                 { "X-Upload-Type", "chunked" },
@@ -130,7 +135,7 @@ namespace NuxeoClient.Wrappers
         /// <returns>An instance of <see cref="BatchFile"/> containing information about the file.</returns>
         public async Task<BatchFile> Info(int fileIndex)
         {
-            return (BatchFile)await client.Get(Endpoint + "/" + fileIndex.ToString());
+            return (BatchFile)await client.Get(UrlCombiner.Combine(Endpoint, fileIndex.ToString()));
         }
     }
 }

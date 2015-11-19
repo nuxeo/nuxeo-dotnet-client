@@ -46,20 +46,20 @@ namespace TCK.REST
 
         public void FetchDomain()
         {
-            Document document = (Document)client.DocumentFromPath("/default-domain").Fetch().Result;
+            Document document = (Document)client.DocumentFromPath("/default-domain").Get().Result;
             Assert.NotNull(document);
             Assert.Equal("/default-domain", document.Path);
         }
 
         public void FetchNonExistent()
         {
-            Document document = (Document)client.DocumentFromPath("/non-existing").Fetch().Result;
+            Document document = (Document)client.DocumentFromPath("/non-existing").Get().Result;
             Assert.Null(document);
         }
 
         public void CreateFolder()
         {
-            Document document = (Document)client.DocumentFromPath("/").Create(new Document
+            Document document = (Document)client.DocumentFromPath("/").Post(new Document
             {
                 Type = "Folder",
                 Name = "folder",
@@ -72,7 +72,7 @@ namespace TCK.REST
 
         public void UpdateFolder()
         {
-            Document document = (Document)client.DocumentFromPath("/folder").Update(new Document
+            Document document = (Document)client.DocumentFromPath("/folder").Put(new Document
             {
                 Properties = new Properties { { "dc:title", "new title" } }
             }).Result;
@@ -88,7 +88,7 @@ namespace TCK.REST
 
         public void SetProperties()
         {
-            Document document = (Document)client.DocumentFromPath("/folder").Fetch().Result;
+            Document document = (Document)client.DocumentFromPath("/folder").Get().Result;
             Assert.NotNull(document);
             string newSourceValue = "new-source-value-" + DateTime.Now;
             document.Set("dc:source", newSourceValue);
@@ -98,7 +98,7 @@ namespace TCK.REST
 
         public void SetAndSave()
         {
-            Document document = (Document)client.DocumentFromPath("/folder").Fetch().Result;
+            Document document = (Document)client.DocumentFromPath("/folder").Get().Result;
             Assert.NotNull(document);
             string newSourceValue = "new-source-value-" + DateTime.Now;
             document.Set("dc:source", newSourceValue);

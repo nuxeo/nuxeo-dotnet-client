@@ -15,28 +15,31 @@
  *     Gabriel Barata <gbarata@nuxeo.com>
  */
 
-using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace NuxeoClient.Wrappers
 {
     /// <summary>
-    /// Represents a dictionary structure to hold parameters operation parameters.
+    /// Represents a Workflows entity, which contains a collection of <see cref="Workflow"/>.
     /// </summary>
-    public class ParamProperties : Dictionary<string, JToken>
+    /// <remarks>For more information about workflows, check Nuxeo Documentation Center
+    /// <a href="https://doc.nuxeo.com/display/NXDOC/Workflow">here</a> and
+    /// <a href="https://doc.nuxeo.com/display/USERDOC/Workflows">here</a>.
+    public class Workflows : Entity
     {
         /// <summary>
-        /// Creates and returns a string representation of the current <see cref="ParamProperties"/> object.
+        /// Gets the list of workflows.
         /// </summary>
-        /// <returns>A string representation of the current <see cref="ParamProperties"/> object.</returns>
-        public override string ToString()
+        [JsonProperty(PropertyName = "entries")]
+        public List<Workflow> Entries { get; protected set; }
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="Workflows"/>.
+        /// </summary>
+        public Workflows()
         {
-            string result = string.Empty;
-            foreach (KeyValuePair<string, JToken> pair in this)
-            {
-                result += pair.Key + "=" + pair.Value.ToString().Replace("\r\n", "").Replace("\n", "") + "\n";
-            }
-            return result;
+            EntityType = "worflows";
         }
     }
 }

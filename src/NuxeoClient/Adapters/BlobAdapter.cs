@@ -30,6 +30,9 @@ namespace NuxeoClient.Adapters
         /// </summary>
         public string Xpath { get; protected set; } = string.Empty;
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="BlobAdapter"/>.
+        /// </summary>
         public BlobAdapter() :
             base("blob")
         { }

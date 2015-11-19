@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B4D88D94-052F-4D9E-B157-92C455894303}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NuxeoClient</RootNamespace>
+    <AssemblyName>NuxeoClient</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\NuxeoClient.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\NuxeoClient\Adapters\AclAdapter.cs">
+      <Link>Adapters\AclAdapter.cs</Link>
+    </Compile>
+    <Compile Include="..\NuxeoClient\Adapters\Adapter.cs">
+      <Link>Adapters\Adapter.cs</Link>
+    </Compile>
+    <Compile Include="..\NuxeoClient\Adapters\AuditAdapter.cs">
+      <Link>Adapters\AuditAdapter.cs</Link>
+    </Compile>
+    <Compile Include="..\NuxeoClient\Adapters\BlobAdapter.cs">
+      <Link>Adapters\BlobAdapter.cs</Link>
+    </Compile>
+    <Compile Include="..\NuxeoClient\Adapters\BusinessAdapter.cs">
+      <Link>Adapters\BusinessAdapter.cs</Link>
+    </Compile>
+    <Compile Include="..\NuxeoClient\Adapters\ChildrenAdapter.cs">
+      <Link>Adapters\ChildrenAdapter.cs</Link>
+    </Compile>
+    <Compile Include="..\NuxeoClient\Adapters\ConvertAdapter.cs">
+      <Link>Adapters\ConvertAdapter.cs</Link>
+    </Compile>
+    <Compile Include="..\NuxeoClient\Adapters\PPAdapter.cs">
+      <Link>Adapters\PPAdapter.cs</Link>
+    </Compile>
+    <Compile Include="..\NuxeoClient\Adapters\RenditionAdapter.cs">
+      <Link>Adapters\RenditionAdapter.cs</Link>
+    </Compile>
+    <Compile Include="..\NuxeoClient\Adapters\SearchAdapter.cs">
+      <Link>Adapters\SearchAdapter.cs</Link>
+    </Compile>
+    <Compile Include="..\NuxeoClient\Adapters\TaskAdapter.cs">
+      <Link>Adapters\TaskAdapter.cs</Link>
+    </Compile>
+    <Compile Include="..\NuxeoClient\Adapters\WorkflowAdapter.cs">
+      <Link>Adapters\WorkflowAdapter.cs</Link>
+    </Compile>
+    <Compile Include="..\NuxeoClient\Authorization.cs">
+      <Link>Authorization.cs</Link>
+    </Compile>
+    <Compile Include="..\NuxeoClient\Blob.cs">
+      <Link>Blob.cs</Link>
+    </Compile>
+    <Compile Include="..\NuxeoClient\Client.cs">
+      <Link>Client.cs</Link>
+    </Compile>
+    <Compile Include="..\NuxeoClient\ExtensionMethods.cs">
+      <Link>ExtensionMethods.cs</Link>
+    </Compile>
+    <Compile Include="..\NuxeoClient\FailedHandshakeException.cs">
+      <Link>FailedHandshakeException.cs</Link>
+    </Compile>
+    <Compile Include="..\NuxeoClient\FailedToUploadException.cs">
+      <Link>FailedToUploadException.cs</Link>
+    </Compile>
+    <Compile Include="..\NuxeoClient\IMarshaller.cs">
+      <Link>IMarshaller.cs</Link>
+    </Compile>
+    <Compile Include="..\NuxeoClient\Marshaller.cs">
+      <Link>Marshaller.cs</Link>
+    </Compile>
+    <Compile Include="..\NuxeoClient\MimeTypeMap.cs">
+      <Link>MimeTypeMap.cs</Link>
+    </Compile>
+    <Compile Include="..\NuxeoClient\Operation.cs">
+      <Link>Operation.cs</Link>
+    </Compile>
+    <Compile Include="..\NuxeoClient\QueryParams.cs">
+      <Link>QueryParams.cs</Link>
+    </Compile>
+    <Compile Include="..\NuxeoClient\ServerException.cs">
+      <Link>ServerException.cs</Link>
+    </Compile>
+    <Compile Include="..\NuxeoClient\Uploader.cs">
+      <Link>Uploader.cs</Link>
+    </Compile>
+    <Compile Include="..\NuxeoClient\UploadJob.cs">
+      <Link>UploadJob.cs</Link>
+    </Compile>
+    <Compile Include="..\NuxeoClient\UrlCombiner.cs">
+      <Link>UrlCombiner.cs</Link>
+    </Compile>
+    <Compile Include="..\NuxeoClient\WebProxy.cs">
+      <Link>WebProxy.cs</Link>
+    </Compile>
+    <Compile Include="..\NuxeoClient\Wrappers\Batch.cs">
+      <Link>Wrappers\Batch.cs</Link>
+    </Compile>
+    <Compile Include="..\NuxeoClient\Wrappers\BatchFile.cs">
+      <Link>Wrappers\BatchFile.cs</Link>
+    </Compile>
+    <Compile Include="..\NuxeoClient\Wrappers\BatchInfo.cs">
+      <Link>Wrappers\BatchInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\NuxeoClient\Wrappers\BatchOperation.cs">
+      <Link>Wrappers\BatchOperation.cs</Link>
+    </Compile>
+    <Compile Include="..\NuxeoClient\Wrappers\BusinessObject.cs">
+      <Link>Wrappers\BusinessObject.cs</Link>
+    </Compile>
+    <Compile Include="..\NuxeoClient\Wrappers\Document.cs">
+      <Link>Wrappers\Document.cs</Link>
+    </Compile>
+    <Compile Include="..\NuxeoClient\Wrappers\Documents.cs">
+      <Link>Wrappers\Documents.cs</Link>
+    </Compile>
+    <Compile Include="..\NuxeoClient\Wrappers\Entity.cs">
+      <Link>Wrappers\Entity.cs</Link>
+    </Compile>
+    <Compile Include="..\NuxeoClient\Wrappers\EntityList.cs">
+      <Link>Wrappers\EntityList.cs</Link>
+    </Compile>
+    <Compile Include="..\NuxeoClient\Wrappers\InvalidEntityException.cs">
+      <Link>Wrappers\InvalidEntityException.cs</Link>
+    </Compile>
+    <Compile Include="..\NuxeoClient\Wrappers\Page.cs">
+      <Link>Wrappers\Page.cs</Link>
+    </Compile>
+    <Compile Include="..\NuxeoClient\Wrappers\ParamProperties.cs">
+      <Link>Wrappers\ParamProperties.cs</Link>
+    </Compile>
+    <Compile Include="..\NuxeoClient\Wrappers\Properties.cs">
+      <Link>Wrappers\Properties.cs</Link>
+    </Compile>
+    <Compile Include="..\NuxeoClient\Wrappers\Task.cs">
+      <Link>Wrappers\Task.cs</Link>
+    </Compile>
+    <Compile Include="..\NuxeoClient\Wrappers\Tasks.cs">
+      <Link>Wrappers\Tasks.cs</Link>
+    </Compile>
+    <Compile Include="..\NuxeoClient\Wrappers\UnknowEntity.cs">
+      <Link>Wrappers\UnknowEntity.cs</Link>
+    </Compile>
+    <Compile Include="..\NuxeoClient\Wrappers\Workflow.cs">
+      <Link>Wrappers\Workflow.cs</Link>
+    </Compile>
+    <Compile Include="..\NuxeoClient\Wrappers\Workflows.cs">
+      <Link>Wrappers\Workflows.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

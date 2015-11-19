@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>NuxeoClient</id>
+    <version>1.0.0-beta-01190</version>
+    <authors>Gabriel Barata</authors>
+    <owners>Nuxeo SA</owners>
+    <licenseUrl>https://raw.githubusercontent.com/nuxeo/nuxeo-dotnet-client/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/nuxeo/nuxeo-dotnet-client</projectUrl>
+    <iconUrl>http://nuxeo.github.io/nuxeo-dotnet-client/logo-small.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>.NET Client for Nuxeo Automation and REST API</description>
+    <copyright>Copyright 2015</copyright>
+    <dependencies>
+      <group targetFramework="DNXCore5.0">
+        <dependency id="Newtonsoft.Json" version="7.0.1" />
+        <dependency id="Microsoft.CSharp" version="4.0.0-beta-23019" />
+        <dependency id="System.Collections" version="4.0.10-beta-23427" />
+        <dependency id="System.IO" version="4.0.11-beta-23427" />
+        <dependency id="System.IO.FileSystem" version="4.0.1-beta-23405" />
+        <dependency id="System.Linq" version="4.0.0-beta-23427" />
+        <dependency id="System.Net.Http" version="4.0.1-beta-23427" />
+        <dependency id="System.Runtime" version="4.0.21-beta-23427" />
+        <dependency id="System.Runtime.Extensions" version="4.0.11-beta-23427" />
+        <dependency id="System.Text.Encoding.Extensions" version="4.0.11-beta-23427" />
+        <dependency id="System.Threading" version="4.0.10-beta-23427" />
+        <dependency id="System.Threading.Tasks.Parallel" version="4.0.1-beta-23427" />
+      </group>
+      <group targetFramework=".NETFramework4.5">
+        <dependency id="Newtonsoft.Json" version="7.0.1" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\src\NuxeoClient\bin\Release\dnxcore50\NuxeoClient.dll" target="lib\dnxcore50\" />
+    <file src="..\src\NuxeoClient\bin\Release\dnxcore50\NuxeoClient.xml" target="lib\dnxcore50\" />
+    <file src="..\src\NuxeoClient_net45\bin\Release\NuxeoClient.dll" target="lib\net45\" />
+    <file src="..\src\NuxeoClient_net45\bin\Release\NuxeoClient.xml" target="lib\net45\" />
+  </files>
+</package>

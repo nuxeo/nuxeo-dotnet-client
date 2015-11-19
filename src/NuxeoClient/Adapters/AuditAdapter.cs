@@ -19,7 +19,7 @@ namespace NuxeoClient.Adapters
 {
     /// <summary>
     /// Represents an Audit Adapter that returns the audit trails records corresponding to the
-    /// target <see cref="Document"/>.
+    /// target <see cref="Wrappers.Document"/>.
     /// </summary>
     /// <remarks>For more details about Adapters, check
     /// <a href="https://doc.nuxeo.com/display/NXDOC/Web+Adapters+for+the+REST+API">Nuxeo Documentation Page</a>.</remarks>

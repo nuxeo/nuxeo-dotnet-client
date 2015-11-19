@@ -47,7 +47,7 @@ namespace TCK.REST
 
         public void CreateFile()
         {
-            document = (Document)client.DocumentFromPath("/").Create(new Document
+            document = (Document)client.DocumentFromPath("/").Post(new Document
             {
                 Type = "Folder",
                 Name = "bofolder",
@@ -65,21 +65,21 @@ namespace TCK.REST
             note = new BusinessBean().SetType("Note")
                                                   .SetTitle("Note")
                                                   .SetNote("Note content");
-            note = (BusinessBean)document.SetAdapter(adapter).Create(note.SetName("Note")).Result;
+            note = (BusinessBean)document.SetAdapter(adapter).Post(note.SetName("Note")).Result;
             Assert.NotNull(note);
             Assert.Equal("Note content", note.Note);
         }
 
         public void UpdateBO()
         {
-            note = (BusinessBean)document.Update(note.SetDescription("My new description")).Result;
+            note = (BusinessBean)document.Put(note.SetDescription("My new description")).Result;
             Assert.NotNull(note);
             Assert.Equal("My new description", note.Description);
         }
 
         public void DeleteFile()
         {
-            Document result = (Document)document.Delete().Result;
+            Document result = (Document)document.SetAdapter(null).Delete().Result;
             Assert.Null(result);
         }
 
