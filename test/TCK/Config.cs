@@ -14,39 +14,14 @@
  * Contributors:
  *     Gabriel Barata <gbarata@nuxeo.com>
  */
-
-using Microsoft.Framework.Configuration;
-using System;
-using System.IO;
-
+ 
 namespace TCK
 {
-    public class Config
+    public static class Config
     {
-        private IConfiguration config;
-
-        private static readonly Lazy<Config> instance = new Lazy<Config>(() => new Config());
-
-        private Config()
+        public static string ServerUrl()
         {
-            if (File.Exists("config.json"))
-                config = new ConfigurationBuilder().AddJsonFile("config.json").Build();
-            else
-                config = null;
-        }
-
-        public static Config Instance { get { return instance.Value; } }
-
-        public string GetServerUrl()
-        {
-            if (config != null && config.GetSection("ServerURL") != null)
-            {
-                return (string)config.GetSection("ServerURL").Value;
-            }
-            else
-            {
-                return string.Empty;
-            }
+            return "http://localhost:8080/nuxeo/";
         }
     }
 }

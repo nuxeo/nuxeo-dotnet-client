@@ -33,7 +33,7 @@ namespace TCK.REST
 
         public WorkflowAdapters()
         {
-            client = new Client(Config.Instance.GetServerUrl());
+            client = new Client(Config.ServerUrl());
             client.AddDefaultSchema("dublincore");
         }
 

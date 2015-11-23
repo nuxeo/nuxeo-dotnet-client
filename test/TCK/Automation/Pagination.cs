@@ -28,7 +28,7 @@ namespace TCK.Automation
 
         public Pagination()
         {
-            client = new Client(Config.Instance.GetServerUrl());
+            client = new Client(Config.ServerUrl());
             client.AddDefaultSchema("dublincore");
         }
 

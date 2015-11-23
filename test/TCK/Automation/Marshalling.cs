@@ -31,7 +31,7 @@ namespace TCK.Automation
 
         public Marshalling()
         {
-            client = new Client(Config.Instance.GetServerUrl());
+            client = new Client(Config.ServerUrl());
             client.AddDefaultSchema("dublincore");
             creationFields = @"[
     {

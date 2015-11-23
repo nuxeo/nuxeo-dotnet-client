@@ -2,7 +2,7 @@
 $relativeNuxeoClientFolderPath = "../"
 ###
 
-$homeDir = (Get-Item -Path "./" -Verbose).FullName
+$homeDir = Split-Path -Parent -Path $MyInvocation.MyCommand.Definition
 $nuxeoClientFolder = [IO.Path]::GetFullPath((Join-Path $homeDir $relativeNuxeoClientFolderPath))
 $packages = Join-Path $nuxeoClientFolder packages
 $tckFolder = Join-Path $nuxeoClientFolder test/TCK_net45/

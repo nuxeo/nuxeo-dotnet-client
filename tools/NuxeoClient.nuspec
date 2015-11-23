@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>NuxeoClient</id>
-    <version>1.0.0-beta-01190</version>
+    <version>1.0.0-beta-01230</version>
     <authors>Gabriel Barata</authors>
     <owners>Nuxeo SA</owners>
     <licenseUrl>https://raw.githubusercontent.com/nuxeo/nuxeo-dotnet-client/master/LICENSE</licenseUrl>

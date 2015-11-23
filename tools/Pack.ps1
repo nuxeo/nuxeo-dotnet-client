@@ -2,7 +2,7 @@
 $relativeNuxeoClientFolderPath = "../"
 ###
 
-$homeDir = (Get-Item -Path "./" -Verbose).FullName
+$homeDir = Split-Path -Parent -Path $MyInvocation.MyCommand.Definition
 $nuget = Join-Path $homeDir nuget.exe
 $nuspec = Join-Path $homeDir NuxeoClient.nuspec
 
@@ -14,4 +14,4 @@ if (-Not (Test-Path $nuget))
 
 Write-Host "Creating NuGet package" -ForegroundColor Yellow
 
-Invoke-Expression $nuget pack
+Invoke-Expression "$nuget pack"

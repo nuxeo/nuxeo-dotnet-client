@@ -26,6 +26,7 @@ namespace NuxeoClient.Wrappers
     /// <remarks>For more information about workflows, check Nuxeo Documentation Center
     /// <a href="https://doc.nuxeo.com/display/NXDOC/Workflow">here</a> and
     /// <a href="https://doc.nuxeo.com/display/USERDOC/Workflows">here</a>.
+    /// </remarks>
     public class Workflow : Entity
     {
         /// <summary>

@@ -25,6 +25,7 @@ namespace NuxeoClient.Wrappers
     /// </summary>
     /// <remarks>For more information about tasks, check
     /// <a href="https://doc.nuxeo.com/display/NXDOC60/About+Tasks">Nuxeo Documentation Center</a>.
+    /// </remarks>
     public class Tasks : Entity
     {
         /// <summary>
