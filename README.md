@@ -123,6 +123,8 @@ client.Operation("Document.Create")
 
 Please check the tests on *test/TCK* for more usage examples and the [tutorial](#tutorial) and the end of this document.
 
+A demo app making use of this client is also available [here](https://github.com/nuxeo/nuxeo-dotnet-browser).
+
 ## Running the Tests ##
 
 This project includes a Test Compatibility Kit (TCK) covering several tests on the client. In order for the tests to run, there must be an instance of the Nuxeo Server running, loading *nuxeo-automation-test-7.10-SNAPSHOT.jar*.
