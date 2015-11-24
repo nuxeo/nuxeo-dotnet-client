@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>NuxeoDotNetClient: C:/Users/Gabriel/Documents/NuxeoDotNetClient/src/NuxeoClient/Marshaller.cs Source File</title>
+<title>Nuxeo .Net Client: C:/Users/Gabriel/Documents/nuxeo-dotnet-client/src/NuxeoClient/Marshaller.cs Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -25,7 +25,7 @@
  <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="logo-small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">NuxeoDotNetClient
+   <div id="projectname">Nuxeo .Net Client
    &#160;<span id="projectnumber">1.0.0 beta</span>
    </div>
    <div id="projectbrief">.NET Client for Nuxeo Automation and REST API</div>
@@ -84,7 +84,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_19e7878574c72b73709d4e8b99f8f5bd.html">NuxeoDotNetClient</a></li><li class="navelem"><a class="el" href="dir_a6474f80643609891074afe61dc22298.html">src</a></li><li class="navelem"><a class="el" href="dir_cc2fcca5633a67dd46bae5a2ea67bd6e.html">NuxeoClient</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_c923b75cae9eea14771fb092e40007eb.html">nuxeo-dotnet-client</a></li><li class="navelem"><a class="el" href="dir_45a552f890314bc530d13be230fe911d.html">src</a></li><li class="navelem"><a class="el" href="dir_5f9069385866cd719d9f03946c5b022e.html">NuxeoClient</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -119,156 +119,180 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;{</div>
 <div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="class_nuxeo_client_1_1_marshaller.html">   30</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="class_nuxeo_client_1_1_marshaller.html">Marshaller</a> : <a class="code" href="interface_nuxeo_client_1_1_i_marshaller.html">IMarshaller</a></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    {</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="keyword">private</span> <a class="code" href="class_nuxeo_client_1_1_client.html">Client</a> client;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="keyword">private</span> Client client;</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keyword">private</span> Dictionary&lt;string, Type&gt; businessObjects;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="class_nuxeo_client_1_1_marshaller.html#a586f874e5c6422a9bfc917ce0ce3157c">   39</a></span>&#160;        <span class="keyword">public</span> <a class="code" href="class_nuxeo_client_1_1_marshaller.html#a586f874e5c6422a9bfc917ce0ce3157c">Marshaller</a>(<a class="code" href="class_nuxeo_client_1_1_client.html">Client</a> client)</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        {</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            this.client = client;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;            businessObjects = <span class="keyword">new</span> Dictionary&lt;string, Type&gt;();</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        }</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="class_nuxeo_client_1_1_marshaller.html#ac0d849ede7cf2ab3d0d19cae4215ffe3">   52</a></span>&#160;        <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="class_nuxeo_client_1_1_marshaller.html#ac0d849ede7cf2ab3d0d19cae4215ffe3">RegisterBO</a>(<span class="keywordtype">string</span> adapterType, Type objectType)</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        {</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            businessObjects.Add(adapterType, objectType);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        }</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
-<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="class_nuxeo_client_1_1_marshaller.html#a6a845aabcfaa787cb96eb1db02ea7337">   62</a></span>&#160;        <span class="keyword">public</span> <a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_entity.html">Entity</a> <a class="code" href="class_nuxeo_client_1_1_marshaller.html#a6a845aabcfaa787cb96eb1db02ea7337">UnMarshal</a>(JToken json)</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        {</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            <span class="keywordflow">if</span> (json == null)</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            {</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                <span class="keywordflow">return</span> null;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            }</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            {</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                <span class="keywordflow">if</span> (json is JArray)</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                {</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                    <span class="keywordflow">return</span> UnMarshalJArray((JArray)json);</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                }</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (json is JObject)</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                {</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                    <span class="keywordflow">return</span> UnMarshalJObject((JObject)json);</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                }</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                {</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                    <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_invalid_entity_exception.html">InvalidEntityException</a>(json.ToString());</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                }</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            }</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        }</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
-<div class="line"><a name="l00090"></a><span class="lineno"><a class="line" href="class_nuxeo_client_1_1_marshaller.html#a5de7e97a2d576148a6be3bab71ec4ff3">   90</a></span>&#160;        <span class="keyword">public</span> JObject <a class="code" href="class_nuxeo_client_1_1_marshaller.html#a5de7e97a2d576148a6be3bab71ec4ff3">Marshal</a>(<a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_entity.html">Entity</a> entity)</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        {</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            JObject json = JObject.Parse(JsonConvert.SerializeObject(entity, <span class="keyword">new</span> JsonSerializerSettings</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;            {</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                NullValueHandling = NullValueHandling.Ignore,</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                DefaultValueHandling = DefaultValueHandling.Ignore</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            }));</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            <span class="keywordflow">if</span> (businessObjects.ContainsKey(entity.<a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_entity.html#ad47fd4c9ac05c828424ff4dcc675153d">EntityType</a>))</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            {</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                JObject value = <span class="keyword">new</span> JObject();</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                List&lt;string&gt; toRemove = <span class="keyword">new</span> List&lt;string&gt;();</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                <span class="keywordflow">foreach</span> (KeyValuePair&lt;string, JToken&gt; pair <span class="keywordflow">in</span> json)</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                {</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                    <span class="keywordflow">if</span> (pair.Key == <span class="stringliteral">&quot;entity-type&quot;</span>)</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                        <span class="keywordflow">continue</span>;</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                    value.Add(pair.Key, pair.Value);</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                    toRemove.Add(pair.Key);</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                }</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                <span class="keywordflow">foreach</span> (<span class="keywordtype">string</span> property <span class="keywordflow">in</span> toRemove)</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                {</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;                    json.Remove(property);</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                }</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                json.Add(<span class="stringliteral">&quot;value&quot;</span>, value);</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;            }</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;            <span class="keywordflow">return</span> json;</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        }</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        <span class="keyword">private</span> <a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_entity.html">Entity</a> UnMarshalJArray(JArray jArr)</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        {</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;            List&lt;Entity&gt; entities = <span class="keyword">new</span> List&lt;Entity&gt;();</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;            <span class="keywordflow">foreach</span> (JToken token <span class="keywordflow">in</span> jArr)</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;            {</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;                <span class="keywordflow">if</span> (token is JArray)</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;                {</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;                    entities.Add(UnMarshalJArray((JArray)token));</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;                }</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (token is JObject)</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;                {</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;                    entities.Add(UnMarshalJObject((JObject)token));</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;                }</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;            }</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_entity_list.html">EntityList</a>(entities);</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        }</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        <span class="keyword">private</span> <a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_entity.html">Entity</a> UnMarshalJObject(JObject jObj)</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        {</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;            <a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_entity.html">Entity</a> result = null;</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;            <span class="keywordflow">if</span> (jObj[<span class="stringliteral">&quot;entity-type&quot;</span>] != null)</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;            {</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;                <span class="keywordtype">string</span> entityType = jObj[<span class="stringliteral">&quot;entity-type&quot;</span>].ToObject&lt;<span class="keywordtype">string</span>&gt;();</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;                <span class="keywordflow">if</span> (entityType == <span class="stringliteral">&quot;documents&quot;</span>)</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;                {</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;                    <span class="keywordflow">if</span> (jObj[<span class="stringliteral">&quot;isPaginable&quot;</span>] != null &amp;&amp;</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;                        jObj[<span class="stringliteral">&quot;isPaginable&quot;</span>].ToObject&lt;bool&gt;() == <span class="keyword">true</span>)</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;                    {</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;                        result = JsonConvert.DeserializeObject&lt;<a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_pageable.html">Pageable</a>&gt;(jObj.ToString());</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;                    }</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;                    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;                    {</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;                        result = JsonConvert.DeserializeObject&lt;<a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_documents.html">Documents</a>&gt;(jObj.ToString());</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;                    }</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;                }</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (entityType == <span class="stringliteral">&quot;document&quot;</span>)</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;                {</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;                    result = JsonConvert.DeserializeObject&lt;<a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_document.html">Document</a>&gt;(jObj.ToString()).SetClient(client);</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;                }</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (entityType == <span class="stringliteral">&quot;null&quot;</span>)</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="keyword">private</span> Dictionary&lt;string, Type&gt; entityMap;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="class_nuxeo_client_1_1_marshaller.html#a586f874e5c6422a9bfc917ce0ce3157c">   40</a></span>&#160;        <span class="keyword">public</span> <a class="code" href="class_nuxeo_client_1_1_marshaller.html#a586f874e5c6422a9bfc917ce0ce3157c">Marshaller</a>(Client client)</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        {</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;            this.client = client;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            businessObjects = <span class="keyword">new</span> Dictionary&lt;string, Type&gt;();</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            entityMap = <span class="keyword">new</span> Dictionary&lt;string, Type&gt;();</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        }</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="class_nuxeo_client_1_1_marshaller.html#a4fc694546c6a45d7c59cc8bbe771aaa2">   55</a></span>&#160;        <span class="keyword">public</span> <a class="code" href="interface_nuxeo_client_1_1_i_marshaller.html">IMarshaller</a> <a class="code" href="class_nuxeo_client_1_1_marshaller.html#a4fc694546c6a45d7c59cc8bbe771aaa2">RegisterBO</a>(<span class="keywordtype">string</span> adapterType, Type objectType)</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        {</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            businessObjects.Add(adapterType, objectType);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">this</span>;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        }</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
+<div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="class_nuxeo_client_1_1_marshaller.html#a5e51c23380178bef34a3bce009b6f3e7">   67</a></span>&#160;        <span class="keyword">public</span> <a class="code" href="interface_nuxeo_client_1_1_i_marshaller.html">IMarshaller</a> <a class="code" href="class_nuxeo_client_1_1_marshaller.html#a5e51c23380178bef34a3bce009b6f3e7">RegisterEntity</a>(<span class="keywordtype">string</span> entityType, Type objectType)</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        {</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            entityMap.Add(entityType, objectType);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">this</span>;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        }</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
+<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="class_nuxeo_client_1_1_marshaller.html#a6a845aabcfaa787cb96eb1db02ea7337">   78</a></span>&#160;        <span class="keyword">public</span> <a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_entity.html">Entity</a> <a class="code" href="class_nuxeo_client_1_1_marshaller.html#a6a845aabcfaa787cb96eb1db02ea7337">UnMarshal</a>(JToken json)</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        {</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            <span class="keywordflow">if</span> (json == null)</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            {</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                <span class="keywordflow">return</span> null;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            }</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            {</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                <span class="keywordflow">if</span> (json is JArray)</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                {</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                    <span class="keywordflow">return</span> UnMarshalJArray((JArray)json);</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                }</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (json is JObject)</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                {</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                    <span class="keywordflow">return</span> UnMarshalJObject((JObject)json);</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                }</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                {</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                    <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_invalid_entity_exception.html">InvalidEntityException</a>(json.ToString());</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                }</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            }</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        }</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;</div>
+<div class="line"><a name="l00106"></a><span class="lineno"><a class="line" href="class_nuxeo_client_1_1_marshaller.html#a5de7e97a2d576148a6be3bab71ec4ff3">  106</a></span>&#160;        <span class="keyword">public</span> JObject <a class="code" href="class_nuxeo_client_1_1_marshaller.html#a5de7e97a2d576148a6be3bab71ec4ff3">Marshal</a>(<a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_entity.html">Entity</a> entity)</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        {</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;            JObject json = JObject.Parse(JsonConvert.SerializeObject(entity, <span class="keyword">new</span> JsonSerializerSettings</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;            {</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;                NullValueHandling = NullValueHandling.Ignore,</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                DefaultValueHandling = DefaultValueHandling.Ignore</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;            }));</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;            <span class="keywordflow">if</span> (businessObjects.ContainsKey(entity.<a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_entity.html#ad47fd4c9ac05c828424ff4dcc675153d">EntityType</a>))</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;            {</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;                JObject value = <span class="keyword">new</span> JObject();</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                List&lt;string&gt; toRemove = <span class="keyword">new</span> List&lt;string&gt;();</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;                <span class="keywordflow">foreach</span> (KeyValuePair&lt;string, JToken&gt; pair <span class="keywordflow">in</span> json)</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;                {</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;                    <span class="keywordflow">if</span> (pair.Key == <span class="stringliteral">&quot;entity-type&quot;</span>)</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;                        <span class="keywordflow">continue</span>;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;                    value.Add(pair.Key, pair.Value);</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;                    toRemove.Add(pair.Key);</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;                }</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;                <span class="keywordflow">foreach</span> (<span class="keywordtype">string</span> property <span class="keywordflow">in</span> toRemove)</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;                {</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;                    json.Remove(property);</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;                }</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;                json.Add(<span class="stringliteral">&quot;value&quot;</span>, value);</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;            }</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;            <span class="keywordflow">return</span> json;</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        }</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        <span class="keyword">private</span> <a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_entity.html">Entity</a> UnMarshalJArray(JArray jArr)</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        {</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;            List&lt;Entity&gt; entities = <span class="keyword">new</span> List&lt;Entity&gt;();</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;            <span class="keywordflow">foreach</span> (JToken token <span class="keywordflow">in</span> jArr)</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;            {</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;                <span class="keywordflow">if</span> (token is JArray)</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;                {</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;                    entities.Add(UnMarshalJArray((JArray)token));</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;                }</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (token is JObject)</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;                {</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;                    entities.Add(UnMarshalJObject((JObject)token));</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;                }</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;            }</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_entity_list.html">EntityList</a>(entities);</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;        }</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        <span class="keyword">private</span> <a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_entity.html">Entity</a> UnMarshalJObject(JObject jObj)</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;        {</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;            <a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_entity.html">Entity</a> result = null;</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;            <span class="keywordflow">if</span> (jObj[<span class="stringliteral">&quot;entity-type&quot;</span>] != null)</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;            {</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;                <span class="keywordtype">string</span> entityType = jObj[<span class="stringliteral">&quot;entity-type&quot;</span>].ToObject&lt;<span class="keywordtype">string</span>&gt;();</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;                <span class="keywordflow">if</span> (entityType == <span class="stringliteral">&quot;documents&quot;</span>)</div>
 <div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;                {</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;                    result = null;</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;                }</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (businessObjects.ContainsKey(entityType))</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;                {</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;                    <span class="keywordflow">if</span> (jObj[<span class="stringliteral">&quot;value&quot;</span>] != null &amp;&amp; jObj[<span class="stringliteral">&quot;value&quot;</span>] is JObject)</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;                    {</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;                        JObject boJobj = <span class="keyword">new</span> JObject();</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;                        boJobj.Add(<span class="stringliteral">&quot;entity-type&quot;</span>, entityType);</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;                        <span class="keywordflow">foreach</span> (KeyValuePair&lt;string, JToken&gt; pair <span class="keywordflow">in</span> jObj[<span class="stringliteral">&quot;value&quot;</span>].ToObject&lt;JObject&gt;())</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;                        {</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;                            boJobj.Add(pair.Key, pair.Value);</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;                        }</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;                        result = (<a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_entity.html">Entity</a>)JsonConvert.DeserializeObject(boJobj.ToString(), businessObjects[entityType]);</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;                    }</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;                    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;                    {</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;                        <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_invalid_entity_exception.html">InvalidEntityException</a>(jObj.ToString());</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;                    }</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;                }</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;                <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;                {</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;                    result = <span class="keyword">new</span> <a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_unknow_entity.html">UnknowEntity</a>(jObj);</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;                }</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;            }</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (jObj[<span class="stringliteral">&quot;batchId&quot;</span>] != null)</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;            {</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;                result = JsonConvert.DeserializeObject&lt;<a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_batch.html">Batch</a>&gt;(jObj.ToString()).SetClient(client);</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;            }</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (jObj[<span class="stringliteral">&quot;name&quot;</span>] != null &amp;&amp;</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;                     jObj[<span class="stringliteral">&quot;size&quot;</span>] != null &amp;&amp;</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;                     jObj[<span class="stringliteral">&quot;uploadType&quot;</span>] != null)</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;            {</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;                result = JsonConvert.DeserializeObject&lt;<a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_batch_file.html">BatchFile</a>&gt;(jObj.ToString());</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;            }</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;            <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;            {</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_invalid_entity_exception.html">InvalidEntityException</a>(jObj.ToString());</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;            }</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;            <span class="keywordflow">return</span> result;</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;        }</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    }</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;}</div>
-<div class="ttc" id="class_nuxeo_client_1_1_marshaller_html_a586f874e5c6422a9bfc917ce0ce3157c"><div class="ttname"><a href="class_nuxeo_client_1_1_marshaller.html#a586f874e5c6422a9bfc917ce0ce3157c">NuxeoClient.Marshaller.Marshaller</a></div><div class="ttdeci">Marshaller(Client client)</div><div class="ttdoc">Initializes a new instance of Marshaller. </div><div class="ttdef"><b>Definition:</b> <a href="_marshaller_8cs_source.html#l00039">Marshaller.cs:39</a></div></div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;                    <span class="keywordflow">if</span> (jObj[<span class="stringliteral">&quot;isPaginable&quot;</span>] != null &amp;&amp;</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;                        jObj[<span class="stringliteral">&quot;isPaginable&quot;</span>].ToObject&lt;bool&gt;() == <span class="keyword">true</span>)</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;                    {</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;                        <a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_pageable.html">Pageable</a> page = JsonConvert.DeserializeObject&lt;<a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_pageable.html">Pageable</a>&gt;(jObj.ToString());</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;                        <span class="keywordflow">foreach</span> (<a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_document.html">Document</a> document <span class="keywordflow">in</span> page.<a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_documents.html#a12552a03e80f60a2541fa910738dd400">Entries</a>)</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;                        {</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;                            document.<a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_document.html#acb45ee161522485605790f1af993a4bc">SetClient</a>(client);</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;                        }</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;                        result = page;</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;                    }</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;                    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;                    {</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;                        <a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_documents.html">Documents</a> docs = JsonConvert.DeserializeObject&lt;<a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_documents.html">Documents</a>&gt;(jObj.ToString());</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;                        <span class="keywordflow">foreach</span> (<a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_document.html">Document</a> document <span class="keywordflow">in</span> docs.<a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_documents.html#a12552a03e80f60a2541fa910738dd400">Entries</a>)</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;                        {</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;                            document.<a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_document.html#acb45ee161522485605790f1af993a4bc">SetClient</a>(client);</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;                        }</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;                        result = docs;</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;                    }</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;                }</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (entityType == <span class="stringliteral">&quot;document&quot;</span>)</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;                {</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;                    result = JsonConvert.DeserializeObject&lt;<a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_document.html">Document</a>&gt;(jObj.ToString()).SetClient(client);</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;                }</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (entityType == <span class="stringliteral">&quot;null&quot;</span>)</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;                {</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;                    result = null;</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;                }</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (entityMap.ContainsKey(entityType))</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;                {</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;                    result = (<a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_entity.html">Entity</a>)JsonConvert.DeserializeObject(jObj.ToString(), entityMap[entityType]);</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;                }</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (businessObjects.ContainsKey(entityType))</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;                {</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;                    <span class="keywordflow">if</span> (jObj[<span class="stringliteral">&quot;value&quot;</span>] != null &amp;&amp; jObj[<span class="stringliteral">&quot;value&quot;</span>] is JObject)</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;                    {</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;                        JObject boJobj = <span class="keyword">new</span> JObject();</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;                        boJobj.Add(<span class="stringliteral">&quot;entity-type&quot;</span>, entityType);</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;                        <span class="keywordflow">foreach</span> (KeyValuePair&lt;string, JToken&gt; pair <span class="keywordflow">in</span> jObj[<span class="stringliteral">&quot;value&quot;</span>].ToObject&lt;JObject&gt;())</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;                        {</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;                            boJobj.Add(pair.Key, pair.Value);</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;                        }</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;                        result = (<a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_entity.html">Entity</a>)JsonConvert.DeserializeObject(boJobj.ToString(), businessObjects[entityType]);</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;                    }</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;                    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;                    {</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;                        <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_invalid_entity_exception.html">InvalidEntityException</a>(jObj.ToString());</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;                    }</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;                }</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;                <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;                {</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;                    result = <span class="keyword">new</span> <a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_unknow_entity.html">UnknowEntity</a>(jObj);</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;                    result.<a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_entity.html#ad47fd4c9ac05c828424ff4dcc675153d">EntityType</a> = entityType;</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;                }</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;            }</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (jObj[<span class="stringliteral">&quot;batchId&quot;</span>] != null)</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;            {</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;                result = JsonConvert.DeserializeObject&lt;<a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_batch.html">Batch</a>&gt;(jObj.ToString()).SetClient(client).<a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_batch.html#a13595fd75500d8c1a5d15acda860202a">SetClient</a>(client);</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;            }</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (jObj[<span class="stringliteral">&quot;name&quot;</span>] != null &amp;&amp;</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;                     jObj[<span class="stringliteral">&quot;size&quot;</span>] != null &amp;&amp;</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;                     jObj[<span class="stringliteral">&quot;uploadType&quot;</span>] != null)</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;            {</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;                result = JsonConvert.DeserializeObject&lt;<a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_batch_file.html">BatchFile</a>&gt;(jObj.ToString());</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;            }</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;            <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;            {</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;                result = <span class="keyword">new</span> <a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_unknow_entity.html">UnknowEntity</a>(jObj);</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;            }</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;            <span class="keywordflow">return</span> result;</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;        }</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;    }</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;}</div>
+<div class="ttc" id="class_nuxeo_client_1_1_marshaller_html_a5e51c23380178bef34a3bce009b6f3e7"><div class="ttname"><a href="class_nuxeo_client_1_1_marshaller.html#a5e51c23380178bef34a3bce009b6f3e7">NuxeoClient.Marshaller.RegisterEntity</a></div><div class="ttdeci">IMarshaller RegisterEntity(string entityType, Type objectType)</div><div class="ttdoc">Registers a new entity type in the marshaller. </div><div class="ttdef"><b>Definition:</b> <a href="_marshaller_8cs_source.html#l00067">Marshaller.cs:67</a></div></div>
+<div class="ttc" id="class_nuxeo_client_1_1_marshaller_html_a586f874e5c6422a9bfc917ce0ce3157c"><div class="ttname"><a href="class_nuxeo_client_1_1_marshaller.html#a586f874e5c6422a9bfc917ce0ce3157c">NuxeoClient.Marshaller.Marshaller</a></div><div class="ttdeci">Marshaller(Client client)</div><div class="ttdoc">Initializes a new instance of Marshaller. </div><div class="ttdef"><b>Definition:</b> <a href="_marshaller_8cs_source.html#l00040">Marshaller.cs:40</a></div></div>
 <div class="ttc" id="class_nuxeo_client_1_1_wrappers_1_1_invalid_entity_exception_html"><div class="ttname"><a href="class_nuxeo_client_1_1_wrappers_1_1_invalid_entity_exception.html">NuxeoClient.Wrappers.InvalidEntityException</a></div><div class="ttdoc">The exception that is thrown when a JSON object does not represent a valid Entity instance...</div><div class="ttdef"><b>Definition:</b> <a href="_invalid_entity_exception_8cs_source.html#l00026">InvalidEntityException.cs:26</a></div></div>
-<div class="ttc" id="class_nuxeo_client_1_1_marshaller_html_ac0d849ede7cf2ab3d0d19cae4215ffe3"><div class="ttname"><a href="class_nuxeo_client_1_1_marshaller.html#ac0d849ede7cf2ab3d0d19cae4215ffe3">NuxeoClient.Marshaller.RegisterBO</a></div><div class="ttdeci">void RegisterBO(string adapterType, Type objectType)</div><div class="ttdoc">Registers a business object type in the marshaller. </div><div class="ttdef"><b>Definition:</b> <a href="_marshaller_8cs_source.html#l00052">Marshaller.cs:52</a></div></div>
 <div class="ttc" id="class_nuxeo_client_1_1_wrappers_1_1_entity_html"><div class="ttname"><a href="class_nuxeo_client_1_1_wrappers_1_1_entity.html">NuxeoClient.Wrappers.Entity</a></div><div class="ttdoc">Represents an entity obtained from the responses from the Nuxeo server. An Entity is represented by a...</div><div class="ttdef"><b>Definition:</b> <a href="_entity_8cs_source.html#l00036">Entity.cs:36</a></div></div>
 <div class="ttc" id="namespace_system_html"><div class="ttname"><a href="namespace_system.html">System</a></div></div>
 <div class="ttc" id="class_nuxeo_client_1_1_marshaller_html"><div class="ttname"><a href="class_nuxeo_client_1_1_marshaller.html">NuxeoClient.Marshaller</a></div><div class="ttdoc">This object is responsible for the conversions between JSON objects received from the Nuxeo server an...</div><div class="ttdef"><b>Definition:</b> <a href="_marshaller_8cs_source.html#l00030">Marshaller.cs:30</a></div></div>
@@ -277,13 +301,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="class_nuxeo_client_1_1_wrappers_1_1_documents_html"><div class="ttname"><a href="class_nuxeo_client_1_1_wrappers_1_1_documents.html">NuxeoClient.Wrappers.Documents</a></div><div class="ttdoc">Represents a Documents entity, which contains a collection of Document. </div><div class="ttdef"><b>Definition:</b> <a href="_documents_8cs_source.html#l00027">Documents.cs:27</a></div></div>
 <div class="ttc" id="interface_nuxeo_client_1_1_i_marshaller_html"><div class="ttname"><a href="interface_nuxeo_client_1_1_i_marshaller.html">NuxeoClient.IMarshaller</a></div><div class="ttdoc">Defines methods to marshal and unmarshal nuxeo object to and from JSON. </div><div class="ttdef"><b>Definition:</b> <a href="_i_marshaller_8cs_source.html#l00027">IMarshaller.cs:27</a></div></div>
 <div class="ttc" id="class_nuxeo_client_1_1_wrappers_1_1_pageable_html"><div class="ttname"><a href="class_nuxeo_client_1_1_wrappers_1_1_pageable.html">NuxeoClient.Wrappers.Pageable</a></div><div class="ttdoc">Represents a pageable version of the Documents object. </div><div class="ttdef"><b>Definition:</b> <a href="_page_8cs_source.html#l00026">Page.cs:26</a></div></div>
+<div class="ttc" id="class_nuxeo_client_1_1_wrappers_1_1_batch_html_a13595fd75500d8c1a5d15acda860202a"><div class="ttname"><a href="class_nuxeo_client_1_1_wrappers_1_1_batch.html#a13595fd75500d8c1a5d15acda860202a">NuxeoClient.Wrappers.Batch.SetClient</a></div><div class="ttdeci">Batch SetClient(Client client)</div><div class="ttdoc">Sets the Nuxeo Client instance through which the requests for this batch will be made. </div><div class="ttdef"><b>Definition:</b> <a href="_batch_8cs_source.html#l00057">Batch.cs:57</a></div></div>
 <div class="ttc" id="class_nuxeo_client_1_1_wrappers_1_1_entity_list_html"><div class="ttname"><a href="class_nuxeo_client_1_1_wrappers_1_1_entity_list.html">NuxeoClient.Wrappers.EntityList</a></div><div class="ttdoc">Represents a list of Entity. </div><div class="ttdef"><b>Definition:</b> <a href="_entity_list_8cs_source.html#l00027">EntityList.cs:27</a></div></div>
-<div class="ttc" id="class_nuxeo_client_1_1_client_html"><div class="ttname"><a href="class_nuxeo_client_1_1_client.html">NuxeoClient.Client</a></div><div class="ttdoc">A client that provides all the methods required to perform Automation operations and REST CRUD operat...</div><div class="ttdef"><b>Definition:</b> <a href="_client_8cs_source.html#l00034">Client.cs:34</a></div></div>
 <div class="ttc" id="class_nuxeo_client_1_1_wrappers_1_1_document_html"><div class="ttname"><a href="class_nuxeo_client_1_1_wrappers_1_1_document.html">NuxeoClient.Wrappers.Document</a></div><div class="ttdoc">Represents a remote Document in a Nuxeo server. </div><div class="ttdef"><b>Definition:</b> <a href="_document_8cs_source.html#l00034">Document.cs:34</a></div></div>
 <div class="ttc" id="class_nuxeo_client_1_1_wrappers_1_1_batch_file_html"><div class="ttname"><a href="class_nuxeo_client_1_1_wrappers_1_1_batch_file.html">NuxeoClient.Wrappers.BatchFile</a></div><div class="ttdoc">Encloses information about a file that was uploaded into a batch. </div><div class="ttdef"><b>Definition:</b> <a href="_batch_file_8cs_source.html#l00026">BatchFile.cs:26</a></div></div>
+<div class="ttc" id="class_nuxeo_client_1_1_wrappers_1_1_document_html_acb45ee161522485605790f1af993a4bc"><div class="ttname"><a href="class_nuxeo_client_1_1_wrappers_1_1_document.html#acb45ee161522485605790f1af993a4bc">NuxeoClient.Wrappers.Document.SetClient</a></div><div class="ttdeci">Document SetClient(Client client)</div><div class="ttdoc">Sets the Nuxeo Client through which operations to this document can be performed. ...</div><div class="ttdef"><b>Definition:</b> <a href="_document_8cs_source.html#l00343">Document.cs:343</a></div></div>
 <div class="ttc" id="class_nuxeo_client_1_1_wrappers_1_1_entity_html_ad47fd4c9ac05c828424ff4dcc675153d"><div class="ttname"><a href="class_nuxeo_client_1_1_wrappers_1_1_entity.html#ad47fd4c9ac05c828424ff4dcc675153d">NuxeoClient.Wrappers.Entity.EntityType</a></div><div class="ttdeci">string EntityType</div><div class="ttdoc">Gets the entity type. </div><div class="ttdef"><b>Definition:</b> <a href="_entity_8cs_source.html#l00042">Entity.cs:42</a></div></div>
-<div class="ttc" id="class_nuxeo_client_1_1_marshaller_html_a5de7e97a2d576148a6be3bab71ec4ff3"><div class="ttname"><a href="class_nuxeo_client_1_1_marshaller.html#a5de7e97a2d576148a6be3bab71ec4ff3">NuxeoClient.Marshaller.Marshal</a></div><div class="ttdeci">JObject Marshal(Entity entity)</div><div class="ttdoc">Marshals a nuxeo Entity to JSON. </div><div class="ttdef"><b>Definition:</b> <a href="_marshaller_8cs_source.html#l00090">Marshaller.cs:90</a></div></div>
-<div class="ttc" id="class_nuxeo_client_1_1_marshaller_html_a6a845aabcfaa787cb96eb1db02ea7337"><div class="ttname"><a href="class_nuxeo_client_1_1_marshaller.html#a6a845aabcfaa787cb96eb1db02ea7337">NuxeoClient.Marshaller.UnMarshal</a></div><div class="ttdeci">Entity UnMarshal(JToken json)</div><div class="ttdoc">Unmarshals a JSON object into a nuxeo Entity. </div><div class="ttdef"><b>Definition:</b> <a href="_marshaller_8cs_source.html#l00062">Marshaller.cs:62</a></div></div>
+<div class="ttc" id="class_nuxeo_client_1_1_wrappers_1_1_documents_html_a12552a03e80f60a2541fa910738dd400"><div class="ttname"><a href="class_nuxeo_client_1_1_wrappers_1_1_documents.html#a12552a03e80f60a2541fa910738dd400">NuxeoClient.Wrappers.Documents.Entries</a></div><div class="ttdeci">List&lt; Document &gt; Entries</div><div class="ttdoc">Gets the list of documents. </div><div class="ttdef"><b>Definition:</b> <a href="_documents_8cs_source.html#l00033">Documents.cs:33</a></div></div>
+<div class="ttc" id="class_nuxeo_client_1_1_marshaller_html_a5de7e97a2d576148a6be3bab71ec4ff3"><div class="ttname"><a href="class_nuxeo_client_1_1_marshaller.html#a5de7e97a2d576148a6be3bab71ec4ff3">NuxeoClient.Marshaller.Marshal</a></div><div class="ttdeci">JObject Marshal(Entity entity)</div><div class="ttdoc">Marshals a nuxeo Entity to JSON. </div><div class="ttdef"><b>Definition:</b> <a href="_marshaller_8cs_source.html#l00106">Marshaller.cs:106</a></div></div>
+<div class="ttc" id="class_nuxeo_client_1_1_marshaller_html_a6a845aabcfaa787cb96eb1db02ea7337"><div class="ttname"><a href="class_nuxeo_client_1_1_marshaller.html#a6a845aabcfaa787cb96eb1db02ea7337">NuxeoClient.Marshaller.UnMarshal</a></div><div class="ttdeci">Entity UnMarshal(JToken json)</div><div class="ttdoc">Unmarshals a JSON object into a nuxeo Entity. </div><div class="ttdef"><b>Definition:</b> <a href="_marshaller_8cs_source.html#l00078">Marshaller.cs:78</a></div></div>
+<div class="ttc" id="class_nuxeo_client_1_1_marshaller_html_a4fc694546c6a45d7c59cc8bbe771aaa2"><div class="ttname"><a href="class_nuxeo_client_1_1_marshaller.html#a4fc694546c6a45d7c59cc8bbe771aaa2">NuxeoClient.Marshaller.RegisterBO</a></div><div class="ttdeci">IMarshaller RegisterBO(string adapterType, Type objectType)</div><div class="ttdoc">Registers a business object type in the marshaller. </div><div class="ttdef"><b>Definition:</b> <a href="_marshaller_8cs_source.html#l00055">Marshaller.cs:55</a></div></div>
 <div class="ttc" id="class_nuxeo_client_1_1_wrappers_1_1_batch_html"><div class="ttname"><a href="class_nuxeo_client_1_1_wrappers_1_1_batch.html">NuxeoClient.Wrappers.Batch</a></div><div class="ttdoc">Represents a remote batch in the Nuxeo server, to which one ore more files can be uploaded...</div><div class="ttdef"><b>Definition:</b> <a href="_batch_8cs_source.html#l00034">Batch.cs:34</a></div></div>
 <div class="ttc" id="namespace_nuxeo_client_1_1_wrappers_html"><div class="ttname"><a href="namespace_nuxeo_client_1_1_wrappers.html">NuxeoClient.Wrappers</a></div><div class="ttdef"><b>Definition:</b> <a href="_batch_8cs_source.html#l00022">Batch.cs:22</a></div></div>
 </div><!-- fragment --></div><!-- contents -->

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>NuxeoDotNetClient: C:/Users/Gabriel/Documents/NuxeoDotNetClient/src/NuxeoClient/ExtensionMethods.cs Source File</title>
+<title>Nuxeo .Net Client: C:/Users/Gabriel/Documents/nuxeo-dotnet-client/src/NuxeoClient/ExtensionMethods.cs Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -25,7 +25,7 @@
  <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="logo-small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">NuxeoDotNetClient
+   <div id="projectname">Nuxeo .Net Client
    &#160;<span id="projectnumber">1.0.0 beta</span>
    </div>
    <div id="projectbrief">.NET Client for Nuxeo Automation and REST API</div>
@@ -84,7 +84,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_19e7878574c72b73709d4e8b99f8f5bd.html">NuxeoDotNetClient</a></li><li class="navelem"><a class="el" href="dir_a6474f80643609891074afe61dc22298.html">src</a></li><li class="navelem"><a class="el" href="dir_cc2fcca5633a67dd46bae5a2ea67bd6e.html">NuxeoClient</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_c923b75cae9eea14771fb092e40007eb.html">nuxeo-dotnet-client</a></li><li class="navelem"><a class="el" href="dir_45a552f890314bc530d13be230fe911d.html">src</a></li><li class="navelem"><a class="el" href="dir_5f9069385866cd719d9f03946c5b022e.html">NuxeoClient</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -121,8 +121,32 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            Array.Copy(data, index, result, 0, length);</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            <span class="keywordflow">return</span> result;</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        }</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    }</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;}</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="class_nuxeo_client_1_1_extension_methods.html#af37d676f794ef3ea1ddda0cd505dfcba">   48</a></span>&#160;        <span class="keyword">public</span> <span class="keyword">static</span> UriBuilder <a class="code" href="class_nuxeo_client_1_1_extension_methods.html#af37d676f794ef3ea1ddda0cd505dfcba">AddPath</a>(<span class="keyword">this</span> UriBuilder builder, <span class="keywordtype">string</span> pathValue)</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        {</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            <span class="keywordflow">if</span> (<span class="keywordtype">string</span>.IsNullOrEmpty(pathValue))</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            {</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                <span class="keywordflow">return</span> builder;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            }</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            <span class="keywordtype">string</span> path = builder.Path;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            <span class="keywordflow">if</span> (path.EndsWith(<span class="stringliteral">&quot;/&quot;</span>) == <span class="keyword">false</span>)</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            {</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                path = path + <span class="stringliteral">&quot;/&quot;</span>;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            }</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            <span class="keywordtype">int</span> i = (pathValue[0] == <span class="charliteral">&#39;/&#39;</span> ? 1 : 0);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            <span class="keywordtype">int</span> j = pathValue.Length - (pathValue[pathValue.Length - 1] == <span class="charliteral">&#39;/&#39;</span> ? 1 : 0);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            path += (j &gt; 0 ? pathValue.Substring(i, j-i) : <span class="keywordtype">string</span>.Empty);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            builder.Path = path;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            <span class="keywordflow">return</span> builder;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        }</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    }</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;}</div>
+<div class="ttc" id="class_nuxeo_client_1_1_extension_methods_html_af37d676f794ef3ea1ddda0cd505dfcba"><div class="ttname"><a href="class_nuxeo_client_1_1_extension_methods.html#af37d676f794ef3ea1ddda0cd505dfcba">NuxeoClient.ExtensionMethods.AddPath</a></div><div class="ttdeci">static UriBuilder AddPath(this UriBuilder builder, string pathValue)</div><div class="ttdoc">Adds a path to an UriBuilder. </div><div class="ttdef"><b>Definition:</b> <a href="_extension_methods_8cs_source.html#l00048">ExtensionMethods.cs:48</a></div></div>
 <div class="ttc" id="namespace_system_html"><div class="ttname"><a href="namespace_system.html">System</a></div></div>
 <div class="ttc" id="namespace_nuxeo_client_html"><div class="ttname"><a href="namespace_nuxeo_client.html">NuxeoClient</a></div></div>
 <div class="ttc" id="class_nuxeo_client_1_1_extension_methods_html"><div class="ttname"><a href="class_nuxeo_client_1_1_extension_methods.html">NuxeoClient.ExtensionMethods</a></div><div class="ttdoc">Extension methods used by NuxeoClient. </div><div class="ttdef"><b>Definition:</b> <a href="_extension_methods_8cs_source.html#l00025">ExtensionMethods.cs:25</a></div></div>

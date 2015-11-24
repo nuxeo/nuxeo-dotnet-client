@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>NuxeoDotNetClient: C:/Users/Gabriel/Documents/NuxeoDotNetClient/src/NuxeoClient/Wrappers/BatchOperation.cs Source File</title>
+<title>Nuxeo .Net Client: C:/Users/Gabriel/Documents/nuxeo-dotnet-client/src/NuxeoClient/Wrappers/BatchOperation.cs Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -25,7 +25,7 @@
  <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="logo-small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">NuxeoDotNetClient
+   <div id="projectname">Nuxeo .Net Client
    &#160;<span id="projectnumber">1.0.0 beta</span>
    </div>
    <div id="projectbrief">.NET Client for Nuxeo Automation and REST API</div>
@@ -84,7 +84,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_19e7878574c72b73709d4e8b99f8f5bd.html">NuxeoDotNetClient</a></li><li class="navelem"><a class="el" href="dir_a6474f80643609891074afe61dc22298.html">src</a></li><li class="navelem"><a class="el" href="dir_cc2fcca5633a67dd46bae5a2ea67bd6e.html">NuxeoClient</a></li><li class="navelem"><a class="el" href="dir_2a53ff5fc425dc4ef16c0b0364dffb8c.html">Wrappers</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_c923b75cae9eea14771fb092e40007eb.html">nuxeo-dotnet-client</a></li><li class="navelem"><a class="el" href="dir_45a552f890314bc530d13be230fe911d.html">src</a></li><li class="navelem"><a class="el" href="dir_5f9069385866cd719d9f03946c5b022e.html">NuxeoClient</a></li><li class="navelem"><a class="el" href="dir_06a6c82a023fc552f94f6ac5dc0b5eca.html">Wrappers</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -115,21 +115,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    {</div>
 <div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="class_nuxeo_client_1_1_wrappers_1_1_batch_operation.html#ae66602dda42e1603bd9e93aa9d558ca7">   28</a></span>&#160;        <span class="keyword">public</span> <a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_batch.html">Batch</a> <a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_batch.html">Batch</a> { <span class="keyword">get</span>; <span class="keyword">private</span> set; }</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="class_nuxeo_client_1_1_wrappers_1_1_batch_operation.html#a3522fc3c71292249f464c658a12d6fd0">   36</a></span>&#160;        <span class="keyword">public</span> <a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_batch_operation.html#a3522fc3c71292249f464c658a12d6fd0">BatchOperation</a>(<a class="code" href="class_nuxeo_client_1_1_client.html">Client</a> client, <a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_batch.html">Batch</a> batch, <span class="keywordtype">string</span> <span class="keywordtype">id</span>) :</div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="class_nuxeo_client_1_1_wrappers_1_1_batch_operation.html#a3522fc3c71292249f464c658a12d6fd0">   36</a></span>&#160;        <span class="keyword">public</span> <a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_batch_operation.html#a3522fc3c71292249f464c658a12d6fd0">BatchOperation</a>(Client client, <a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_batch.html">Batch</a> batch, <span class="keywordtype">string</span> <span class="keywordtype">id</span>) :</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;            base(client, id)</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        {</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            <a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_batch.html">Batch</a> = batch;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            Endpoint = client.<a class="code" href="class_nuxeo_client_1_1_client.html#a138414d04545a8f39cdc1abfeeac0128">ServerURL</a> + client.<a class="code" href="class_nuxeo_client_1_1_client.html#a950a5e6adbcd33d32d283046a327a428">RestPath</a> + <span class="stringliteral">&quot;upload/&quot;</span> + <a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_batch.html">Batch</a>.<a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_batch_info.html#af0a1d011eadf8ddcdaaf83db41f3bda0">BatchId</a> + <span class="stringliteral">&quot;/execute/&quot;</span> + Id;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            Endpoint = <a class="code" href="class_nuxeo_client_1_1_url_combiner.html">UrlCombiner</a>.<a class="code" href="class_nuxeo_client_1_1_url_combiner.html#a18d0f6860520846c77620669dd43827d">Combine</a>(client.RestPath, <span class="stringliteral">&quot;upload/&quot;</span>, <a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_batch.html">Batch</a>.<a class="code" href="class_nuxeo_client_1_1_wrappers_1_1_batch_info.html#af0a1d011eadf8ddcdaaf83db41f3bda0">BatchId</a>, <span class="stringliteral">&quot;execute/&quot;</span>, Id);</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        }</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    }</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;}</div>
-<div class="ttc" id="class_nuxeo_client_1_1_client_html_a950a5e6adbcd33d32d283046a327a428"><div class="ttname"><a href="class_nuxeo_client_1_1_client.html#a950a5e6adbcd33d32d283046a327a428">NuxeoClient.Client.RestPath</a></div><div class="ttdeci">string RestPath</div><div class="ttdoc">Gets the path to the REST API endpoint. </div><div class="ttdef"><b>Definition:</b> <a href="_client_8cs_source.html#l00062">Client.cs:62</a></div></div>
 <div class="ttc" id="namespace_nuxeo_client_html"><div class="ttname"><a href="namespace_nuxeo_client.html">NuxeoClient</a></div></div>
-<div class="ttc" id="class_nuxeo_client_1_1_client_html"><div class="ttname"><a href="class_nuxeo_client_1_1_client.html">NuxeoClient.Client</a></div><div class="ttdoc">A client that provides all the methods required to perform Automation operations and REST CRUD operat...</div><div class="ttdef"><b>Definition:</b> <a href="_client_8cs_source.html#l00034">Client.cs:34</a></div></div>
-<div class="ttc" id="class_nuxeo_client_1_1_operation_html"><div class="ttname"><a href="class_nuxeo_client_1_1_operation.html">NuxeoClient.Operation</a></div><div class="ttdoc">Represents a Nuxeo Automation Operation. </div><div class="ttdef"><b>Definition:</b> <a href="_operation_8cs_source.html#l00031">Operation.cs:31</a></div></div>
+<div class="ttc" id="class_nuxeo_client_1_1_url_combiner_html"><div class="ttname"><a href="class_nuxeo_client_1_1_url_combiner.html">NuxeoClient.UrlCombiner</a></div><div class="ttdoc">A simplete URL segment combiner. </div><div class="ttdef"><b>Definition:</b> <a href="_url_combiner_8cs_source.html#l00025">UrlCombiner.cs:25</a></div></div>
+<div class="ttc" id="class_nuxeo_client_1_1_url_combiner_html_a18d0f6860520846c77620669dd43827d"><div class="ttname"><a href="class_nuxeo_client_1_1_url_combiner.html#a18d0f6860520846c77620669dd43827d">NuxeoClient.UrlCombiner.Combine</a></div><div class="ttdeci">static string Combine(params string[] toCombine)</div><div class="ttdoc">Combines URL segments. </div><div class="ttdef"><b>Definition:</b> <a href="_url_combiner_8cs_source.html#l00032">UrlCombiner.cs:32</a></div></div>
+<div class="ttc" id="class_nuxeo_client_1_1_operation_html"><div class="ttname"><a href="class_nuxeo_client_1_1_operation.html">NuxeoClient.Operation</a></div><div class="ttdoc">Represents a Nuxeo Automation Operation. </div><div class="ttdef"><b>Definition:</b> <a href="_operation_8cs_source.html#l00032">Operation.cs:32</a></div></div>
 <div class="ttc" id="class_nuxeo_client_1_1_wrappers_1_1_batch_operation_html_a3522fc3c71292249f464c658a12d6fd0"><div class="ttname"><a href="class_nuxeo_client_1_1_wrappers_1_1_batch_operation.html#a3522fc3c71292249f464c658a12d6fd0">NuxeoClient.Wrappers.BatchOperation.BatchOperation</a></div><div class="ttdeci">BatchOperation(Client client, Batch batch, string id)</div><div class="ttdoc">Initializes a new instance of BatchOperation. </div><div class="ttdef"><b>Definition:</b> <a href="_batch_operation_8cs_source.html#l00036">BatchOperation.cs:36</a></div></div>
 <div class="ttc" id="class_nuxeo_client_1_1_wrappers_1_1_batch_operation_html"><div class="ttname"><a href="class_nuxeo_client_1_1_wrappers_1_1_batch_operation.html">NuxeoClient.Wrappers.BatchOperation</a></div><div class="ttdoc">Represents an Automation Operation to be performed on a batch. </div><div class="ttdef"><b>Definition:</b> <a href="_batch_operation_8cs_source.html#l00023">BatchOperation.cs:23</a></div></div>
-<div class="ttc" id="class_nuxeo_client_1_1_client_html_a138414d04545a8f39cdc1abfeeac0128"><div class="ttname"><a href="class_nuxeo_client_1_1_client.html#a138414d04545a8f39cdc1abfeeac0128">NuxeoClient.Client.ServerURL</a></div><div class="ttdeci">string ServerURL</div><div class="ttdoc">Gets the URL to the Nuxeo Server. </div><div class="ttdef"><b>Definition:</b> <a href="_client_8cs_source.html#l00052">Client.cs:52</a></div></div>
 <div class="ttc" id="class_nuxeo_client_1_1_wrappers_1_1_batch_info_html_af0a1d011eadf8ddcdaaf83db41f3bda0"><div class="ttname"><a href="class_nuxeo_client_1_1_wrappers_1_1_batch_info.html#af0a1d011eadf8ddcdaaf83db41f3bda0">NuxeoClient.Wrappers.BatchInfo.BatchId</a></div><div class="ttdeci">string BatchId</div><div class="ttdoc">Gets the bach ID. </div><div class="ttdef"><b>Definition:</b> <a href="_batch_info_8cs_source.html#l00033">BatchInfo.cs:33</a></div></div>
 <div class="ttc" id="class_nuxeo_client_1_1_wrappers_1_1_batch_html"><div class="ttname"><a href="class_nuxeo_client_1_1_wrappers_1_1_batch.html">NuxeoClient.Wrappers.Batch</a></div><div class="ttdoc">Represents a remote batch in the Nuxeo server, to which one ore more files can be uploaded...</div><div class="ttdef"><b>Definition:</b> <a href="_batch_8cs_source.html#l00034">Batch.cs:34</a></div></div>
 </div><!-- fragment --></div><!-- contents -->

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>NuxeoDotNetClient: NuxeoClient.IMarshaller Interface Reference</title>
+<title>Nuxeo .Net Client: NuxeoClient.IMarshaller Interface Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -25,7 +25,7 @@
  <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="logo-small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">NuxeoDotNetClient
+   <div id="projectname">Nuxeo .Net Client
    &#160;<span id="projectnumber">1.0.0 beta</span>
    </div>
    <div id="projectbrief">.NET Client for Nuxeo Automation and REST API</div>
@@ -104,9 +104,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a4901fb264a825ad52b8a514bcc363bf1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_nuxeo_client_1_1_i_marshaller.html#a4901fb264a825ad52b8a514bcc363bf1">RegisterBO</a> (string entityType, Type objectType)</td></tr>
-<tr class="memdesc:a4901fb264a825ad52b8a514bcc363bf1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers a business object type in the marshaller.  <a href="#a4901fb264a825ad52b8a514bcc363bf1">More...</a><br /></td></tr>
-<tr class="separator:a4901fb264a825ad52b8a514bcc363bf1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1803a1e0d677e24b24d71fbc2c4647eb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_nuxeo_client_1_1_i_marshaller.html">IMarshaller</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_nuxeo_client_1_1_i_marshaller.html#a1803a1e0d677e24b24d71fbc2c4647eb">RegisterBO</a> (string adapterType, Type objectType)</td></tr>
+<tr class="memdesc:a1803a1e0d677e24b24d71fbc2c4647eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers a business object type in the marshaller.  <a href="#a1803a1e0d677e24b24d71fbc2c4647eb">More...</a><br /></td></tr>
+<tr class="separator:a1803a1e0d677e24b24d71fbc2c4647eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a193e00fa3ead0d4696de29eb4a6fe9ea"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_nuxeo_client_1_1_i_marshaller.html">IMarshaller</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_nuxeo_client_1_1_i_marshaller.html#a193e00fa3ead0d4696de29eb4a6fe9ea">RegisterEntity</a> (string entityType, Type objectType)</td></tr>
+<tr class="memdesc:a193e00fa3ead0d4696de29eb4a6fe9ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers a new entity type in the marshaller.  <a href="#a193e00fa3ead0d4696de29eb4a6fe9ea">More...</a><br /></td></tr>
+<tr class="separator:a193e00fa3ead0d4696de29eb4a6fe9ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a886d4efac97d8d7160bc48dee3f756ee"><td class="memItemLeft" align="right" valign="top">JObject&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_nuxeo_client_1_1_i_marshaller.html#a886d4efac97d8d7160bc48dee3f756ee">Marshal</a> (<a class="el" href="class_nuxeo_client_1_1_wrappers_1_1_entity.html">Entity</a> entity)</td></tr>
 <tr class="memdesc:a886d4efac97d8d7160bc48dee3f756ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Marshals a nuxeo Entity to JSON.  <a href="#a886d4efac97d8d7160bc48dee3f756ee">More...</a><br /></td></tr>
 <tr class="separator:a886d4efac97d8d7160bc48dee3f756ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -155,15 +158,15 @@ Inheritance diagram for NuxeoClient.IMarshaller:</div>
 
 </div>
 </div>
-<a class="anchor" id="a4901fb264a825ad52b8a514bcc363bf1"></a>
+<a class="anchor" id="a1803a1e0d677e24b24d71fbc2c4647eb"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void NuxeoClient.IMarshaller.RegisterBO </td>
+          <td class="memname"><a class="el" href="interface_nuxeo_client_1_1_i_marshaller.html">IMarshaller</a> NuxeoClient.IMarshaller.RegisterBO </td>
           <td>(</td>
           <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>entityType</em>, </td>
+          <td class="paramname"><em>adapterType</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -188,8 +191,47 @@ Inheritance diagram for NuxeoClient.IMarshaller:</div>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>The current <a class="el" href="interface_nuxeo_client_1_1_i_marshaller.html" title="Defines methods to marshal and unmarshal nuxeo object to and from JSON. ">IMarshaller</a> instance.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_nuxeo_client_1_1_marshaller.html#ac0d849ede7cf2ab3d0d19cae4215ffe3">NuxeoClient.Marshaller</a>.</p>
+<p>Implemented in <a class="el" href="class_nuxeo_client_1_1_marshaller.html#a4fc694546c6a45d7c59cc8bbe771aaa2">NuxeoClient.Marshaller</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a193e00fa3ead0d4696de29eb4a6fe9ea"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="interface_nuxeo_client_1_1_i_marshaller.html">IMarshaller</a> NuxeoClient.IMarshaller.RegisterEntity </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>entityType</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Type&#160;</td>
+          <td class="paramname"><em>objectType</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Registers a new entity type in the marshaller. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">entityType</td><td>The entity type.</td></tr>
+    <tr><td class="paramname">objectType</td><td>The type extending Entity.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The current <a class="el" href="interface_nuxeo_client_1_1_i_marshaller.html" title="Defines methods to marshal and unmarshal nuxeo object to and from JSON. ">IMarshaller</a> instance.</dd></dl>
+
+<p>Implemented in <a class="el" href="class_nuxeo_client_1_1_marshaller.html#a5e51c23380178bef34a3bce009b6f3e7">NuxeoClient.Marshaller</a>.</p>
 
 </div>
 </div>

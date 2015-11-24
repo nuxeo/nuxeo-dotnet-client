@@ -1,6 +1,8 @@
 var searchData=
 [
-  ['name',['Name',['../class_nuxeo_client_1_1_wrappers_1_1_batch_file.html#a192e6cff108e9f4ae51981ebfad4abe9',1,'NuxeoClient.Wrappers.BatchFile.Name()'],['../class_nuxeo_client_1_1_wrappers_1_1_business_object.html#abbd1f308e98149a404fdaef0fbc372bf',1,'NuxeoClient.Wrappers.BusinessObject.Name()'],['../class_nuxeo_client_1_1_wrappers_1_1_document.html#ad7248b1bcda5500744a9f38d32b556f6',1,'NuxeoClient.Wrappers.Document.Name()']]],
-  ['numberofpages',['NumberOfPages',['../class_nuxeo_client_1_1_wrappers_1_1_pageable.html#a4fba4a464870060598edfb9847dd1fcc',1,'NuxeoClient::Wrappers::Pageable']]],
-  ['numconcurrentuploads',['NumConcurrentUploads',['../class_nuxeo_client_1_1_uploader.html#a04f16b5594da97a97013c3513b172c90',1,'NuxeoClient::Uploader']]]
+  ['maxpagesize',['MaxPageSize',['../class_nuxeo_client_1_1_wrappers_1_1_pageable.html#a1ee7e2cd1f174743ff0b5fc68cf6e20f',1,'NuxeoClient::Wrappers::Pageable']]],
+  ['maxresult',['MaxResult',['../class_nuxeo_client_1_1_adapters_1_1_search_adapter.html#a57e7e3527816977587f0b72b99fe7b9d',1,'NuxeoClient::Adapters::SearchAdapter']]],
+  ['method',['Method',['../class_nuxeo_client_1_1_authorization.html#a7523467cbe164888c73f1c1b46539719',1,'NuxeoClient::Authorization']]],
+  ['mimetype',['MimeType',['../class_nuxeo_client_1_1_blob.html#a996eb5da072633594066046fde16090d',1,'NuxeoClient::Blob']]],
+  ['mode',['Mode',['../class_nuxeo_client_1_1_adapters_1_1_search_adapter.html#afc9d43c45db58ba934eb147f23d213e0',1,'NuxeoClient::Adapters::SearchAdapter']]]
 ];

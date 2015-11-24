@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['lastmodified',['LastModified',['../class_nuxeo_client_1_1_wrappers_1_1_document.html#acbe29e777dfd82bf14a3326b413181fb',1,'NuxeoClient::Wrappers::Document']]]
+  ['json',['Json',['../class_nuxeo_client_1_1_wrappers_1_1_unknow_entity.html#a544137bf33ef37407e2885f3416323a9',1,'NuxeoClient::Wrappers::UnknowEntity']]]
 ];

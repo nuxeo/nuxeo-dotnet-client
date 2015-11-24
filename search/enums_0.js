@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['methods',['Methods',['../class_nuxeo_client_1_1_authorization.html#af71272e092649642be43a1c70c814ce7',1,'NuxeoClient::Authorization']]]
+  ['endpointtype',['EndpointType',['../class_nuxeo_client_1_1_wrappers_1_1_document.html#a616e8b08ede69caddfaed6b508fcd2c9',1,'NuxeoClient::Wrappers::Document']]]
 ];
