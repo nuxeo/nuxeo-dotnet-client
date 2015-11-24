@@ -24,6 +24,14 @@ Nuxeo .NET Client targets two platforms: `net45` and `dnxcore50`. This allows it
 
 In order to run Nuxeo .NET Client, you must have installed the .NET Core DNX SDK, version 1.0.0-beta8 or above, or .NET 4.5 on a Windows setup. Installation instructions follow below:
 
+### Developing for net45 ###
+
+* Download and install [.NET Framework 4.5](https://www.microsoft.com/en-us/download/details.aspx?id=30653)
+
+* Visual Studio 2013 or above required.
+
+### Developing for dnxcore50 ###
+
 1. Install .NET Core:
 
     * [Linux instructions](http://dotnet.readthedocs.org/en/latest/getting-started/installing-core-linux.html)
@@ -66,9 +74,11 @@ If you are using Visual Studio 2015 on Windows, you will need to download the [M
 
 ## Usage ##
 
-Download the NuxeoClient **nupkg** file and install it by running `dnu install NuxeoClient -s <path-to-nupkg-file-parent-folder>`.
+### 1. Include NuxeoClient in your project ###
 
-Include NuxeClient dependency in your project.json file:
+On Visual Studio, run on the Package Manager Console: `PM> Install-Package NuxeoClient -Pre`
+
+If you are developing for dnxcore50, include NuxeoClient in your project.json file:
 
 ```json
 {
@@ -81,6 +91,10 @@ Include NuxeClient dependency in your project.json file:
 }
 ```
 
+... and run `dnu restore`.
+
+### 2. Reference it in the code ###
+
 Reference *NuxeoClient* and *NuxeoClient.Wrappers* namespaces:
 
 ```csharp
@@ -88,10 +102,12 @@ using NuxeoClient;
 using NuxeoClient.Wrappers;
 ```
 
+### 3. Now let's create an instance of NuxeoClient and use it! ###
+
 Create a new instance of NuxeoClient:
 
 ```csharp
-Client client = new Client(); // server running on localhost:8080
+Client client = new Client(); // assuming server running on localhost:8080
 ```
 
 Create a folder named "Test Folder 1" on the root:
@@ -105,39 +121,29 @@ client.Operation("Document.Create")
       .Execute();
 ```
 
-If you want to do something with the result, you can either wait for it with a `.Execute().Result;` or continue the async call with `.Execute().ContinueWith(...);`.
-
 Please check the tests on *test/TCK* for more usage examples and the [tutorial](#tutorial) and the end of this document.
 
 ## Running the Tests ##
 
 This project includes a Test Compatibility Kit (TCK) covering several tests on the client. In order for the tests to run, there must be an instance of the Nuxeo Server running, loading *nuxeo-automation-test-7.10-SNAPSHOT.jar*.
 
-Before running the tests, the server's ip address should be updated in the *test/TCK/config.json* file.
+Before building and running the tests, the server's IP address should be updated in the *test/TCK/Config.cs* file.
 
-Then, on the solution folder, run:
+#### On Windows ####
+
+1. Build the version of the TCK you want to test, by either running `tools\BuildDnx.ps1` or  `tools\BuildNet45.ps1`.
+
+2. Run the TCK with `tools\TestDnx.ps1` or `tools\TestNet45.ps1`
+
+#### On Mac OS or Linux ###
+
+On the solution folder, run:
 
 1. `dnu restore` to download all dependencies
 
 2. `cd test/TCK` to move to the TCK folder
 
-2. `dnx test` to run all tests
-
-#### On Visual Studio 2015 ####
-
-1. Open the solution on Visual Studio
-
-2. Show the Test Explorer, if not displayed already: go to `Test > Window > Test Explorer`
-
-3. Build solution, which will automatically discover all tests
-
-4. On Test Explorer, hit Run All to run all tests
-
-If any errors are displayed regarding missing dependencies:
-
-1. Open the Package Manager Console: `Tools > NuGet Package Manager > Package Manager Console`
-
-2. Run `dnu restore`
+3. `dnx test` to run all tests
 
 ## Known Issues ##
 
@@ -149,8 +155,6 @@ There is currently a bug where DELETE requests are sent as GET on Linux and Mac 
 Let's make a quick DNX Console App that creates a folder on the server's root and a child document. This quit tutorial assumes that you have an instance of Nuxeo Server running on your local machine.
 
 * Create a new directory for your project named *TestNuxeoApp* and `cd` there
-
-* Download the NuxeoClient **nupkg** file and install it by running `dnu install NuxeoClient -s <path-to-nupkg-file-parent-folder>`
 
 * Create a new *project.json* with dependencies to "System.Console" and "NuxeoClient". It should look something like this:
 
@@ -202,12 +206,12 @@ namespace TestNuxeoApp
 															.SetParameter("name", "MyFolder")
 															.SetParameter("properties", new ParamProperties { { "dc:title", "My Folder" } })
 															.Execute();
-					
+
 					// print the returned folder object if it is not null			
 					Console.WriteLine(folder == null ? "Failed to create folder." : "Created " + folder.Path);
 
 					// perform an async request to create a child file named "My File"						
-					Document file = (Document)await folder.Create(new Document {
+					Document file = (Document)await folder.Post(new Document {
 						Type = "File",
 						Name = "MyFile",
 						Properties = new Properties { { "dc:title", "My File" } }
