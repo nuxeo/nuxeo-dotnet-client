@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("NuxeoClient")]
 [assembly: AssemblyDescription(".NET Client for Nuxeo Automation and REST API")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Nuxeo SA")]
+[assembly: AssemblyCompany("Nuxeo")]
 [assembly: AssemblyProduct("NuxeoClient")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]

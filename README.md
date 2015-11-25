@@ -1,4 +1,6 @@
-# Nuxeo .NET Client #
+# About Nuxeo .NET Client #
+
+[![Build Status](https://qa.nuxeo.org/jenkins/buildStatus/icon?job=nuxeo-dotnet-client-master-windows)](https://qa.nuxeo.org/jenkins/job/nuxeo-dotnet-client-master-windows/)
 
 The Nuxeo .NET Client is a cross-platform client library developed in C# for the Nuxeo Automation and REST API.
 
@@ -20,15 +22,26 @@ Nuxeo .NET Client targets two platforms: `net45` and `dnxcore50`. This allows it
 +------------------------------------+------------+
 ```
 
-## Setup ##
+# Building #
 
-In order to run Nuxeo .NET Client, you must have installed the .NET Core DNX SDK, version 1.0.0-beta8 or above, or .NET 4.5 on a Windows setup. Installation instructions follow below:
+If you are developing for `net45`, build the NuxeoClient_net45 solution on Visual Studio 2013 (or above).
+
+If you are developing for `dnxcore50`, run:
+
+```
+cd src/NuxeoClient
+dnu build
+```
+
+## Requirements ##
+
+In order to build Nuxeo .NET Client, you must have installed the .NET Core DNX SDK, version 1.0.0-beta8, or .NET 4.5 on a Windows setup.
 
 ### Developing for net45 ###
 
 * Download and install [.NET Framework 4.5](https://www.microsoft.com/en-us/download/details.aspx?id=30653)
 
-* Visual Studio 2013 or above required.
+* Visual Studio 2013 (or above) required.
 
 ### Developing for dnxcore50 ###
 
@@ -72,7 +85,40 @@ If you are using Visual Studio 2015 on Windows, you will need to download the [M
 
 * *WebToolsExtensionsVS14.msi* for Visual Studio 2015 or *WebToolsExtensionsVWD14.msi* for Visual Studio 2015 Express
 
-## Usage ##
+## Running the TCK ##
+
+This project includes a Test Compatibility Kit (TCK) covering several tests on the client. In order for the tests to run, there must be an instance of the Nuxeo Server running, loading *nuxeo-automation-test-7.10-SNAPSHOT.jar*.
+
+Before building and running the tests, the server's IP address should be updated in the *test/TCK/Config.cs* file.
+
+### On Windows ###
+
+1. Build the version of the TCK you want to test, by either running `tools\BuildDnx.ps1` or  `tools\BuildNet45.ps1`.
+
+2. Run the TCK with `tools\TestDnx.ps1` or `tools\TestNet45.ps1`
+
+### On Mac OS or Linux ###
+
+On the solution folder, run:
+
+1. `dnu restore` to download all dependencies
+
+2. `cd test/TCK` to move to the TCK folder
+
+3. `dnx test` to run all tests
+
+## Limitations ##
+
+There is currently a bug where DELETE requests are sent as GET on Linux and Mac OS only, which prevents operations such as deleting documents and drop batches from working. This issue was reported [here](https://github.com/dotnet/corefx/issues/4134). **This bug causes 5 out of 9 tests of the TCK to fail**, on the last stage where all temporary files are deleted.
+.
+
+## QA
+
+[![Build Status](https://qa.nuxeo.org/jenkins/buildStatus/icon?job=nuxeo-dotnet-client-master-windows)](https://qa.nuxeo.org/jenkins/job/nuxeo-dotnet-client-master-windows/)
+
+# Usage #
+
+## Instructions ##
 
 ### 1. Include NuxeoClient in your project ###
 
@@ -124,33 +170,6 @@ client.Operation("Document.Create")
 Please check the tests on *test/TCK* for more usage examples and the [tutorial](#tutorial) and the end of this document.
 
 A demo app making use of this client is also available [here](https://github.com/nuxeo/nuxeo-dotnet-browser).
-
-## Running the Tests ##
-
-This project includes a Test Compatibility Kit (TCK) covering several tests on the client. In order for the tests to run, there must be an instance of the Nuxeo Server running, loading *nuxeo-automation-test-7.10-SNAPSHOT.jar*.
-
-Before building and running the tests, the server's IP address should be updated in the *test/TCK/Config.cs* file.
-
-#### On Windows ####
-
-1. Build the version of the TCK you want to test, by either running `tools\BuildDnx.ps1` or  `tools\BuildNet45.ps1`.
-
-2. Run the TCK with `tools\TestDnx.ps1` or `tools\TestNet45.ps1`
-
-#### On Mac OS or Linux ###
-
-On the solution folder, run:
-
-1. `dnu restore` to download all dependencies
-
-2. `cd test/TCK` to move to the TCK folder
-
-3. `dnx test` to run all tests
-
-## Known Issues ##
-
-There is currently a bug where DELETE requests are sent as GET on Linux and Mac OS only, which prevents operations such as deleting documents and drop batches from working. This issue was reported [here](https://github.com/dotnet/corefx/issues/4134). **This bug causes 5 out of 9 tests of the TCK to fail**, on the last stage where all temporary files are deleted.
-.
 
 ## Tutorial ##
 
@@ -236,9 +255,9 @@ namespace TestNuxeoApp
 
 # Resources
 
-## QA
+## Documentation
 
-[![Build Status](https://qa.nuxeo.org/jenkins/buildStatus/icon?job=nuxeo-dotnet-client-master-windows)](https://qa.nuxeo.org/jenkins/job/nuxeo-dotnet-client-master-windows/)
+- http://nuxeo.github.io/nuxeo-dotnet-client/
 
 ## Reporting issues
 
