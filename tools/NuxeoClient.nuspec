@@ -4,12 +4,18 @@
     <id>NuxeoClient</id>
     <version>1.0.0-beta-01230</version>
     <authors>Gabriel Barata</authors>
-    <owners>Nuxeo SA</owners>
-    <licenseUrl>https://raw.githubusercontent.com/nuxeo/nuxeo-dotnet-client/master/LICENSE</licenseUrl>
+    <owners>Nuxeo</owners>
+    <licenseUrl>http://www.gnu.org/licenses/lgpl-2.1.html</licenseUrl>
     <projectUrl>https://github.com/nuxeo/nuxeo-dotnet-client</projectUrl>
     <iconUrl>http://nuxeo.github.io/nuxeo-dotnet-client/logo-small.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>.NET Client for Nuxeo Automation and REST API</description>
+    <description><![CDATA[
+      The Nuxeo .NET Client is a cross-platform client library developed in C# for the Nuxeo Automation and REST API.<br/>
+      <br/>
+      REST API exposes Nuxeo resources endpoints, command endpoints and others features in an extensible and composable way. See <a href="https://doc.nuxeo.com/x/QYLQ">our documentation</a> to see what is possible to do.
+      Automation is a Nuxeo service that exposes common actions you do on a Nuxeo application as atomic operations. See <a href="https://doc.nuxeo.com/x/Go0ZAQ">our documentation</a> to understand how it works.<br/>
+    ]]></description>
+    <summary>The Nuxeo .NET Client is a cross-platform client library developed in C# for the Nuxeo Automation and REST API.</summary>
     <copyright>Copyright 2015</copyright>
     <dependencies>
       <group targetFramework="DNXCore5.0">
