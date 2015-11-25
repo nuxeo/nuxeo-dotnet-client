@@ -83,7 +83,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">Nuxeo .Net Client Documentation</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>The Nuxeo .NET Client is a cross-platform client library developed in C# for the Nuxeo Automation and REST API.</p>
+<div class="textblock"><p><a href="https://qa.nuxeo.org/jenkins/job/nuxeo-dotnet-client-master-windows/">![Build Status](https://qa.nuxeo.org/jenkins/buildStatus/icon?job=nuxeo-dotnet-client-master-windows)</a></p>
+<p>The Nuxeo .NET Client is a cross-platform client library developed in C# for the Nuxeo Automation and REST API.</p>
 <p>Nuxeo .NET Client targets two platforms: <code>net45</code> and <code>dnxcore50</code>. This allows it to be used to develop apps for not only Windows but also Linux and Mac OS. Bellow follows an app/platform compatibility table for the Nuxeo .NET Client library:</p>
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;+------------------------------------+------------+</div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;|                                    | Compatible |</div>
@@ -98,12 +99,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;| Xamarin.Android                    | Yes?       |</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;| Xamarin.iOS                        | Yes?       |</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;+------------------------------------+------------+</div>
-</div><!-- fragment --><h2>Setup</h2>
-<p>In order to run Nuxeo .NET Client, you must have installed the .NET Core DNX SDK, version 1.0.0-beta8 or above, or .NET 4.5 on a Windows setup. Installation instructions follow below:</p>
+</div><!-- fragment --><h1>Building</h1>
+<p>If you are developing for <code>net45</code>, build the NuxeoClient_net45 solution on Visual Studio 2013 (or above).</p>
+<p>If you are developing for <code>dnxcore50</code>, run:</p>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;cd src/NuxeoClient</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;dnu build</div>
+</div><!-- fragment --><h2>Requirements</h2>
+<p>In order to build Nuxeo .NET Client, you must have installed the .NET Core DNX SDK, version 1.0.0-beta8, or .NET 4.5 on a Windows setup.</p>
 <h3>Developing for net45</h3>
 <ul>
 <li>Download and install <a href="https://www.microsoft.com/en-us/download/details.aspx?id=30653">.NET Framework 4.5</a></li>
-<li>Visual Studio 2013 or above required.</li>
+<li>Visual Studio 2013 (or above) required.</li>
 </ul>
 <h3>Developing for dnxcore50</h3>
 <ol type="1">
@@ -137,7 +143,26 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li><em>DotNetVersionManager-x64.msi</em></li>
 <li><em>WebToolsExtensionsVS14.msi</em> for Visual Studio 2015 or <em>WebToolsExtensionsVWD14.msi</em> for Visual Studio 2015 Express</li>
 </ul>
-<h2>Usage</h2>
+<h2>Running the TCK</h2>
+<p>This project includes a Test Compatibility Kit (TCK) covering several tests on the client. In order for the tests to run, there must be an instance of the Nuxeo Server running, loading <em>nuxeo-automation-test-7.10-SNAPSHOT.jar</em>.</p>
+<p>Before building and running the tests, the server's IP address should be updated in the <em>test/TCK/Config.cs</em> file.</p>
+<h3>On Windows</h3>
+<ol type="1">
+<li>Build the version of the TCK you want to test, by either running <code>tools\BuildDnx.ps1</code> or <code>tools\BuildNet45.ps1</code>.</li>
+<li>Run the TCK with <code>tools\TestDnx.ps1</code> or <code>tools\TestNet45.ps1</code></li>
+</ol>
+<h3>On Mac OS or Linux</h3>
+<p>On the solution folder, run:</p>
+<ol type="1">
+<li><code>dnu restore</code> to download all dependencies</li>
+<li><code>cd test/TCK</code> to move to the TCK folder</li>
+<li><code>dnx test</code> to run all tests</li>
+</ol>
+<h2>Limitations</h2>
+<p>There is currently a bug where DELETE requests are sent as GET on Linux and Mac OS only, which prevents operations such as deleting documents and drop batches from working. This issue was reported <a href="https://github.com/dotnet/corefx/issues/4134">here</a>. <b>This bug causes 5 out of 9 tests of the TCK to fail</b>, on the last stage where all temporary files are deleted. </p><h2>QA</h2>
+<p><a href="https://qa.nuxeo.org/jenkins/job/nuxeo-dotnet-client-master-windows/">![Build Status](https://qa.nuxeo.org/jenkins/buildStatus/icon?job=nuxeo-dotnet-client-master-windows)</a></p>
+<h1>Usage</h1>
+<h2>Instructions</h2>
 <h3>1. Include <a class="el" href="namespace_nuxeo_client.html">NuxeoClient</a> in your project</h3>
 <p>On Visual Studio, run on the Package Manager Console: <code>PM&gt; Install-Package <a class="el" href="namespace_nuxeo_client.html">NuxeoClient</a> -Pre</code></p>
 <p>If you are developing for dnxcore50, include <a class="el" href="namespace_nuxeo_client.html">NuxeoClient</a> in your project.json file:</p>
@@ -166,23 +191,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;      .Execute();</div>
 </div><!-- fragment --><p>Please check the tests on <em>test/TCK</em> for more usage examples and the <a href="#tutorial">tutorial</a> and the end of this document.</p>
 <p>A demo app making use of this client is also available <a href="https://github.com/nuxeo/nuxeo-dotnet-browser">here</a>.</p>
-<h2>Running the Tests</h2>
-<p>This project includes a Test Compatibility Kit (TCK) covering several tests on the client. In order for the tests to run, there must be an instance of the Nuxeo Server running, loading <em>nuxeo-automation-test-7.10-SNAPSHOT.jar</em>.</p>
-<p>Before building and running the tests, the server's IP address should be updated in the <em>test/TCK/Config.cs</em> file.</p>
-<h4>On Windows</h4>
-<ol type="1">
-<li>Build the version of the TCK you want to test, by either running <code>tools\BuildDnx.ps1</code> or <code>tools\BuildNet45.ps1</code>.</li>
-<li>Run the TCK with <code>tools\TestDnx.ps1</code> or <code>tools\TestNet45.ps1</code></li>
-</ol>
-<h4>On Mac OS or Linux</h4>
-<p>On the solution folder, run:</p>
-<ol type="1">
-<li><code>dnu restore</code> to download all dependencies</li>
-<li><code>cd test/TCK</code> to move to the TCK folder</li>
-<li><code>dnx test</code> to run all tests</li>
-</ol>
-<h2>Known Issues</h2>
-<p>There is currently a bug where DELETE requests are sent as GET on Linux and Mac OS only, which prevents operations such as deleting documents and drop batches from working. This issue was reported <a href="https://github.com/dotnet/corefx/issues/4134">here</a>. <b>This bug causes 5 out of 9 tests of the TCK to fail</b>, on the last stage where all temporary files are deleted. </p><h2>Tutorial</h2>
+<h2>Tutorial</h2>
 <p>Let's make a quick DNX Console App that creates a folder on the server's root and a child document. This quit tutorial assumes that you have an instance of Nuxeo Server running on your local machine.</p>
 <ul>
 <li>Create a new directory for your project named <em>TestNuxeoApp</em> and <code>cd</code> there</li>
@@ -254,8 +263,22 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- fragment --><ul>
 <li>Restore dependencies by running <code>dnu restore</code></li>
 <li>Run the app by running <code>dnx run</code></li>
-<li>Check the server and verify that the documents were created </li>
+<li>Check the server and verify that the documents were created</li>
 </ul>
+<h1>Resources</h1>
+<h2>Documentation</h2>
+<ul>
+<li><a href="http://nuxeo.github.io/nuxeo-dotnet-client/">http://nuxeo.github.io/nuxeo-dotnet-client/</a></li>
+</ul>
+<h2>Reporting issues</h2>
+<ul>
+<li><a href="https://jira.nuxeo.com/browse/NXP/component/15301/">https://jira.nuxeo.com/browse/NXP/component/15301/</a></li>
+<li><a href="https://jira.nuxeo.com/secure/CreateIssue!default.jspa?project=NXP">https://jira.nuxeo.com/secure/CreateIssue!default.jspa?project=NXP</a></li>
+</ul>
+<h1>Licensing</h1>
+<p><a href="http://www.gnu.org/licenses/lgpl-2.1.html">GNU Lesser General Public License (LGPL) v2.1</a></p>
+<h1>About Nuxeo</h1>
+<p>Nuxeo dramatically improves how content-based applications are built, managed and deployed, making customers more agile, innovative and successful. Nuxeo provides a next generation, enterprise ready platform for building traditional and cutting-edge content oriented applications. Combining a powerful application development environment with SaaS-based tools and a modular architecture, the Nuxeo Platform and Products provide clear business value to some of the most recognizable brands including Verizon, Electronic Arts, Netflix, Sharp, FICO, the U.S. Navy, and Boeing. Nuxeo is headquartered in New York and Paris. More information is available at <a href="http://www.nuxeo.com">www.nuxeo.com</a>. </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
