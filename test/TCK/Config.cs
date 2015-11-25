@@ -14,7 +14,7 @@
  * Contributors:
  *     Gabriel Barata <gbarata@nuxeo.com>
  */
- 
+
 namespace TCK
 {
     public static class Config

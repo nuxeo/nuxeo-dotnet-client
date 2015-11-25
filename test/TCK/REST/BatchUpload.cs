@@ -172,9 +172,9 @@ namespace TCK.REST
 
         public void BatchUploadWithUploader()
         {
-            uploader = client.Uploader().SetChunked(true).SetChunkSize(1048576); // 1MB = 1048576B, 1KB = 1024B
+            uploader = client.Uploader().SetChunked(true).SetChunkSize(1024); // 1KB = 1024B
             Entity result = uploader.AddFile("Test.txt")
-                                      .AddFile("Puppy.rtf")
+                                      .AddFile("Puppy.docx")
                                       .UploadFiles().Result;
             Assert.NotNull(result);
             Assert.True(result is EntityList);

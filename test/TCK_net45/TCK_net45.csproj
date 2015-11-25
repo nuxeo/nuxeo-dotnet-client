@@ -114,10 +114,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\TCK\Puppy.rtf">
-      <Link>Puppy.rtf</Link>
+    <Content Include="..\TCK\Puppy.docx">
+      <Link>Puppy.docx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
     <None Include="app.config" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
