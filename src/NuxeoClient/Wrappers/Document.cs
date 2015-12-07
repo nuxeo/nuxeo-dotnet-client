@@ -182,6 +182,12 @@ namespace NuxeoClient.Wrappers
         public Dictionary<string, string> AdditionalHeaders { get; protected set; }
 
         /// <summary>
+        /// Gets the request timeout-
+        /// </summary>
+        [JsonIgnore]
+        public int Timeout { get; protected set; } = 30;
+
+        /// <summary>
         /// Gets the document's endpoint.
         /// </summary>
         [JsonIgnore]
@@ -330,6 +336,17 @@ namespace NuxeoClient.Wrappers
         public Document RemoveContentEnricher(string enricher)
         {
             ContentEnrichers.Remove(enricher);
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the default reques timeout.
+        /// </summary>
+        /// <param name="timeout">The timeout.</param>
+        /// <returns>The current <see cref="Client"/> instance.</returns>
+        public Document SetTimemout(int timeout)
+        {
+            Timeout = timeout;
             return this;
         }
 
@@ -583,6 +600,7 @@ namespace NuxeoClient.Wrappers
             {
                 headers = new Dictionary<string, string>();
             }
+            headers["Nuxeo-Transaction-Timeout"] = Timeout.ToString();
             if (Schemas != null && Schemas.Count > 0)
             {
                 headers["X-NXDocumentProperties"] = string.Join(",", Schemas);

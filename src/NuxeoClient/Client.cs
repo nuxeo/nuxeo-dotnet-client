@@ -117,6 +117,11 @@ namespace NuxeoClient
         public List<string> DefaultSchemas { get; private set; }
 
         /// <summary>
+        /// Gets the default request timeout.
+        /// </summary>
+        public int Timeout { get; private set; }
+
+        /// <summary>
         /// Gets or sets the object marshaller for the client.
         /// </summary>
         public IMarshaller Marshaller { get; private set; }
@@ -125,11 +130,11 @@ namespace NuxeoClient
         /// Initializes a new instance of the Nuxeo <see cref="Client"/>.
         /// </summary>
         /// <param name="serverURL">The URL of the Nuxeo server.</param>
-        /// <param name="authorization"></param>
-        /// <param name="automationPath"></param>
-        /// <param name="restPath"></param>
-        /// <param name="schemas"></param>
-        /// <param name="timeout"></param>
+        /// <param name="authorization">The authorization credentials.</param>
+        /// <param name="automationPath">The Automation API path.</param>
+        /// <param name="restPath">The REST API path.</param>
+        /// <param name="schemas">The default schemas to be used in the requests.</param>
+        /// <param name="timeout">The default request timeout.</param>
         public Client(string serverURL = "http://localhost:8080/nuxeo/",
                       Authorization authorization = null,
                       string automationPath = "api/v1/automation/",
@@ -142,6 +147,7 @@ namespace NuxeoClient
                 AutomaticDecompression = System.Net.DecompressionMethods.None,
                 AllowAutoRedirect = false
             });
+            SetTimemout(timeout);
             SetServerURL(serverURL);
             SetAuthorization(authorization);
             SetAuthomationPath(automationPath);
@@ -285,6 +291,22 @@ namespace NuxeoClient
         public Client ClearDefaultSchemas()
         {
             DefaultSchemas?.Clear();
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the default reques timeout.
+        /// </summary>
+        /// <param name="timeout">The timeout.</param>
+        /// <returns>The current <see cref="Client"/> instance.</returns>
+        public Client SetTimemout(int timeout)
+        {
+            Timeout = timeout;
+            if (http.DefaultRequestHeaders.Contains("Nuxeo-Transaction-Timeout"))
+            {
+                http.DefaultRequestHeaders.Remove("Nuxeo - Transaction - Timeout");
+            }
+            http.DefaultRequestHeaders.Add("Nuxeo-Transaction-Timeout", Timeout.ToString());
             return this;
         }
 
