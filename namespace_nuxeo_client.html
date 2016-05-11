@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>Nuxeo .Net Client: NuxeoClient Namespace Reference</title>
+<title>NuxeoDotNetClient: NuxeoClient Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -25,7 +25,7 @@
  <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="logo-small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">Nuxeo .Net Client
+   <div id="projectname">NuxeoDotNetClient
    &#160;<span id="projectnumber">1.0.0 beta</span>
    </div>
    <div id="projectbrief">.NET Client for Nuxeo Automation and REST API</div>
@@ -107,6 +107,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_nuxeo_client_1_1_blob.html">Blob</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a blob, that might enclose a whole file or a chunk.  <a href="class_nuxeo_client_1_1_blob.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_nuxeo_client_1_1_client.html">Client</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A client that provides all the methods required to perform Automation operations and REST CRUD operations on an instance of the Nuxeo Server.  <a href="class_nuxeo_client_1_1_client.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_nuxeo_client_1_1_extension_methods.html">ExtensionMethods</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extension methods used by <a class="el" href="namespace_nuxeo_client.html">NuxeoClient</a>.  <a href="class_nuxeo_client_1_1_extension_methods.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -128,9 +131,6 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_nuxeo_client_1_1_operation.html">Operation</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a Nuxeo Automation <a class="el" href="class_nuxeo_client_1_1_operation.html" title="Represents a Nuxeo Automation Operation. ">Operation</a>.  <a href="class_nuxeo_client_1_1_operation.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_nuxeo_client_1_1_query_params.html">QueryParams</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents URL the parameters to be send in a query.  <a href="class_nuxeo_client_1_1_query_params.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_nuxeo_client_1_1_server_exception.html">ServerException</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The exception that is thrown when an instance of the Nuxeo server throws an exception.  <a href="class_nuxeo_client_1_1_server_exception.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -138,10 +138,7 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides a cass for uploading files to a Nuxeo server. Files can be uploaded as a whole or in several chunks.  <a href="class_nuxeo_client_1_1_uploader.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_nuxeo_client_1_1_upload_job.html">UploadJob</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents an upload job, used either by the <a class="el" href="class_nuxeo_client_1_1_uploader.html" title="Provides a cass for uploading files to a Nuxeo server. Files can be uploaded as a whole or in several...">Uploader</a> and the <a class="el" href="class_nuxeo_client_1_1_wrappers_1_1_batch.html" title="Represents a remote batch in the Nuxeo server, to which one ore more files can be uploaded...">Wrappers.Batch</a> classes. And upload job might refer to the upload of a whole file or a chunk of a file.  <a href="class_nuxeo_client_1_1_upload_job.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_nuxeo_client_1_1_url_combiner.html">UrlCombiner</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A simplete URL segment combiner.  <a href="class_nuxeo_client_1_1_url_combiner.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents an upload job, used either by the <a class="el" href="class_nuxeo_client_1_1_uploader.html" title="Provides a cass for uploading files to a Nuxeo server. Files can be uploaded as a whole or in several...">Uploader</a> and the Batch classes. And upload job might refer to the upload of a whole file or a chunk of a file.  <a href="class_nuxeo_client_1_1_upload_job.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_nuxeo_client_1_1_web_proxy.html">WebProxy</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A simple class representing the <a class="el" href="class_nuxeo_client_1_1_web_proxy.html" title="A simple class representing the WebProxy class, which is not yet implemented on the dotnet/corefx pro...">WebProxy</a> class, which is not yet implemented on the <a href="https://github.com/dotnet/corefx">dotnet/corefx</a> project.  <a href="class_nuxeo_client_1_1_web_proxy.html#details">More...</a><br /></td></tr>

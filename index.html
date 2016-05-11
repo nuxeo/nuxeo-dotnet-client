@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>Nuxeo .Net Client: Main Page</title>
+<title>NuxeoDotNetClient: Main Page</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -25,7 +25,7 @@
  <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="logo-small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">Nuxeo .Net Client
+   <div id="projectname">NuxeoDotNetClient
    &#160;<span id="projectnumber">1.0.0 beta</span>
    </div>
    <div id="projectbrief">.NET Client for Nuxeo Automation and REST API</div>
@@ -80,11 +80,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div class="header">
   <div class="headertitle">
-<div class="title">Nuxeo .Net Client Documentation</div>  </div>
+<div class="title">NuxeoDotNetClient Documentation</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a href="https://qa.nuxeo.org/jenkins/job/nuxeo-dotnet-client-master-windows/">![Build Status](https://qa.nuxeo.org/jenkins/buildStatus/icon?job=nuxeo-dotnet-client-master-windows)</a></p>
-<p>The Nuxeo .NET Client is a cross-platform client library developed in C# for the Nuxeo Automation and REST API.</p>
+<div class="textblock"><p>The Nuxeo .NET Client is a cross-platform client library developed in C# for the Nuxeo Automation and REST API.</p>
 <p>Nuxeo .NET Client targets two platforms: <code>net45</code> and <code>dnxcore50</code>. This allows it to be used to develop apps for not only Windows but also Linux and Mac OS. Bellow follows an app/platform compatibility table for the Nuxeo .NET Client library:</p>
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;+------------------------------------+------------+</div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;|                                    | Compatible |</div>
@@ -95,23 +94,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;| DNX Console App (Native &amp; CoreCLR) | Yes        |</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;| Windows 8/8.1 Store APP            | No         |</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;| Windows Phone 8/8.1                | No         |</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;| Universal Windows Platform (UWP)   | No         |</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;| Windows 10 (UWP)                   | No         |</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;| Xamarin.Android                    | Yes?       |</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;| Xamarin.iOS                        | Yes?       |</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;+------------------------------------+------------+</div>
-</div><!-- fragment --><h1>Building</h1>
-<p>If you are developing for <code>net45</code>, build the NuxeoClient_net45 solution on Visual Studio 2013 (or above).</p>
-<p>If you are developing for <code>dnxcore50</code>, run:</p>
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;cd src/NuxeoClient</div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;dnu build</div>
-</div><!-- fragment --><h2>Requirements</h2>
-<p>In order to build Nuxeo .NET Client, you must have installed the .NET Core DNX SDK, version 1.0.0-beta8, or .NET 4.5 on a Windows setup.</p>
-<h3>Developing for net45</h3>
-<ul>
-<li>Download and install <a href="https://www.microsoft.com/en-us/download/details.aspx?id=30653">.NET Framework 4.5</a></li>
-<li>Visual Studio 2013 (or above) required.</li>
-</ul>
-<h3>Developing for dnxcore50</h3>
+</div><!-- fragment --><h2>Setup</h2>
+<p>In order to run Nuxeo .NET Client, you must have installed the .NET Core DNX SDK, version 1.0.0-beta8 or above, or .NET 4.5 on a Windows setup. Installation instructions follow below:</p>
 <ol type="1">
 <li>Install .NET Core:<ul>
 <li><a href="http://dotnet.readthedocs.org/en/latest/getting-started/installing-core-linux.html">Linux instructions</a></li>
@@ -143,29 +131,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li><em>DotNetVersionManager-x64.msi</em></li>
 <li><em>WebToolsExtensionsVS14.msi</em> for Visual Studio 2015 or <em>WebToolsExtensionsVWD14.msi</em> for Visual Studio 2015 Express</li>
 </ul>
-<h2>Running the TCK</h2>
-<p>This project includes a Test Compatibility Kit (TCK) covering several tests on the client. In order for the tests to run, there must be an instance of the Nuxeo Server running, loading <em>nuxeo-automation-test-7.10-SNAPSHOT.jar</em>.</p>
-<p>Before building and running the tests, the server's IP address should be updated in the <em>test/TCK/Config.cs</em> file.</p>
-<h3>On Windows</h3>
-<ol type="1">
-<li>Build the version of the TCK you want to test, by either running <code>tools\BuildDnx.ps1</code> or <code>tools\BuildNet45.ps1</code>.</li>
-<li>Run the TCK with <code>tools\TestDnx.ps1</code> or <code>tools\TestNet45.ps1</code></li>
-</ol>
-<h3>On Mac OS or Linux</h3>
-<p>On the solution folder, run:</p>
-<ol type="1">
-<li><code>dnu restore</code> to download all dependencies</li>
-<li><code>cd test/TCK</code> to move to the TCK folder</li>
-<li><code>dnx test</code> to run all tests</li>
-</ol>
-<h2>Limitations</h2>
-<p>There is currently a bug where DELETE requests are sent as GET on Linux and Mac OS only, which prevents operations such as deleting documents and drop batches from working. This issue was reported <a href="https://github.com/dotnet/corefx/issues/4134">here</a>. <b>This bug causes 5 out of 9 tests of the TCK to fail</b>, on the last stage where all temporary files are deleted. </p><h2>QA</h2>
-<p><a href="https://qa.nuxeo.org/jenkins/job/nuxeo-dotnet-client-master-windows/">![Build Status](https://qa.nuxeo.org/jenkins/buildStatus/icon?job=nuxeo-dotnet-client-master-windows)</a></p>
-<h1>Usage</h1>
-<h2>Instructions</h2>
-<h3>1. Include <a class="el" href="namespace_nuxeo_client.html">NuxeoClient</a> in your project</h3>
-<p>On Visual Studio, run on the Package Manager Console: <code>PM&gt; Install-Package <a class="el" href="namespace_nuxeo_client.html">NuxeoClient</a> -Pre</code></p>
-<p>If you are developing for dnxcore50, include <a class="el" href="namespace_nuxeo_client.html">NuxeoClient</a> in your project.json file:</p>
+<h2>Usage</h2>
+<p>Download the <a class="el" href="namespace_nuxeo_client.html">NuxeoClient</a> <b>nupkg</b> file and install it by running <code>dnu install <a class="el" href="namespace_nuxeo_client.html">NuxeoClient</a> -s &lt;path-to-nupkg-file-parent-folder&gt;</code>.</p>
+<p>Include NuxeClient dependency in your project.json file:</p>
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;{</div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;  ...,</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;  &quot;dependencies&quot;: {</div>
@@ -174,27 +142,49 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;  },</div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;  ...</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;}</div>
-</div><!-- fragment --><p>... and run <code>dnu restore</code>.</p>
-<h3>2. Reference it in the code</h3>
-<p>Reference <em><a class="el" href="namespace_nuxeo_client.html">NuxeoClient</a></em> and <em><a class="el" href="namespace_nuxeo_client_1_1_wrappers.html">NuxeoClient.Wrappers</a></em> namespaces:</p>
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;using NuxeoClient;</div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;using NuxeoClient.Wrappers;</div>
-</div><!-- fragment --><h3>3. Now let's create an instance of <a class="el" href="namespace_nuxeo_client.html">NuxeoClient</a> and use it!</h3>
-<p>Create a new instance of <a class="el" href="namespace_nuxeo_client.html">NuxeoClient</a>:</p>
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;Client client = new Client(); // assuming server running on localhost:8080</div>
+</div><!-- fragment --><p>Reference <em><a class="el" href="namespace_nuxeo_client.html">NuxeoClient</a></em> and <em><a class="el" href="namespace_nuxeo_client_1_1_wrappers.html">NuxeoClient.Wrappers</a></em> namespaces:</p>
+<div class="fragment"><div class="line"><span class="keyword">using</span> <a class="code" href="namespace_nuxeo_client.html">NuxeoClient</a>;</div>
+<div class="line"><span class="keyword">using</span> <a class="code" href="namespace_nuxeo_client.html">NuxeoClient</a>.<a class="code" href="namespace_nuxeo_client_1_1_wrappers.html">Wrappers</a>;</div>
+</div><!-- fragment --><p>Create a new instance of <a class="el" href="namespace_nuxeo_client.html">NuxeoClient</a>:</p>
+<div class="fragment"><div class="line">Client client = <span class="keyword">new</span> Client(); <span class="comment">// server running on localhost:8080</span></div>
 </div><!-- fragment --><p>Create a folder named "Test Folder 1" on the root:</p>
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;client.Operation(&quot;Document.Create&quot;)</div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;      .SetInput(&quot;doc:/&quot;)</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;      .SetParameter(&quot;type&quot;, &quot;Folder&quot;)</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;      .SetParameter(&quot;name&quot;, &quot;TestFolder1&quot;)</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;      .SetParameter(&quot;properties&quot;, new ParamProperties { { &quot;dc:title&quot;, &quot;Test Folder 1&quot; } })</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;      .Execute();</div>
-</div><!-- fragment --><p>Please check the tests on <em>test/TCK</em> for more usage examples and the <a href="#tutorial">tutorial</a> and the end of this document.</p>
-<p>A demo app making use of this client is also available <a href="https://github.com/nuxeo/nuxeo-dotnet-browser">here</a>.</p>
-<h2>Tutorial</h2>
+<div class="fragment"><div class="line">client.Operation(<span class="stringliteral">&quot;Document.Create&quot;</span>)</div>
+<div class="line">      .SetInput(<span class="stringliteral">&quot;doc:/&quot;</span>)</div>
+<div class="line">      .SetParameter(<span class="stringliteral">&quot;type&quot;</span>, <span class="stringliteral">&quot;Folder&quot;</span>)</div>
+<div class="line">      .SetParameter(<span class="stringliteral">&quot;name&quot;</span>, <span class="stringliteral">&quot;TestFolder1&quot;</span>)</div>
+<div class="line">      .SetParameter(<span class="stringliteral">&quot;properties&quot;</span>, <span class="keyword">new</span> ParamProperties { { <span class="stringliteral">&quot;dc:title&quot;</span>, <span class="stringliteral">&quot;Test Folder 1&quot;</span> } })</div>
+<div class="line">      .Execute();</div>
+</div><!-- fragment --><p>If you want to do something with the result, you can either wait for it with a <code>.Execute().Result;</code> or continue the async call with <code>.Execute().ContinueWith(...);</code>.</p>
+<p>Please check the tests on <em>test/TCK</em> for more usage examples and the <a href="#tutorial">tutorial</a> and the end of this document.</p>
+<h2>Running the Tests</h2>
+<p>This project includes a Test Compatibility Kit (TCK) covering several tests on the client. In order for the tests to run, there must be an instance of the Nuxeo Server running, loading <em>nuxeo-automation-test-7.10-SNAPSHOT.jar</em>.</p>
+<p>Before running the tests, the server's ip address should be updated in the <em>test/TCK/config.json</em> file.</p>
+<p>Then, on the solution folder, run:</p>
+<ol type="1">
+<li><code>dnu restore</code> to download all dependencies</li>
+<li><code>cd test/TCK</code> to move to the TCK folder</li>
+</ol>
+<ol type="1">
+<li><code>dnx test</code> to run all tests</li>
+</ol>
+<h4>On Visual Studio 2015</h4>
+<ol type="1">
+<li>Open the solution on Visual Studio</li>
+<li>Show the Test Explorer, if not displayed already: go to <code>Test &gt; Window &gt; Test Explorer</code></li>
+<li>Build solution, which will automatically discover all tests</li>
+<li>On Test Explorer, hit Run All to run all tests</li>
+</ol>
+<p>If any errors are displayed regarding missing dependencies:</p>
+<ol type="1">
+<li>Open the Package Manager Console: <code>Tools &gt; NuGet Package Manager &gt; Package Manager Console</code></li>
+<li>Run <code>dnu restore</code></li>
+</ol>
+<h2>Known Issues</h2>
+<p>There is currently a bug where DELETE requests are sent as GET on Linux and Mac OS only, which prevents operations such as deleting documents and drop batches from working. This issue was reported <a href="https://github.com/dotnet/corefx/issues/4134">here</a>. <b>This bug causes 5 out of 9 tests of the TCK to fail</b>, on the last stage where all temporary files are deleted. </p><h2>Tutorial</h2>
 <p>Let's make a quick DNX Console App that creates a folder on the server's root and a child document. This quit tutorial assumes that you have an instance of Nuxeo Server running on your local machine.</p>
 <ul>
 <li>Create a new directory for your project named <em>TestNuxeoApp</em> and <code>cd</code> there</li>
+<li>Download the <a class="el" href="namespace_nuxeo_client.html">NuxeoClient</a> <b>nupkg</b> file and install it by running <code>dnu install <a class="el" href="namespace_nuxeo_client.html">NuxeoClient</a> -s &lt;path-to-nupkg-file-parent-folder&gt;</code></li>
 <li>Create a new <em>project.json</em> with dependencies to "System.Console" and "NuxeoClient". It should look something like this:</li>
 </ul>
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;{</div>
@@ -219,66 +209,51 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- fragment --><ul>
 <li>Inside the project directory, create a new file named <em>Program.cs</em>. Make it create a new Nuxeo Client, create a folder in the server's root directory named "My Folder", and then a file inside My Folder named "My File". It should look something like this:</li>
 </ul>
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;using System;</div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;using System.Threading.Tasks;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;using NuxeoClient;</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;using NuxeoClient.Wrappers;</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;namespace TestNuxeoApp</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;{</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    public class Program</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    {</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        public static void Main(string[] args)</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        {</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;            // create a new Nuxeo Client, which is a disposable objects</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;            using(var client = new Client())</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;            {</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;                // let&#39;s create an async job that doesn&#39;t block</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;                Task.Run(async () =&gt; {</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;                    // perform an async request to create a folder on the root with the title &quot;My Folder&quot;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;                    Document folder = (Document)await client.Operation(&quot;Document.Create&quot;)</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;                                                            .SetInput(&quot;doc:/&quot;)</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                                                            .SetParameter(&quot;type&quot;, &quot;Folder&quot;)</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;                                                            .SetParameter(&quot;name&quot;, &quot;MyFolder&quot;)</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;                                                            .SetParameter(&quot;properties&quot;, new ParamProperties { { &quot;dc:title&quot;, &quot;My Folder&quot; } })</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                                                            .Execute();</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                    // print the returned folder object if it is not null           </div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                    Console.WriteLine(folder == null ? &quot;Failed to create folder.&quot; : &quot;Created &quot; + folder.Path);</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                    // perform an async request to create a child file named &quot;My File&quot;                      </div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                    Document file = (Document)await folder.Post(new Document {</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                        Type = &quot;File&quot;,</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                        Name = &quot;MyFile&quot;,</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                        Properties = new Properties { { &quot;dc:title&quot;, &quot;My File&quot; } }</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                    });</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                    // print the returned file object if it is not null                    </div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                    Console.WriteLine(file == null ? &quot;Failed to create file.&quot; : &quot;Created &quot; + file.Path);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                }).Wait(); // let&#39;s wait for the task to complete</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            }</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        }</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    }</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;}</div>
+<div class="fragment"><div class="line"><span class="keyword">using</span> <a class="code" href="namespace_system.html">System</a>;</div>
+<div class="line"><span class="keyword">using</span> <a class="code" href="namespace_nuxeo_client.html">NuxeoClient</a>;</div>
+<div class="line"><span class="keyword">using</span> <a class="code" href="namespace_nuxeo_client.html">NuxeoClient</a>.<a class="code" href="namespace_nuxeo_client_1_1_wrappers.html">Wrappers</a>;</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">namespace </span>TestNuxeoApp</div>
+<div class="line">{</div>
+<div class="line">    <span class="keyword">public</span> <span class="keyword">class </span>Program</div>
+<div class="line">    {</div>
+<div class="line">        <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> Main(<span class="keywordtype">string</span>[] args)</div>
+<div class="line">        {</div>
+<div class="line">            <span class="comment">// create a new Nuxeo Client, which is a disposable objects</span></div>
+<div class="line">            <span class="keyword">using</span>(var client = <span class="keyword">new</span> Client())</div>
+<div class="line">            {</div>
+<div class="line">                <span class="comment">// perform an async request to create a folder on the root with the title &quot;My Folder&quot;</span></div>
+<div class="line">                <span class="comment">// let&#39;s wait for it to finish so we can see the prints</span></div>
+<div class="line">                client.Operation(<span class="stringliteral">&quot;Document.Create&quot;</span>)</div>
+<div class="line">                      .SetInput(<span class="stringliteral">&quot;doc:/&quot;</span>)</div>
+<div class="line">                      .SetParameter(<span class="stringliteral">&quot;type&quot;</span>, <span class="stringliteral">&quot;Folder&quot;</span>)</div>
+<div class="line">                      .SetParameter(<span class="stringliteral">&quot;name&quot;</span>, <span class="stringliteral">&quot;MyFolder&quot;</span>)</div>
+<div class="line">                      .SetParameter(<span class="stringliteral">&quot;properties&quot;</span>, <span class="keyword">new</span> ParamProperties { { <span class="stringliteral">&quot;dc:title&quot;</span>, <span class="stringliteral">&quot;My Folder&quot;</span> } })</div>
+<div class="line">                      .Execute().ContinueWith((folderResponse) =&gt; {</div>
+<div class="line">                            Document folder = folderResponse.Result as Document;</div>
+<div class="line">                            <span class="comment">// print the returned folder object if it is not null</span></div>
+<div class="line">                            Console.WriteLine(folder == null ? <span class="stringliteral">&quot;Failed to create folder.&quot;</span> : <span class="stringliteral">&quot;Created &quot;</span> + folder.Path);</div>
+<div class="line">                            <span class="comment">// perform an async request to create a child file named &quot;My File&quot;</span></div>
+<div class="line">                            folder.Create(<span class="keyword">new</span> Document {</div>
+<div class="line">                                Type = <span class="stringliteral">&quot;File&quot;</span>,</div>
+<div class="line">                                Name = <span class="stringliteral">&quot;MyFile&quot;</span>,</div>
+<div class="line">                                Properties = <span class="keyword">new</span> Properties { { <span class="stringliteral">&quot;dc:title&quot;</span>, <span class="stringliteral">&quot;My File&quot;</span> } }</div>
+<div class="line">                            }).ContinueWith((fileResponse) =&gt; {</div>
+<div class="line">                                Document file = fileResponse.Result as Document;</div>
+<div class="line">                                <span class="comment">// print the returned file object if it is not null                    </span></div>
+<div class="line">                                Console.WriteLine(file == null ? <span class="stringliteral">&quot;Failed to create file.&quot;</span> : <span class="stringliteral">&quot;Created &quot;</span> + file.Path);</div>
+<div class="line">                            }).Wait();</div>
+<div class="line">                      }).Wait();</div>
+<div class="line">            }</div>
+<div class="line">        }   </div>
+<div class="line"></div>
+<div class="line">    }</div>
+<div class="line">}</div>
 </div><!-- fragment --><ul>
 <li>Restore dependencies by running <code>dnu restore</code></li>
 <li>Run the app by running <code>dnx run</code></li>
-<li>Check the server and verify that the documents were created</li>
+<li>Check the server and verify that the documents were created </li>
 </ul>
-<h1>Resources</h1>
-<h2>Documentation</h2>
-<ul>
-<li><a href="http://nuxeo.github.io/nuxeo-dotnet-client/">http://nuxeo.github.io/nuxeo-dotnet-client/</a></li>
-</ul>
-<h2>Reporting issues</h2>
-<ul>
-<li><a href="https://jira.nuxeo.com/browse/NXP/component/15301/">https://jira.nuxeo.com/browse/NXP/component/15301/</a></li>
-<li><a href="https://jira.nuxeo.com/secure/CreateIssue!default.jspa?project=NXP">https://jira.nuxeo.com/secure/CreateIssue!default.jspa?project=NXP</a></li>
-</ul>
-<h1>Licensing</h1>
-<p><a href="http://www.gnu.org/licenses/lgpl-2.1.html">GNU Lesser General Public License (LGPL) v2.1</a></p>
-<h1>About Nuxeo</h1>
-<p>Nuxeo dramatically improves how content-based applications are built, managed and deployed, making customers more agile, innovative and successful. Nuxeo provides a next generation, enterprise ready platform for building traditional and cutting-edge content oriented applications. Combining a powerful application development environment with SaaS-based tools and a modular architecture, the Nuxeo Platform and Products provide clear business value to some of the most recognizable brands including Verizon, Electronic Arts, Netflix, Sharp, FICO, the U.S. Navy, and Boeing. Nuxeo is headquartered in New York and Paris. More information is available at <a href="http://www.nuxeo.com">www.nuxeo.com</a>. </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

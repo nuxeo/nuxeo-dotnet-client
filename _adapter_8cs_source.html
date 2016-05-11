@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>Nuxeo .Net Client: C:/Users/Gabriel/Documents/nuxeo-dotnet-client/src/NuxeoClient/Adapters/Adapter.cs Source File</title>
+<title>NuxeoDotNetClient: C:/Users/Gabriel/Documents/nuxeo-dotnet-client/src/NuxeoClient/Adapters/Adapter.cs Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -25,7 +25,7 @@
  <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="logo-small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">Nuxeo .Net Client
+   <div id="projectname">NuxeoDotNetClient
    &#160;<span id="projectnumber">1.0.0 beta</span>
    </div>
    <div id="projectbrief">.NET Client for Nuxeo Automation and REST API</div>
@@ -126,7 +126,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
 <div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="class_nuxeo_client_1_1_adapters_1_1_adapter.html#ae8b5c2a7250b52ba18fbf0f808ac3bce">   54</a></span>&#160;        <span class="keyword">public</span> <span class="keywordtype">string</span> <a class="code" href="class_nuxeo_client_1_1_adapters_1_1_adapter.html#ae8b5c2a7250b52ba18fbf0f808ac3bce">GetEndpointSuffix</a>()</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        {</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            <span class="keywordflow">return</span> <span class="stringliteral">&quot;@&quot;</span> + <a class="code" href="class_nuxeo_client_1_1_url_combiner.html">UrlCombiner</a>.<a class="code" href="class_nuxeo_client_1_1_url_combiner.html#a18d0f6860520846c77620669dd43827d">Combine</a>(Id, (Parameters != <span class="keywordtype">string</span>.Empty ? (Parameters[0] != <span class="charliteral">&#39;?&#39;</span> ? <span class="stringliteral">&quot;/&quot;</span> : <span class="keywordtype">string</span>.Empty) + Parameters : <span class="keywordtype">string</span>.Empty));</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            <span class="keywordflow">return</span> <span class="stringliteral">&quot;@&quot;</span> + Id + (Parameters != <span class="keywordtype">string</span>.Empty ? (Parameters[0] != <span class="charliteral">&#39;?&#39;</span> ? <span class="stringliteral">&quot;/&quot;</span> : <span class="keywordtype">string</span>.Empty) + Parameters : <span class="keywordtype">string</span>.Empty);</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        }</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    }</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;}</div>
@@ -134,8 +134,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="namespace_system_html"><div class="ttname"><a href="namespace_system.html">System</a></div></div>
 <div class="ttc" id="class_nuxeo_client_1_1_adapters_1_1_adapter_html_ae8b5c2a7250b52ba18fbf0f808ac3bce"><div class="ttname"><a href="class_nuxeo_client_1_1_adapters_1_1_adapter.html#ae8b5c2a7250b52ba18fbf0f808ac3bce">NuxeoClient.Adapters.Adapter.GetEndpointSuffix</a></div><div class="ttdeci">string GetEndpointSuffix()</div><div class="ttdoc">Returns the endpoint suffix to the current Adapter, to be appended to other requests. </div><div class="ttdef"><b>Definition:</b> <a href="_adapter_8cs_source.html#l00054">Adapter.cs:54</a></div></div>
 <div class="ttc" id="namespace_nuxeo_client_html"><div class="ttname"><a href="namespace_nuxeo_client.html">NuxeoClient</a></div></div>
-<div class="ttc" id="class_nuxeo_client_1_1_url_combiner_html"><div class="ttname"><a href="class_nuxeo_client_1_1_url_combiner.html">NuxeoClient.UrlCombiner</a></div><div class="ttdoc">A simplete URL segment combiner. </div><div class="ttdef"><b>Definition:</b> <a href="_url_combiner_8cs_source.html#l00025">UrlCombiner.cs:25</a></div></div>
-<div class="ttc" id="class_nuxeo_client_1_1_url_combiner_html_a18d0f6860520846c77620669dd43827d"><div class="ttname"><a href="class_nuxeo_client_1_1_url_combiner.html#a18d0f6860520846c77620669dd43827d">NuxeoClient.UrlCombiner.Combine</a></div><div class="ttdeci">static string Combine(params string[] toCombine)</div><div class="ttdoc">Combines URL segments. </div><div class="ttdef"><b>Definition:</b> <a href="_url_combiner_8cs_source.html#l00032">UrlCombiner.cs:32</a></div></div>
 <div class="ttc" id="class_nuxeo_client_1_1_adapters_1_1_adapter_html"><div class="ttname"><a href="class_nuxeo_client_1_1_adapters_1_1_adapter.html">NuxeoClient.Adapters.Adapter</a></div><div class="ttdoc">Represents a WebAdapter, which transforms an input resource in another resource. An Adapter is applie...</div><div class="ttdef"><b>Definition:</b> <a href="_adapter_8cs_source.html#l00029">Adapter.cs:29</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

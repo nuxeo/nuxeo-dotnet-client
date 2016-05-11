@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>Nuxeo .Net Client: C:/Users/Gabriel/Documents/nuxeo-dotnet-client/src/NuxeoClient/Adapters/BlobAdapter.cs Source File</title>
+<title>NuxeoDotNetClient: C:/Users/Gabriel/Documents/nuxeo-dotnet-client/src/NuxeoClient/Adapters/BlobAdapter.cs Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -25,7 +25,7 @@
  <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="logo-small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">Nuxeo .Net Client
+   <div id="projectname">NuxeoDotNetClient
    &#160;<span id="projectnumber">1.0.0 beta</span>
    </div>
    <div id="projectbrief">.NET Client for Nuxeo Automation and REST API</div>
@@ -115,22 +115,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    {</div>
 <div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="class_nuxeo_client_1_1_adapters_1_1_blob_adapter.html#a1df1e809964700897ea27e7a4194bb4f">   31</a></span>&#160;        <span class="keyword">public</span> <span class="keywordtype">string</span> Xpath { <span class="keyword">get</span>; <span class="keyword">protected</span> set; } = <span class="keywordtype">string</span>.Empty;</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="class_nuxeo_client_1_1_adapters_1_1_blob_adapter.html#ac0e746ba2e20fd7376fda39cff84e42b">   36</a></span>&#160;        <span class="keyword">public</span> <a class="code" href="class_nuxeo_client_1_1_adapters_1_1_blob_adapter.html#ac0e746ba2e20fd7376fda39cff84e42b">BlobAdapter</a>() :</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;            base(<span class="stringliteral">&quot;blob&quot;</span>)</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        { }</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="class_nuxeo_client_1_1_adapters_1_1_blob_adapter.html#a81361bcf6b27ccd0397dfdf1eb4ec222">   45</a></span>&#160;        <span class="keyword">public</span> <a class="code" href="class_nuxeo_client_1_1_adapters_1_1_blob_adapter.html">BlobAdapter</a> <a class="code" href="class_nuxeo_client_1_1_adapters_1_1_blob_adapter.html#a81361bcf6b27ccd0397dfdf1eb4ec222">SetXpath</a>(<span class="keywordtype">string</span> xpath)</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        {</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            Xpath = xpath;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            Parameters = Xpath;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">this</span>;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        }</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    }</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;}</div>
-<div class="ttc" id="class_nuxeo_client_1_1_adapters_1_1_blob_adapter_html_ac0e746ba2e20fd7376fda39cff84e42b"><div class="ttname"><a href="class_nuxeo_client_1_1_adapters_1_1_blob_adapter.html#ac0e746ba2e20fd7376fda39cff84e42b">NuxeoClient.Adapters.BlobAdapter.BlobAdapter</a></div><div class="ttdeci">BlobAdapter()</div><div class="ttdoc">Initializes a new instance of BlobAdapter. </div><div class="ttdef"><b>Definition:</b> <a href="_blob_adapter_8cs_source.html#l00036">BlobAdapter.cs:36</a></div></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keyword">public</span> <a class="code" href="class_nuxeo_client_1_1_adapters_1_1_blob_adapter.html">BlobAdapter</a>() :</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;            base(<span class="stringliteral">&quot;blob&quot;</span>)</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        { }</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="class_nuxeo_client_1_1_adapters_1_1_blob_adapter.html#a81361bcf6b27ccd0397dfdf1eb4ec222">   42</a></span>&#160;        <span class="keyword">public</span> <a class="code" href="class_nuxeo_client_1_1_adapters_1_1_blob_adapter.html">BlobAdapter</a> <a class="code" href="class_nuxeo_client_1_1_adapters_1_1_blob_adapter.html#a81361bcf6b27ccd0397dfdf1eb4ec222">SetXpath</a>(<span class="keywordtype">string</span> xpath)</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        {</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            Xpath = xpath;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            Parameters = Xpath;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">this</span>;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        }</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    }</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;}</div>
 <div class="ttc" id="namespace_nuxeo_client_html"><div class="ttname"><a href="namespace_nuxeo_client.html">NuxeoClient</a></div></div>
 <div class="ttc" id="class_nuxeo_client_1_1_adapters_1_1_adapter_html"><div class="ttname"><a href="class_nuxeo_client_1_1_adapters_1_1_adapter.html">NuxeoClient.Adapters.Adapter</a></div><div class="ttdoc">Represents a WebAdapter, which transforms an input resource in another resource. An Adapter is applie...</div><div class="ttdef"><b>Definition:</b> <a href="_adapter_8cs_source.html#l00029">Adapter.cs:29</a></div></div>
-<div class="ttc" id="class_nuxeo_client_1_1_adapters_1_1_blob_adapter_html_a81361bcf6b27ccd0397dfdf1eb4ec222"><div class="ttname"><a href="class_nuxeo_client_1_1_adapters_1_1_blob_adapter.html#a81361bcf6b27ccd0397dfdf1eb4ec222">NuxeoClient.Adapters.BlobAdapter.SetXpath</a></div><div class="ttdeci">BlobAdapter SetXpath(string xpath)</div><div class="ttdoc">Sets the blob&#39;s Xpath. </div><div class="ttdef"><b>Definition:</b> <a href="_blob_adapter_8cs_source.html#l00045">BlobAdapter.cs:45</a></div></div>
+<div class="ttc" id="class_nuxeo_client_1_1_adapters_1_1_blob_adapter_html_a81361bcf6b27ccd0397dfdf1eb4ec222"><div class="ttname"><a href="class_nuxeo_client_1_1_adapters_1_1_blob_adapter.html#a81361bcf6b27ccd0397dfdf1eb4ec222">NuxeoClient.Adapters.BlobAdapter.SetXpath</a></div><div class="ttdeci">BlobAdapter SetXpath(string xpath)</div><div class="ttdoc">Sets the blob&#39;s Xpath. </div><div class="ttdef"><b>Definition:</b> <a href="_blob_adapter_8cs_source.html#l00042">BlobAdapter.cs:42</a></div></div>
 <div class="ttc" id="class_nuxeo_client_1_1_adapters_1_1_blob_adapter_html"><div class="ttname"><a href="class_nuxeo_client_1_1_adapters_1_1_blob_adapter.html">NuxeoClient.Adapters.BlobAdapter</a></div><div class="ttdoc">Represents a Blob Adapter that returns blob corresponding to the Document attribute matching the Xpat...</div><div class="ttdef"><b>Definition:</b> <a href="_blob_adapter_8cs_source.html#l00026">BlobAdapter.cs:26</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
