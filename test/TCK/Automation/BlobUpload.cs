@@ -18,6 +18,7 @@
 using NuxeoClient;
 using NuxeoClient.Wrappers;
 using System;
+using System.Text;
 using Xunit;
 
 namespace TCK.Automation
@@ -26,59 +27,67 @@ namespace TCK.Automation
     {
         private Client client;
 
+        private Document blobsFolder;
+
+        private Document blobContainer;
+
         public BlobUpload()
         {
             client = new Client(Config.ServerUrl());
             client.AddDefaultSchema("dublincore");
-        }
 
-        [Fact]
-        public void TestBlobUpload()
-        {
-            CreateFolderOnRoot();
-            UploadBlobTxt();
-            UploadBlobBin();
-            VerifyChildren();
-            CreateDocument();
-            AttachBlob();
-            DeleteParent();
-        }
-
-        public void CreateFolderOnRoot()
-        {
-            Document blobsFolder = (Document)client.Operation("Document.Create")
+            // populate
+            blobsFolder = (Document)client.Operation("Document.Create")
                                                    .SetInput("doc:/")
                                                    .SetParameter("type", "Folder")
                                                    .SetParameter("name", "TestBlobs")
-                                                   .SetParameter("properties", new ParamProperties { { "dc:title", "Test Blobs" } })
+                                                   .SetParameter("properties", new ParamProperties { { "dc:title", "Blob Operations" } })
                                                    .Execute()
                                                    .Result;
-            Assert.NotNull(blobsFolder);
-            Assert.Equal("/TestBlobs", blobsFolder.Path);
+
+            blobContainer = (Document)client.Operation("Document.Create")
+                                            .SetInput("doc:" + blobsFolder.Path)
+                                            .SetParameter("type", "File")
+                                            .SetParameter("name", "MyFileWithPics")
+                                            .SetParameter("properties", new ParamProperties { { "dc:title", "My File With Pics" } })
+                                            .Execute()
+                                            .Result;
+        }
+
+        [Fact]
+        public void TestBlobOperations()
+        {
+            UploadBlobTxt();
+            UploadBlobBin();
+            VerifyChildren();
+            AttachBlobs();
+            GetBlobs();
         }
 
         public void UploadBlobTxt()
         {
-            Blob blob = new Blob("testText.txt").SetContent("Some content in play text.");
+            Blob blob = new Blob(IOHelper.CreateTempFile("Some content in play text.")).SetFilename("testText.txt");
             Document document = (Document)client.Operation("FileManager.Import")
                                                 .SetInput(blob)
-                                                .SetContext("currentDocument", "/TestBlobs")
+                                                .SetContext("currentDocument", blobsFolder.Path)
                                                 .Execute()
                                                 .Result;
             Assert.NotNull(document);
             Assert.Equal("Note", document.Type);
+            Assert.Equal("testText.txt", document.Title);
         }
 
         public void UploadBlobBin()
         {
-            Blob blob = new Blob("testBin.dll").SetContent("Some content that should be binary.");
+            Blob blob = Blob.FromFile("Puppy.docx");
             Document document = (Document)client.Operation("FileManager.Import")
                                                 .SetInput(blob)
-                                                .SetContext("currentDocument", "/TestBlobs")
+                                                .SetContext("currentDocument", blobsFolder.Path)
                                                 .Execute()
                                                 .Result;
             Assert.NotNull(document);
             Assert.Equal("File", document.Type);
+            Assert.Equal("Puppy.docx", document.Title);
         }
 
         public void VerifyChildren()
@@ -89,50 +98,59 @@ namespace TCK.Automation
                                            .Execute()
                                            .Result;
             Assert.NotNull(documents);
-            Assert.Equal(2, documents.Entries.Count);
+            Assert.Equal(3, documents.Entries.Count);
         }
 
-        public void CreateDocument()
+        public void AttachBlobs()
         {
-            string parentPath = "/TestBlobs";
-            Document document = (Document)client.Operation("Document.Create")
-                                                .SetInput("doc:" + parentPath)
-                                                .SetParameter("type", "File")
-                                                .SetParameter("name", "TestDoc")
-                                                .SetParameter("properties", new ParamProperties { { "dc:title", "Document with Attachment" } })
-                                                .Execute()
-                                                .Result;
-            Assert.NotNull(document);
-            Assert.Equal(parentPath + "/TestDoc", document.Path);
-            Assert.Equal("Document with Attachment", document.Title);
+            Blob blob = new Blob(IOHelper.CreateTempFile("This is just a note.")).SetFilename("note1.txt");
+            Entity result = client.Operation("Blob.Attach")
+                                  .SetInput(blob)
+                                  .SetParameter("document", blobContainer.Path)
+                                  .Execute()
+                                  .Result;
+            Assert.True(result is Blob);
+            Assert.Equal("This is just a note.", IOHelper.ReadText(((Blob)result).File));
+
+            BlobList blobs = new BlobList();
+            blobs.Add(new Blob(IOHelper.CreateTempFile("This is another note.")).SetFilename("note2.txt"));
+            blobs.Add(Blob.FromFile("Puppy.docx"));
+
+            result = client.Operation("Blob.Attach")
+                           .SetInput(blobs)
+                           .SetParameter("document", blobContainer.Path)
+                           .SetParameter("xpath", "files:files")
+                           .Execute()
+                           .Result;
+            Assert.True(result is BlobList);
+            Assert.Equal(2, blobs.Count);
+            Assert.Equal("This is another note.", IOHelper.ReadText(blobs[0].File));
+            Assert.True(IOHelper.AreFilesEqual("Puppy.docx", blobs[1].File.FullName));
         }
 
-        public void AttachBlob()
+        public void GetBlobs()
         {
-            string parentPath = "/TestBlobs/TestDoc";
-            Blob blob = new Blob("attachment.txt").SetContent("Just an attachment.");
-            Entity content = client.Operation("Blob.Attach")
-                                     .SetInput(blob)
-                                     .SetParameter("document", parentPath)
-                                     .SetParameter("save", "true")
-                                     .SetParameter("xpath", "file:content")
-                                     .Execute()
-                                     .Result;
-            Assert.Null(content);
-        }
+            Entity entity = client.Operation("Blob.Get")
+                                  .SetInput("doc:" + blobContainer.Path)
+                                  .Execute()
+                                  .Result;
+            Assert.True(entity is Blob);
+            Assert.Equal("This is just a note.", IOHelper.ReadText(((Blob)entity).File));
 
-        public void DeleteParent()
-        {
-            string parentPath = "/TestBlobs";
-            Entity shouldBeNull = client.Operation("Document.Delete")
-                                       .SetInput(parentPath)
-                                       .Execute()
-                                       .Result;
-            Assert.Null(shouldBeNull);
+            entity = client.Operation("Blob.GetList")
+                           .SetInput("doc:" + blobContainer.Path)
+                           .Execute()
+                           .Result;
+            Assert.True(entity is BlobList);
+            BlobList blobs = (BlobList)entity;
+            Assert.Equal(2, blobs.Count);
+            Assert.Equal("This is another note.", IOHelper.ReadText(blobs[0].File));
+            Assert.True(IOHelper.AreFilesEqual("Puppy.docx", blobs[1].File.FullName));
         }
 
         public void Dispose()
         {
+            client.Operation("Document.Delete").SetInput("doc:" + blobContainer.ParentRef).Execute().Wait();
             client.Dispose();
         }
     }

@@ -46,43 +46,51 @@ namespace TCK.REST
 
         public void FetchDomain()
         {
-            Document document = (Document)client.DocumentFromPath("/default-domain").Get().Result;
-            Assert.NotNull(document);
-            Assert.Equal("/default-domain", document.Path);
+            Entity entity = client.DocumentFromPath("/default-domain").Get().Result;
+            Assert.NotNull(entity);
+            Assert.True(entity is Document);
+            Assert.Equal("/default-domain", ((Document)entity).Path);
         }
 
         public void FetchNonExistent()
         {
-            Document document = (Document)client.DocumentFromPath("/non-existing").Get().Result;
-            Assert.Null(document);
+            AggregateException ex = Assert.Throws<AggregateException>(() =>
+            {
+                client.DocumentFromPath("/non-existing").Get().Wait();
+            });
+            Assert.True(ex.InnerException is ClientErrorException);
+            Assert.Equal(404, (int)((ClientErrorException)ex.InnerException).StatusCode);
         }
 
         public void CreateFolder()
         {
-            Document document = (Document)client.DocumentFromPath("/").Post(new Document
+            Entity entity = client.DocumentFromPath("/").Post(new Document
             {
                 Type = "Folder",
                 Name = "folder",
                 Properties = new Properties { { "dc:title", "A Folder" } }
             }).Result;
-            Assert.NotNull(document);
+            Assert.NotNull(entity);
+            Assert.True(entity is Document);
+            Document document = (Document)entity;
             Assert.Equal("/folder", document.Path);
             Assert.Equal("A Folder", document.Title);
         }
 
         public void UpdateFolder()
         {
-            Document document = (Document)client.DocumentFromPath("/folder").Put(new Document
+            Entity entity = client.DocumentFromPath("/folder").Put(new Document
             {
                 Properties = new Properties { { "dc:title", "new title" } }
             }).Result;
-            Assert.NotNull(document);
-            Assert.Equal("new title", document.Title);
+            Assert.NotNull(entity);
+            Assert.True(entity is Document);
+            Assert.Equal("new title", ((Document)entity).Title);
         }
 
         public void DeleteFolder()
         {
-            Document shouldBeNull = (Document)client.DocumentFromPath("/folder").Delete().Result;
+            Entity shouldBeNull = client.DocumentFromPath("/folder").Delete().Result;
             Assert.Null(shouldBeNull);
         }
 

@@ -1,5 +1,5 @@
 ﻿/*
- * (C) Copyright 2015-2016 Nuxeo SA (http://nuxeo.com/) and others.
+ * (C) Copyright 2016 Nuxeo SA (http://nuxeo.com/) and others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,20 +17,26 @@
  *     Gabriel Barata <gbarata@nuxeo.com>
  */
 
-namespace NuxeoClient.Adapters
+using System.Collections.Generic;
+
+namespace NuxeoClient.Wrappers
 {
     /// <summary>
-    /// Represents a Children Adapter, which returns the children of the target <see cref="Wrappers.Document"/>.
+    /// Represents a list of Blobs.
     /// </summary>
-    /// <remarks>For more details about Adapters, check
-    /// <a href="https://doc.nuxeo.com/display/NXDOC/Web+Adapters+for+the+REST+API">Nuxeo Documentation Page</a>.</remarks>
-    public class ChildrenAdapter : Adapter
+    public class BlobList : EntityList<Blob>
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="ChildrenAdapter"/>.
+        /// Initializes a new instance of <see cref="BlobList"/>.
         /// </summary>
-        public ChildrenAdapter() :
-            base("children")
-        { }
+        public BlobList() : base() { }
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="BlobList"/>.
+        /// </summary>
+        /// <param name="blobs">A list of <see cref="Blob"/> to be included.</param>
+        public BlobList(List<Blob> blobs) : base(blobs)
+        {
+        }
     }
 }

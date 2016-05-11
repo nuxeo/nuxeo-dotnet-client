@@ -1,22 +1,26 @@
 ﻿/*
- * (C) Copyright 2015 Nuxeo SA (http://nuxeo.com/) and others.
+ * (C) Copyright 2015-2016 Nuxeo SA (http://nuxeo.com/) and others.
  *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser General Public License
- * (LGPL) version 2.1 which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-2.1.html
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  *
  * Contributors:
  *     Gabriel Barata <gbarata@nuxeo.com>
  */
 
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace NuxeoClient.Wrappers
@@ -75,39 +79,50 @@ namespace NuxeoClient.Wrappers
         }
 
         /// <summary>
-        /// Executes a non-chnked <see cref="UploadJob"/>.
+        /// Executes a an <see cref="UploadJob"/>.
         /// </summary>
         /// <param name="job">The <see cref="UploadJob"/> to be executed.</param>
         /// <returns>A new and updated <see cref="Batch"/> instance of the current batch.</returns>
         public async Task<Batch> Upload(UploadJob job)
         {
-            return (Batch)await client.PostBin(UrlCombiner.Combine(Endpoint, job.FileId.ToString()),
+            if (job.IsChunked)
+            {
+                int readBytes, currentChunk = 0, chunkCount = (int)Math.Ceiling((double)job.Blob.File.Length / job.ChunkSize);
+                byte[] buffer = new byte[job.ChunkSize];
+                Batch batch = null;
+                using (FileStream fs = job.Blob.File.OpenRead())
+                {
+                    while ((readBytes = fs.Read(buffer, 0, buffer.Length)) > 0)
+                    {
+                        batch = (Batch)await client.PostBin(UrlCombiner.Combine(Endpoint, job.FileId.ToString()),
                                                 null,
-                                                job.Blob.Content,
+                                                buffer,
+                                                new Dictionary<string, string>() {
+                                                { "X-Upload-Type", "chunked" },
+                                                { "X-Upload-Chunk-Index", currentChunk.ToString() },
+                                                { "X-Upload-Chunk-Count", chunkCount.ToString() },
+                                                { "X-File-Name", job.Blob.Filename },
+                                                { "X-File-Type", job.Blob.MimeType },
+                                                { "X-File-Size", job.Blob.File.Length.ToString() }
+                                                });
+                        currentChunk++;
+                    }
+                }
+                return batch;
+            }
+            else
+            {
+                using (FileStream fs = job.Blob.File.OpenRead())
+                {
+                    return (Batch)await client.PostBin(UrlCombiner.Combine(Endpoint, job.FileId.ToString()),
+                                                null,
+                                                fs.ReadToEnd(),
                                                 new Dictionary<string, string>() {
                                                     { "X-File-Name", job.Blob.Filename },
                                                     { "X-File-Type", job.Blob.MimeType }
                                                 });
-        }
-
-        /// <summary>
-        /// Executes a chunked <see cref="UploadJob"/>.
-        /// </summary>
-        /// <param name="job">The <see cref="UploadJob"/> to be executed.</param>
-        /// <returns>A new and updated <see cref="Batch"/> instance of the current batch.</returns>
-        public async Task<Batch> UploadChunk(UploadJob job)
-        {
-            return (Batch)await client.PostBin(UrlCombiner.Combine(Endpoint, job.FileId.ToString()),
-                                            null,
-                                            job.Blob.Content,
-                                            new Dictionary<string, string>() {
-                                                { "X-Upload-Type", "chunked" },
-                                                { "X-Upload-Chunk-Index", job.ChunkIndex.ToString() },
-                                                { "X-Upload-Chunk-Count", job.ChunkCount.ToString() },
-                                                { "X-File-Name", job.Blob.Filename },
-                                                { "X-File-Type", job.Blob.MimeType },
-                                                { "X-File-Size", job.Blob.Content.Length.ToString() }
-                                            });
+                }
+            }
         }
 
         /// <summary>
@@ -122,10 +137,10 @@ namespace NuxeoClient.Wrappers
         /// <summary>
         /// Requests information regarding all the files uploaded so far.
         /// </summary>
-        /// <returns>A <see cref="EntityList"/> containing an instance of <see cref="BatchFile"/> per uploaded file.</returns>
-        public async Task<EntityList> Info()
+        /// <returns>A <see cref="EntityList{T}"/> containing an instance of <see cref="BatchFile"/> per uploaded file.</returns>
+        public async Task<EntityList<Entity>> Info()
         {
-            return (EntityList)await client.Get(Endpoint);
+            return (EntityList<Entity>)await client.Get(Endpoint);
         }
 
         /// <summary>

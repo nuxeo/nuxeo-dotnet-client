@@ -26,51 +26,43 @@ namespace TCK.Automation
     {
         private Client client;
 
+        private Document paginationRoot;
+
         public Pagination()
         {
             client = new Client(Config.ServerUrl());
             client.AddDefaultSchema("dublincore");
-        }
 
-        public Document rootPagination;
-
-        [Fact]
-        public void TestPagination()
-        {
-            CreateFolderOnRoot();
-            CreateChild("1");
-            CreateChild("2");
-            CreateChild("3");
-            QueryPage1();
-            QueryPage2();
-            DeleteParent();
-        }
-
-        public void CreateFolderOnRoot()
-        {
-            Document testFolder2 = (Document)client.Operation("Document.Create")
+            // populate
+            paginationRoot = (Document)client.Operation("Document.Create")
                                                    .SetInput("doc:/")
                                                    .SetParameter("type", "Folder")
                                                    .SetParameter("name", "TestFolder2")
                                                    .SetParameter("properties", new ParamProperties { { "dc:title", "Test Folder 2" } })
                                                    .Execute()
                                                    .Result;
-            Assert.NotNull(testFolder2);
-            Assert.Equal("/TestFolder2", testFolder2.Path);
-            rootPagination = testFolder2;
+
+            CreateChild("1");
+            CreateChild("2");
+            CreateChild("3");
         }
 
-        public void CreateChild(string id)
+        private void CreateChild(string id)
         {
-            string parentPath = "/TestFolder2";
             Document child = (Document)client.Operation("Document.Create")
-                                             .SetInput("doc:" + parentPath)
+                                             .SetInput("doc:" + paginationRoot.Path)
                                              .SetParameter("type", "File")
                                              .SetParameter("name", "TestFile" + id)
                                              .SetParameter("properties", new ParamProperties { { "dc:title", "Test File " + id } })
                                              .Execute()
                                              .Result;
-            Assert.NotNull(child);
+        }
+
+        [Fact]
+        public void TestPagination()
+        {
+            QueryPage1();
+            QueryPage2();
         }
 
         public void QueryPage1()
@@ -79,7 +71,7 @@ namespace TCK.Automation
                                             .SetParameter("query", "select * from Document where ecm:parentId = ?")
                                             .SetParameter("pageSize", "2")
                                             .SetParameter("page", "0")
-                                            .SetParameter("queryParams", rootPagination.Uid)
+                                            .SetParameter("queryParams", paginationRoot.Uid)
                                             .Execute()
                                             .Result;
             Assert.NotNull(page);
@@ -95,7 +87,7 @@ namespace TCK.Automation
                                     .SetParameter("query", "select * from Document where ecm:parentId = ?")
                                     .SetParameter("pageSize", "2")
                                     .SetParameter("page", "1")
-                                    .SetParameter("queryParams", rootPagination.Uid)
+                                    .SetParameter("queryParams", paginationRoot.Uid)
                                     .Execute()
                                     .Result;
             Assert.NotNull(page);
@@ -105,18 +97,12 @@ namespace TCK.Automation
             Assert.Equal(1, page.Entries.Count);
         }
 
-        public void DeleteParent()
-        {
-            string parentPath = "/TestFolder2";
-            Entity shouldBeNull = client.Operation("Document.Delete")
-                                       .SetInput("doc:" + parentPath)
-                                       .Execute()
-                                       .Result;
-            Assert.Null(shouldBeNull);
-        }
-
         public void Dispose()
         {
+            client.Operation("Document.Delete")
+                  .SetInput("doc:" + paginationRoot.Path)
+                  .Execute()
+                  .Wait();
             client.Dispose();
         }
     }

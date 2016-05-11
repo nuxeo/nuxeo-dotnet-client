@@ -1,15 +1,17 @@
 ﻿/*
- * (C) Copyright 2015 Nuxeo SA (http://nuxeo.com/) and others.
+ * (C) Copyright 2016 Nuxeo SA (http://nuxeo.com/) and others.
  *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser General Public License
- * (LGPL) version 2.1 which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-2.1.html
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  *
  * Contributors:
  *     Gabriel Barata <gbarata@nuxeo.com>
@@ -22,41 +24,41 @@ namespace NuxeoClient
 {
     /// <summary>
     /// The exception that is thrown when an instance of the Nuxeo
-    /// server throws an exception.
+    /// server throws a client error, with status code between 400 and 499.
     /// </summary>
-    public class ServerException : Exception
+    public class ClientErrorException : Exception
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="ServerException"/>
+        /// Initializes a new instance of <see cref="ClientErrorException"/>
         /// with an empty message.
         /// </summary>
         public HttpStatusCode StatusCode { get; protected set; }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ServerException"/>
+        /// Initializes a new instance of <see cref="ClientErrorException"/>
         ///  with its response status code set to <paramref name="statusCode"/>.
         /// </summary>
         /// <param name="statusCode">The server's response status code.</param>
-        public ServerException(HttpStatusCode statusCode)
+        public ClientErrorException(HttpStatusCode statusCode)
         {
             StatusCode = statusCode;
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ServerException"/> with
+        /// Initializes a new instance of <see cref="ClientErrorException"/> with
         /// its response /// status code set to <paramref name="statusCode"/> and
         /// its message set to <paramref name="message"/>.
         /// </summary>
         /// <param name="statusCode">The server's response status code.</param>
         /// <param name="message">The exception message.</param>
-        public ServerException(HttpStatusCode statusCode, string message)
+        public ClientErrorException(HttpStatusCode statusCode, string message)
         : base(message)
         {
             StatusCode = statusCode;
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ServerException"/> with
+        /// Initializes a new instance of <see cref="ClientErrorException"/> with
         /// its response status code set to <paramref name="statusCode"/>, its
         /// message set to <paramref name="message"/>, and with its inner exception
         /// set to <paramref name="inner"/>.
@@ -64,7 +66,7 @@ namespace NuxeoClient
         /// <param name="statusCode">The server's response status code.</param>
         /// <param name="message">The exception message.</param>
         /// <param name="inner">The inner excepiton.</param>
-        public ServerException(HttpStatusCode statusCode, string message, Exception inner)
+        public ClientErrorException(HttpStatusCode statusCode, string message, Exception inner)
         : base(message, inner)
         {
             StatusCode = statusCode;

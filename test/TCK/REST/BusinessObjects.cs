@@ -34,28 +34,21 @@ namespace TCK.REST
         {
             client = new Client(Config.ServerUrl());
             client.AddDefaultSchema("dublincore");
-        }
 
-        [Fact]
-        public void TestBusinessObjects()
-        {
-            CreateFile();
-            CreateBO();
-            UpdateBO();
-            DeleteFile();
-        }
-
-        public void CreateFile()
-        {
+            // populate
             document = (Document)client.DocumentFromPath("/").Post(new Document
             {
                 Type = "Folder",
                 Name = "bofolder",
                 Properties = new Properties { { "dc:title", "Just a folder" } }
             }).Result;
-            Assert.NotNull(document);
-            Assert.Equal("/bofolder", document.Path);
-            Assert.Equal("Just a folder", document.Title);
+        }
+
+        [Fact]
+        public void TestBusinessObjects()
+        {
+            CreateBO();
+            UpdateBO();
         }
 
         public void CreateBO()
@@ -77,14 +70,9 @@ namespace TCK.REST
             Assert.Equal("My new description", note.Description);
         }
 
-        public void DeleteFile()
-        {
-            Document result = (Document)document.SetAdapter(null).Delete().Result;
-            Assert.Null(result);
-        }
-
         public void Dispose()
         {
+            document.SetAdapter(null).Delete().Wait();
             client.Dispose();
         }
     }

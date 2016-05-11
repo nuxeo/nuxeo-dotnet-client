@@ -1,19 +1,23 @@
 ﻿/*
- * (C) Copyright 2015 Nuxeo SA (http://nuxeo.com/) and others.
+ * (C) Copyright 2015-2016 Nuxeo SA (http://nuxeo.com/) and others.
  *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser General Public License
- * (LGPL) version 2.1 which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-2.1.html
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  *
  * Contributors:
  *     Gabriel Barata <gbarata@nuxeo.com>
  */
+
+using NuxeoClient.Wrappers;
 
 namespace NuxeoClient
 {
@@ -35,14 +39,14 @@ namespace NuxeoClient
         public int FileId { get; protected set; } = 0;
 
         /// <summary>
-        /// Gets the index of the chunk to upload.
+        /// Gets whether the upload should be performed in chunks or not.
         /// </summary>
-        public int ChunkIndex { get; protected set; } = 0;
+        public bool IsChunked { get; private set; } = false;
 
         /// <summary>
-        /// Gets the total amount of chunks to upload;
+        /// Gets the chunk size in bytes.
         /// </summary>
-        public int ChunkCount { get; protected set; } = 1;
+        public int ChunkSize { get; private set; } = 1024;
 
         /// <summary>
         /// Creates a new <see cref="UploadJob"/> for the supplied <paramref name="blob"/>.
@@ -65,24 +69,24 @@ namespace NuxeoClient
         }
 
         /// <summary>
-        /// Sets the index of the chunk to upload.
+        /// Sets whether the file should be uploaded in chunks or not.
         /// </summary>
-        /// <param name="chunkIndex"></param>
+        /// <param name="isChunked">A boolean that should be <c>true</c> if the upload is to be in chunks, or <c>false</c> otherwise.</param>
         /// <returns>The current <see cref="UploadJob"/> instance.</returns>
-        public UploadJob SetChunkIndex(int chunkIndex)
+        public UploadJob SetChunked(bool isChunked)
         {
-            ChunkIndex = chunkIndex;
+            IsChunked = isChunked;
             return this;
         }
 
         /// <summary>
-        /// Sets the number of total chunks to upload.
+        /// Sets the chunk size.
         /// </summary>
-        /// <param name="chunkCount"></param>
+        /// <param name="size">Chunk size in bytes.</param>
         /// <returns>The current <see cref="UploadJob"/> instance.</returns>
-        public UploadJob SetChunkCount(int chunkCount)
+        public UploadJob SetChunkSize(int size)
         {
-            ChunkCount = chunkCount;
+            ChunkSize = size;
             return this;
         }
 
@@ -92,7 +96,7 @@ namespace NuxeoClient
         /// <returns>A string representation of the current <see cref="UploadJob"/> object.</returns>
         public override string ToString()
         {
-            return "Filename: " + Blob.Filename + ", FileId: " + FileId + ", ChunkIndex: " + ChunkIndex + ", ChunkCount: " + ChunkCount;
+            return "Filename: " + Blob.Filename + ", FileId: " + FileId;
         }
     }
 }

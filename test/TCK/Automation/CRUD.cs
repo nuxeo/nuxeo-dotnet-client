@@ -27,6 +27,12 @@ namespace TCK.Automation
     {
         private Client client;
 
+        private Document testFolder;
+
+        private Document firstChild;
+
+        private Document secondChild;
+
         public CRUD()
         {
             client = new Client(Config.ServerUrl());
@@ -46,59 +52,64 @@ namespace TCK.Automation
 
         public void CreateFolderOnRoot()
         {
-            Document testFolder1 = (Document)client.Operation("Document.Create")
-                                                   .SetInput("doc:/")
-                                                   .SetParameter("type", "Folder")
-                                                   .SetParameter("name", "TestFolder1")
-                                                   .SetParameter("properties", new ParamProperties { { "dc:title", "Test Folder 1" } })
-                                                   .Execute()
-                                                   .Result;
-            Assert.NotNull(testFolder1);
-            Assert.Equal("/TestFolder1", testFolder1.Path);
-            Assert.Equal("Test Folder 1", testFolder1.Title);
+            Entity doc = client.Operation("Document.Create")
+                               .SetInput("doc:/")
+                               .SetParameter("type", "Folder")
+                               .SetParameter("name", "TestFolder1")
+                               .SetParameter("properties", new ParamProperties { { "dc:title", "Test Folder 1" } })
+                               .Execute()
+                               .Result;
+            Assert.NotNull(doc);
+            Assert.True(doc is Document);
+            testFolder = (Document)doc;
+            Assert.Equal("/TestFolder1", testFolder.Path);
+            Assert.Equal("Test Folder 1", testFolder.Title);
         }
 
         public void CreateFirstChild()
         {
-            string parentPath = "/TestFolder1";
-            Document firstChild = (Document)client.Operation("Document.Create")
-                                                  .SetInput("doc:" + parentPath)
-                                                  .SetParameter("type", "File")
-                                                  .SetParameter("name", "TestFile1")
-                                                  .SetParameter("properties", new ParamProperties { { "dc:title", "Test File 1" } })
-                                                  .Execute()
-                                                  .Result;
-            Assert.NotNull(firstChild);
-            Assert.Equal(parentPath + "/TestFile1", firstChild.Path);
+            Entity doc = client.Operation("Document.Create")
+                               .SetInput("doc:" + testFolder.Path)
+                               .SetParameter("type", "File")
+                               .SetParameter("name", "TestFile1")
+                               .SetParameter("properties", new ParamProperties { { "dc:title", "Test File 1" } })
+                               .Execute()
+                               .Result;
+            Assert.NotNull(doc);
+            Assert.True(doc is Document);
+            firstChild = (Document)doc;
+            Assert.Equal(testFolder.Path + "/TestFile1", firstChild.Path);
             Assert.Equal("Test File 1", firstChild.Title);
         }
 
         public void CreateSecondChild()
         {
-            string parentPath = "/TestFolder1";
-            Document secondChild = (Document)client.Operation("Document.Create")
-                                                   .SetInput("doc:" + parentPath)
-                                                   .SetParameter("type", "File")
-                                                   .SetParameter("name", "TestFile2")
-                                                   .SetParameter("properties", new ParamProperties { { "dc:title", "Test File 2" } })
-                                                   .Execute()
-                                                   .Result;
-            Assert.NotNull(secondChild);
-            Assert.Equal(parentPath + "/TestFile2", secondChild.Path);
+            Entity doc = client.Operation("Document.Create")
+                               .SetInput("doc:" + testFolder.Path)
+                               .SetParameter("type", "File")
+                               .SetParameter("name", "TestFile2")
+                               .SetParameter("properties", new ParamProperties { { "dc:title", "Test File 2" } })
+                               .Execute()
+                               .Result;
+            Assert.NotNull(doc);
+            Assert.True(doc is Document);
+            secondChild = (Document)doc;
+            Assert.Equal(testFolder.Path + "/TestFile2", secondChild.Path);
             Assert.Equal("Test File 2", secondChild.Title);
         }
 
         public void UpdateSecondChild()
         {
-            string secondChildPath = "/TestFolder1/TestFile2"; ;
-            Document secondChild = (Document)client.Operation("Document.Update")
-                                                   .SetInput("doc:" + secondChildPath)
-                                                   .SetParameter("properties", new ParamProperties { { "dc:description", "Simple File" },
-                                                                                                     { "dc:subjects", "art,sciences" } })
-                                                   .SetParameter("save", "true")
-                                                   .Execute()
-                                                   .Result;
-            Assert.NotNull(secondChild);
+            Entity doc = client.Operation("Document.Update")
+                               .SetInput("doc:" + secondChild.Path)
+                               .SetParameter("properties", new ParamProperties { { "dc:description", "Simple File" },
+                                                                                 { "dc:subjects", "art,sciences" } })
+                               .SetParameter("save", "true")
+                               .Execute()
+                               .Result;
+            Assert.NotNull(doc);
+            Assert.True(doc is Document);
+            secondChild = (Document)doc;
             Assert.NotNull(secondChild.Properties["dc:description"]);
             Assert.Equal("Simple File", secondChild.Properties["dc:description"].ToObject<string>());
             Assert.NotNull(secondChild.Properties["dc:subjects"]);
@@ -107,22 +118,22 @@ namespace TCK.Automation
 
         public void GetChildren()
         {
-            string parentPath = "/TestFolder1";
-            Documents documents = (Documents)client.Operation("Document.GetChildren")
-                                          .SetInput("doc:" + parentPath)
+            Entity doc = (Documents)client.Operation("Document.GetChildren")
+                                          .SetInput("doc:" + testFolder.Path)
                                           .Execute()
                                           .Result;
-            Assert.NotNull(documents);
+            Assert.NotNull(doc);
+            Assert.True(doc is Documents);
+            Documents documents = (Documents)doc;
             Assert.Equal(2, documents.Entries.Count);
         }
 
         public void DeleteParent()
         {
-            string parentPath = "/TestFolder1";
             Entity shouldBeNull = client.Operation("Document.Delete")
-                                       .SetInput("doc:" + parentPath)
-                                       .Execute()
-                                       .Result;
+                                        .SetInput("doc:" + testFolder.Path)
+                                        .Execute()
+                                        .Result;
             Assert.Null(shouldBeNull);
         }
 

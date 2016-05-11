@@ -34,27 +34,22 @@ namespace TCK.REST
         {
             client = new Client(Config.ServerUrl());
             client.AddDefaultSchema("dublincore");
-        }
 
-        [Fact]
-        public void TestParallelReview()
-        {
-            CreateDocument();
-            StartParallelReviewWorflow();
-            GetCurrentTask();
-            StartReview();
-            DeleteDocument();
-        }
-
-        public void CreateDocument()
-        {
+            // populate
             document = (Document)client.DocumentFromPath("/").Post(new Document
             {
                 Type = "File",
                 Name = "JustAfile",
                 Properties = new Properties { { "dc:title", "Just a file" } }
             }).Result;
-            Assert.NotNull(document);
+        }
+
+        [Fact]
+        public void TestParallelReview()
+        {
+            StartParallelReviewWorflow();
+            GetCurrentTask();
+            StartReview();
         }
 
         public void StartParallelReviewWorflow()
@@ -99,14 +94,9 @@ namespace TCK.REST
             Assert.NotNull(task);
         }
 
-        public void DeleteDocument()
-        {
-            Entity result = document.SetAdapter(null).Delete().Result;
-            Assert.Null(result);
-        }
-
         public void Dispose()
         {
+            document.SetAdapter(null).Delete().Wait();
             client.Dispose();
         }
     }

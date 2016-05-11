@@ -28,90 +28,90 @@ namespace TCK.REST
     {
         private Client client;
         private Document document;
-        private Document node;
+        private Workflow node;
         private Task task;
 
         public WorkflowAdapters()
         {
             client = new Client(Config.ServerUrl());
             client.AddDefaultSchema("dublincore");
-        }
 
-        [Fact]
-        public void TestSerialReview()
-        {
-            CreateDocument();
-            StartSerialReviewWorkflow();
-            GetTaskFromWorkflow();
-            GetTaskFromDocument();
-            CompleteTask();
-            DeleteDocument();
-        }
-
-        public void CreateDocument()
-        {
+            // populate
             document = (Document)client.DocumentFromPath("/").Post(new Document
             {
                 Type = "File",
                 Name = "JustAfile",
                 Properties = new Properties { { "dc:title", "Just a file" } }
             }).Result;
-            Assert.NotNull(document);
+        }
+
+        [Fact]
+        public void TestSerialReview()
+        {
+            StartSerialReviewWorkflow();
+            GetTaskFromWorkflow();
+            GetTaskFromDocument();
+            CompleteTask();
         }
 
         public void StartSerialReviewWorkflow()
         {
-            node = (Document)document.SetAdapter(new NuxeoClient.Adapters.WorkflowAdapter()).Post(new Workflow
+            Entity entity = document.SetAdapter(new WorkflowAdapter()).Post(new Workflow
             {
                 WorkflowModelName = "SerialDocumentReview",
                 AttachedDocumentIds = new JArray() { document.Uid }
             }).Result;
 
-            Assert.NotNull(node);
+            Assert.NotNull(entity);
+            // in 7.10 a document of entity-type = "document" is returned
+            // from 7.10HF06 and 8.2 onwards "task" is returned instead
+            Assert.IsType<Workflow>(entity);
+            node = (Workflow)entity;
             Assert.Equal("wf.serialDocumentReview.SerialDocumentReview", node.Title);
             Assert.Equal("running", node.State);
         }
 
         public void GetTaskFromWorkflow()
         {
-            Tasks tasks = (Tasks)document.Get("/" + node.Uid + "/task").Result;
-            Assert.NotNull(tasks);
+            Entity entity = document.Get("/" + node.Id + "/task").Result;
+            Assert.NotNull(entity);
+            Assert.IsType<Tasks>(entity);
+            Tasks tasks = (Tasks)entity;
             Assert.Equal(1, tasks.Entries.Count);
             task = tasks.Entries[0];
         }
 
         public void GetTaskFromDocument()
         {
-            Tasks tasks = (Tasks)document.SetAdapter(new TaskAdapter()).Get().Result;
-            Assert.NotNull(tasks);
+            Entity entity = document.SetAdapter(new TaskAdapter()).Get().Result;
+            Assert.NotNull(entity);
+            Assert.IsType<Tasks>(entity);
+            Tasks tasks = (Tasks)entity;
             Assert.Equal(1, tasks.Entries.Count);
             Assert.Equal(task.Id, tasks.Entries[0].Id);
         }
 
         public void CompleteTask()
         {
-            Task completedTask = (Task)document.Put(new Task
+            Entity entity = document.Put(new Task
             {
                 Id = task.Id,
                 Comment = "a comment",
                 Variables = new Properties
                 {
                     { "end_date", DateTime.Now.Date.ToString("yyyy-MM-dd") },
-                    { "participants", "[\"user:Administrator\"]" },
-                    { "assignees", "[\"user:Administrator\"]" }
+                    { "participants", new JArray { "\"user:Administrator\"" } },
+                    { "assignees", new JArray { "\"user:Administrator\"" } }
                 }
             }, "/" + task.Id + "/start_review").Result;
-            Assert.NotNull(completedTask);
-        }
-
-        public void DeleteDocument()
-        {
-            Entity result = document.SetAdapter(null).Delete().Result;
-            Assert.Null(result);
+            Assert.NotNull(entity);
+            Assert.IsType<Task>(entity);
+            Assert.Equal(((Task)entity).State, "ended");
         }
 
         public void Dispose()
         {
+            document.SetAdapter(null).Delete().Wait();
             client.Dispose();
         }
     }

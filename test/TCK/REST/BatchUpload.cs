@@ -19,6 +19,7 @@ using Newtonsoft.Json.Linq;
 using NuxeoClient;
 using NuxeoClient.Wrappers;
 using System;
+using System.Text;
 using Xunit;
 
 namespace TCK.REST
@@ -26,14 +27,27 @@ namespace TCK.REST
     public class BatchUpload : IDisposable
     {
         private Client client;
+
         private Batch normalBatch;
+
         private Batch chunkedBatch;
+
         private Uploader uploader;
+
+        private Document testFolder;
 
         public BatchUpload()
         {
             client = new Client(Config.ServerUrl());
             client.AddDefaultSchema("*");
+
+            // populate
+            testFolder = (Document)client.DocumentFromPath("/").Post(new Document
+            {
+                Type = "Folder",
+                Name = "TestFolder3",
+                Properties = new Properties { { "dc:title", "Upload Test Folder" } }
+            }).Result;
         }
 
         [Fact]
@@ -49,8 +63,7 @@ namespace TCK.REST
             UploadFileChuncked();
             CreateDocumentFromUpload();
             BatchUploadWithUploader();
-            BatchOperation(); // on 7.10 only
-            DeleteTestFolder();
+            BatchOperation();
         }
 
         public void HandShake()
@@ -62,7 +75,7 @@ namespace TCK.REST
 
         public void UploadFile()
         {
-            Blob blob = new Blob("myFile.doc").SetContent("Just the content.");
+            Blob blob = new Blob(IOHelper.CreateTempFile("Just the content.")).SetFilename("myFile.doc");
             UploadJob job = new UploadJob(blob);
             normalBatch = normalBatch.Upload(job).Result;
             Assert.NotNull(normalBatch);
@@ -76,7 +89,7 @@ namespace TCK.REST
 
         public void UploadAnotherFile()
         {
-            Blob blob = new Blob("anoterFile.pdf").SetContent("Yet more content.");
+            Blob blob = new Blob(IOHelper.CreateTempFile("Yet more content.")).SetFilename("anoterFile.pdf");
             UploadJob job = new UploadJob(blob).SetFileId(1);
             normalBatch = normalBatch.Upload(job).Result;
             Assert.NotNull(normalBatch);
@@ -90,7 +103,7 @@ namespace TCK.REST
 
         public void GetBachInfo()
         {
-            EntityList files = normalBatch.Info().Result;
+            EntityList<Entity> files = normalBatch.Info().Result;
             Assert.NotNull(files);
             Assert.Equal(2, files.Count);
             Assert.Equal("myFile.doc", ((BatchFile)files[0]).Name);
@@ -107,8 +120,9 @@ namespace TCK.REST
         public void DropBatch()
         {
             BatchInfo batchInfo = normalBatch.Drop().Result;
-            Assert.NotNull(batchInfo);
-            Assert.True(batchInfo.Dropped);
+            // in 7.10 a {"batchId": batchId, "dropped": "true"} is returned
+            // from 7.10HF3 and 8.1 onwards a 204 is returned instead, which is translated into null
+            Assert.True(batchInfo == null/* || batchInfo.Dropped*/);
         }
 
         public void AnotherHandShake()
@@ -120,22 +134,12 @@ namespace TCK.REST
 
         public void UploadFileChuncked()
         {
-            Blob blob = new Blob("chunked.docx").SetContent("This content is chunked. Seriously, really chunked!");
-            int nChunks = 5;
-            Blob[] chunks = blob.Split(nChunks);
-            UploadJob job;
-            for (int i = 0; i < nChunks; i++)
-            {
-                job = new UploadJob(chunks[i]).SetChunkIndex(i).SetChunkCount(nChunks);
-                chunkedBatch = chunkedBatch.UploadChunk(job).Result;
-                Assert.NotNull(chunkedBatch);
-                Assert.NotNull(chunkedBatch.FileIndex);
-                Assert.NotNull(chunkedBatch.UploadType);
-                Assert.NotNull(chunkedBatch.UploadSize);
-                Assert.Equal(0, chunkedBatch.FileIndex);
-                Assert.Equal("chunked", chunkedBatch.UploadType);
-                Assert.Equal(nChunks, chunkedBatch.ChunkCount);
-            }
+            Blob blob = new Blob(IOHelper.CreateTempFile("This content is chunked. Seriously, really chunked!")).SetFilename("chunked.docx");
+            int chunkSize = (int)Math.Ceiling((double)blob.File.Length / 5);
+            UploadJob job = new UploadJob(blob);
+            job.SetChunked(true);
+            job.SetChunkSize(chunkSize);
+            chunkedBatch = chunkedBatch.Upload(job).Result;
             BatchFile info = chunkedBatch.Info(chunkedBatch.FileIndex).Result;
             Assert.NotNull(info);
             Assert.Equal(5, info.ChunkCount);
@@ -144,14 +148,6 @@ namespace TCK.REST
 
         public void CreateDocumentFromUpload()
         {
-            Document testFolder = (Document)client.DocumentFromPath("/").Post(new Document
-            {
-                Type = "Folder",
-                Name = "TestFolder3",
-                Properties = new Properties { { "dc:title", "Upload Test Folder" } }
-            }).Result;
-            Assert.NotNull(testFolder);
-
             Document document = (Document)client.DocumentFromPath(testFolder.Path).Post(new Document
             {
                 Type = "File",
@@ -177,8 +173,8 @@ namespace TCK.REST
                                       .AddFile("Puppy.docx")
                                       .UploadFiles().Result;
             Assert.NotNull(result);
-            Assert.True(result is EntityList);
-            Assert.Equal(2, ((EntityList)result).Count);
+            Assert.True(result is EntityList<Entity>);
+            Assert.Equal(2, ((EntityList<Entity>)result).Count);
         }
 
         public void BatchOperation()
@@ -190,14 +186,9 @@ namespace TCK.REST
             Assert.Equal(2, documents.Entries.Count);
         }
 
-        public void DeleteTestFolder()
-        {
-            Document shouldBeNull = (Document)client.DocumentFromPath("/TestFolder3").Delete().Result;
-            Assert.Null(shouldBeNull);
-        }
-
         public void Dispose()
         {
+            client.DocumentFromPath("/TestFolder3").Delete().Wait();
             client.Dispose();
         }
     }

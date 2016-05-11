@@ -35,7 +35,7 @@ dnu build
 
 ## Requirements ##
 
-In order to build Nuxeo .NET Client, you must have installed the .NET Core DNX SDK, version 1.0.0-beta8, or .NET 4.5 on a Windows setup.
+In order to build Nuxeo .NET Client, you must have installed the .NET Core DNX SDK, version 1.0.0-rc1-update1, or .NET 4.5 on a Windows setup.
 
 ### Developing for net45 ###
 
@@ -73,13 +73,14 @@ In order to build Nuxeo .NET Client, you must have installed the .NET Core DNX S
   <packageSources>
     <add key="AspNetVNext" value="https://www.myget.org/F/aspnetvnext/" />
     <add key="NuGet" value="https://www.nuget.org/api/v2/" />
+    <add key="DotNet-Core" value="https://dotnet.myget.org/F/dotnet-core/api/v3/index.json" />
   </packageSources>
 </configuration>
 ```
 
 #### On Visual Studio 2015 ####
 
-If you are using Visual Studio 2015 on Windows, you will need to download the [Microsoft ASP.NET and Web Tools 2015 (Beta8) – Visual Studio](http://www.microsoft.com/en-us/download/details.aspx?id=49442). Two setup files must be installed:
+If you are using Visual Studio 2015 on Windows, you will need to download the [Microsoft ASP.NET and Web Tools 2015 (RC) – Visual Studio](https://www.microsoft.com/en-us/download/details.aspx?id=49959). Two setup files must be installed:
 
 * *DotNetVersionManager-x64.msi*
 

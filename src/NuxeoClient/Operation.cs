@@ -1,15 +1,17 @@
 ﻿/*
- * (C) Copyright 2015 Nuxeo SA (http://nuxeo.com/) and others.
+ * (C) Copyright 2015-2016 Nuxeo SA (http://nuxeo.com/) and others.
  *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser General Public License
- * (LGPL) version 2.1 which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-2.1.html
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  *
  * Contributors:
  *     Gabriel Barata <gbarata@nuxeo.com>
@@ -17,7 +19,6 @@
 
 using Newtonsoft.Json.Linq;
 using NuxeoClient.Wrappers;
-using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -44,7 +45,7 @@ namespace NuxeoClient
         /// <summary>
         /// Gets the operation input.
         /// </summary>
-        public JToken Input { get; private set; }
+        public object Input { get; private set; }
 
         /// <summary>
         /// Gets the operation parameters.
@@ -82,11 +83,6 @@ namespace NuxeoClient
         public string Endpoint { get; protected set; }
 
         /// <summary>
-        /// Gets whether or not the operation request is multipart or not.
-        /// </summary>
-        public bool IsMultipart { get; private set; } = false;
-
-        /// <summary>
         /// Initializes a new instance of <see cref="Operation"/>.
         /// </summary>
         /// <param name="client">The client through which the operation will be executed.</param>
@@ -109,7 +105,6 @@ namespace NuxeoClient
         public Operation SetInput(string input)
         {
             Input = input;
-            IsMultipart = false;
             return this;
         }
 
@@ -121,19 +116,28 @@ namespace NuxeoClient
         public Operation SetInput(JToken input)
         {
             Input = input;
-            IsMultipart = false;
             return this;
         }
 
         /// <summary>
         /// Sets the operation input.
         /// </summary>
-        /// <param name="blob">The operation input.</param>
+        /// <param name="input">The operation input.</param>
         /// <returns>The current <see cref="Operation"/> instance.</returns>
-        public Operation SetInput(Blob blob)
+        public Operation SetInput(Blob input)
         {
-            Input = blob.ToJObject();
-            IsMultipart = true;
+            Input = input;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the operation input.
+        /// </summary>
+        /// <param name="input">The operation input.</param>
+        /// <returns>The current <see cref="Operation"/> instance.</returns>
+        public Operation SetInput(BlobList input)
+        {
+            Input = input;
             return this;
         }
 
@@ -347,8 +351,6 @@ namespace NuxeoClient
         /// <returns>A <see cref="Task"/> that will return an instance of <see cref="Entity"/> with the operation result.</returns>
         public async Task<Entity> Execute()
         {
-            Entity result = null;
-
             Dictionary<string, string> headers;
             if (AdditionalHeaders != null)
             {
@@ -387,27 +389,27 @@ namespace NuxeoClient
                 }
                 data.Add("context", jsonCotext);
             }
-            if (Input != null && !IsMultipart)
+
+            bool isBlob = Input is Blob;
+            bool isBlobList = Input is BlobList;
+
+            if (Input != null && !isBlob && !isBlobList)
             {
-                data.Add("input", Input);
+                data.Add("input", (string)Input);
             }
 
-            if (IsMultipart)
+            if (isBlob)
             {
-                await client.RequestMultipart(Endpoint, data, Input, HttpMethod.Post, headers).ContinueWith(output =>
-                {
-                    result = output.Result;
-                });
+                return await client.RequestMultipart(Endpoint, data, (Blob)Input, HttpMethod.Post, headers);
+            }
+            if (isBlobList)
+            {
+                return await client.RequestMultipart(Endpoint, data, (BlobList)Input, HttpMethod.Post, headers);
             }
             else
             {
-                await client.RequestJson(Endpoint, null, data, HttpMethod.Post, headers).ContinueWith(output =>
-                {
-                    result = output.Result;
-                });
+                return await client.RequestJson(Endpoint, null, data, HttpMethod.Post, headers);
             }
-
-            return result;
         }
     }
 }

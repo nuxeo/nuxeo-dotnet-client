@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\NuxeoClient.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -37,11 +38,16 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -84,11 +90,11 @@
     <Compile Include="..\NuxeoClient\Authorization.cs">
       <Link>Authorization.cs</Link>
     </Compile>
-    <Compile Include="..\NuxeoClient\Blob.cs">
-      <Link>Blob.cs</Link>
-    </Compile>
     <Compile Include="..\NuxeoClient\Client.cs">
       <Link>Client.cs</Link>
+    </Compile>
+    <Compile Include="..\NuxeoClient\ClientErrorException.cs">
+      <Link>ClientErrorException.cs</Link>
     </Compile>
     <Compile Include="..\NuxeoClient\ExtensionMethods.cs">
       <Link>ExtensionMethods.cs</Link>
@@ -102,6 +108,9 @@
     <Compile Include="..\NuxeoClient\IMarshaller.cs">
       <Link>IMarshaller.cs</Link>
     </Compile>
+    <Compile Include="..\NuxeoClient\IOHelper.cs">
+      <Link>IOHelper.cs</Link>
+    </Compile>
     <Compile Include="..\NuxeoClient\Marshaller.cs">
       <Link>Marshaller.cs</Link>
     </Compile>
@@ -114,8 +123,8 @@
     <Compile Include="..\NuxeoClient\QueryParams.cs">
       <Link>QueryParams.cs</Link>
     </Compile>
-    <Compile Include="..\NuxeoClient\ServerException.cs">
-      <Link>ServerException.cs</Link>
+    <Compile Include="..\NuxeoClient\ServerErrorException.cs">
+      <Link>ServerErrorException.cs</Link>
     </Compile>
     <Compile Include="..\NuxeoClient\Uploader.cs">
       <Link>Uploader.cs</Link>
@@ -140,6 +149,12 @@
     </Compile>
     <Compile Include="..\NuxeoClient\Wrappers\BatchOperation.cs">
       <Link>Wrappers\BatchOperation.cs</Link>
+    </Compile>
+    <Compile Include="..\NuxeoClient\Wrappers\Blob.cs">
+      <Link>Wrappers\Blob.cs</Link>
+    </Compile>
+    <Compile Include="..\NuxeoClient\Wrappers\BlobList.cs">
+      <Link>Wrappers\BlobList.cs</Link>
     </Compile>
     <Compile Include="..\NuxeoClient\Wrappers\BusinessObject.cs">
       <Link>Wrappers\BusinessObject.cs</Link>
@@ -187,6 +202,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

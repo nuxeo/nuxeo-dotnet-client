@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>NuxeoClient</id>
-    <version>1.0.0-beta-02070</version>
+    <version>1.0.0-beta-07112</version>
     <authors>Gabriel Barata</authors>
     <owners>Nuxeo</owners>
     <licenseUrl>http://www.gnu.org/licenses/lgpl-2.1.html</licenseUrl>
@@ -18,21 +18,23 @@ Automation is a Nuxeo service that exposes common actions to most Nuxeo applicat
     <copyright>Copyright 2015</copyright>
     <dependencies>
       <group targetFramework="DNXCore5.0">
-        <dependency id="Newtonsoft.Json" version="7.0.1" />
         <dependency id="Microsoft.CSharp" version="4.0.0-beta-23019" />
         <dependency id="System.Collections" version="4.0.10-beta-23427" />
         <dependency id="System.IO" version="4.0.11-beta-23427" />
         <dependency id="System.IO.FileSystem" version="4.0.1-beta-23405" />
         <dependency id="System.Linq" version="4.0.0-beta-23427" />
         <dependency id="System.Net.Http" version="4.0.1-beta-23427" />
-        <dependency id="System.Runtime" version="4.0.21-beta-23427" />
-        <dependency id="System.Runtime.Extensions" version="4.0.11-beta-23427" />
+        <dependency id="System.Runtime" version="4.0.21-beta-23516" />
+        <dependency id="System.Runtime.Extensions" version="4.0.21-beta-23516" />
         <dependency id="System.Text.Encoding.Extensions" version="4.0.11-beta-23427" />
         <dependency id="System.Threading" version="4.0.10-beta-23427" />
         <dependency id="System.Threading.Tasks.Parallel" version="4.0.1-beta-23427" />
+        <dependency id="Microsoft.AspNet.WebApi.Client" version="5.2.3" />
+        <dependency id="Newtonsoft.Json" version="8.0.3" />
       </group>
       <group targetFramework=".NETFramework4.5">
-        <dependency id="Newtonsoft.Json" version="7.0.1" />
+        <dependency id="Microsoft.AspNet.WebApi.Client" version="5.2.3" />
+        <dependency id="Newtonsoft.Json" version="8.0.3" />
       </group>
     </dependencies>
   </metadata>

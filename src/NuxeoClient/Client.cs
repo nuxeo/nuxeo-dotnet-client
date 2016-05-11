@@ -1,15 +1,17 @@
 ﻿/*
- * (C) Copyright 2015 Nuxeo SA (http://nuxeo.com/) and others.
+ * (C) Copyright 2015-2016 Nuxeo SA (http://nuxeo.com/) and others.
  *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser General Public License
- * (LGPL) version 2.1 which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-2.1.html
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  *
  * Contributors:
  *     Gabriel Barata <gbarata@nuxeo.com>
@@ -20,6 +22,7 @@ using Newtonsoft.Json.Linq;
 using NuxeoClient.Wrappers;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -48,6 +51,10 @@ namespace NuxeoClient
             /// The "application/json+nxrequest" content type.
             /// </summary>
             public const string NXREQUEST = "application/json+nxrequest";
+            /// <summary>
+            /// The "application/json+nxentity" content type.
+            /// </summary>
+            public const string NXENTITY = "application/json+nxentity";
             /// <summary>
             /// The "application/octet-stream" content type.
             /// </summary>
@@ -502,7 +509,7 @@ namespace NuxeoClient
 
         internal async Task<Entity> RequestMultipart(string endpoint,
                                                        JToken data,
-                                                       JToken input,
+                                                       BlobList input,
                                                        HttpMethod htttpMethod = null,
                                                        Dictionary<string, string> additionalHeaders = null,
                                                        string contentType = ContentType.NXREQUEST)
@@ -513,40 +520,69 @@ namespace NuxeoClient
             }
             if (input == null)
             {
-                throw new NullReferenceException("input parameter was null.");
+                throw new NullReferenceException("input was null.");
             }
 
             HttpRequestMessage request = new HttpRequestMessage(htttpMethod ?? HttpMethod.Post, (endpoint.StartsWith("/") ? endpoint.Substring(1) : endpoint));
-            MultipartContent requestContent = new MultipartContent("related");
+            MultipartContent requestContent = BuildMultipartContent(data);
 
+            foreach (Blob blob in input)
+            {
+                AddBlobToMultipartContent(requestContent, blob);
+            }
+            request.Content = requestContent;
+
+            return await ProcessRequest(request, additionalHeaders);
+        }
+
+        internal async Task<Entity> RequestMultipart(string endpoint,
+                                                       JToken data,
+                                                       Blob input,
+                                                       HttpMethod htttpMethod = null,
+                                                       Dictionary<string, string> additionalHeaders = null,
+                                                       string contentType = ContentType.NXREQUEST)
+        {
+            if (data == null)
+            {
+                throw new NullReferenceException("data parameter was null.");
+            }
+            if (input == null)
+            {
+                throw new NullReferenceException("input was null.");
+            }
+
+            HttpRequestMessage request = new HttpRequestMessage(htttpMethod ?? HttpMethod.Post, (endpoint.StartsWith("/") ? endpoint.Substring(1) : endpoint));
+            MultipartContent requestContent = BuildMultipartContent(data);
+            AddBlobToMultipartContent(requestContent, input);
+            request.Content = requestContent;
+
+            return await ProcessRequest(request, additionalHeaders);
+        }
+
+
+        internal MultipartContent BuildMultipartContent(JToken data)
+        {
+            MultipartContent requestContent = new MultipartContent("related");
             string firstPartStr = JsonConvert.SerializeObject(data);
             HttpContent firstPart = new StringContent(firstPartStr);
             firstPart.Headers.ContentType = new MediaTypeHeaderValue(Client.ContentType.NXREQUEST);
             firstPart.Headers.Add("Content-Transfer-Encoding", "8bit");
             firstPart.Headers.Add("Content-ID", "request");
             requestContent.Add(new StringContent(firstPartStr));
-            JArray inputObjs = (input is JArray ? input.ToObject<JArray>() : new JArray { input });
-            foreach (JToken obj in inputObjs)
-            {
-                if (obj["filename"] == null ||
-                    obj["content"] == null ||
-                    obj["mimetype"] == null)
-                {
-                    throw new HttpRequestException("Invalid blob file.");
-                }
-                HttpContent part = new ByteArrayContent(obj["content"].ToObject<byte[]>());
-                part.Headers.ContentType = new MediaTypeHeaderValue(obj["mimetype"].ToObject<string>());
-                part.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
-                {
-                    FileName = obj["filename"].ToObject<string>()
-                };
-                part.Headers.Add("Content-Transfer-Encoding", "binary");
-                part.Headers.Add("Content-ID", "input");
-                requestContent.Add(part);
-            }
-            request.Content = requestContent;
+            return requestContent;
+        }
 
-            return await ProcessRequest(request, additionalHeaders);
+        private void AddBlobToMultipartContent(MultipartContent content, Blob blob)
+        {
+            HttpContent part = new StreamContent(blob.File.OpenRead());
+            part.Headers.ContentType = new MediaTypeHeaderValue(blob.MimeType);
+            part.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+            {
+                FileName = blob.Filename
+            };
+            part.Headers.Add("Content-Transfer-Encoding", "binary");
+            part.Headers.Add("Content-ID", "input");
+            content.Add(part);
         }
 
         private async Task<Entity> ProcessRequest(HttpRequestMessage request, Dictionary<string, string> additionalHeaders = null)
@@ -558,54 +594,62 @@ namespace NuxeoClient
                     request.Headers.Add(pair.Key, pair.Value);
                 }
             }
-            Entity result = null;
-            await ProcessResponse(await http.SendAsync(request)).ContinueWith(output =>
-            {
-                JToken json = output.Result;
-                result = Marshaller.UnMarshal(json);
-            });
-            return result;
+            return await ProcessResponse(await http.SendAsync(request));
         }
 
-        private async Task<JToken> ProcessResponse(HttpResponseMessage response)
+        private async Task<Entity> ProcessResponse(HttpResponseMessage response)
         {
-            JToken json = null;
-            await response.Content.ReadAsStringAsync().ContinueWith(output =>
+            if ((int)response.StatusCode == 204 || response.Content.Headers.ContentLength == 0)
             {
-                string result = output.Result;
-                if (result != string.Empty)
+                return null;
+            }
+
+            Entity entity = null;
+            MediaTypeHeaderValue contentType = response.Content.Headers.ContentType;
+            bool isText = contentType.MediaType.Contains("text/");
+            bool isJson = contentType.MediaType == ContentType.JSON || contentType.MediaType == ContentType.NXENTITY;
+            bool isMultipart = response.Content.IsMimeMultipartContent();
+
+            if ((int)response.StatusCode >= 400 && (int)response.StatusCode <= 499)
+            {
+                throw new ClientErrorException(response.StatusCode,
+                    isText || isJson ? await response.Content.ReadAsStringAsync() : string.Empty);
+            }
+            if ((int)response.StatusCode >= 500 && (int)response.StatusCode <= 599)
+            {
+                throw new ServerErrorException(response.StatusCode,
+                    isText || isJson ? await response.Content.ReadAsStringAsync() : string.Empty);
+            }
+
+            if (isText || isJson)
+            {
+                string result = await response.Content.ReadAsStringAsync();
+                if (isJson)
                 {
-                    try
-                    {
-                        json = JToken.Parse(result);
-                    }
-                    catch (JsonReaderException)
-                    {
-                        json = response.IsSuccessStatusCode ? null : new JObject { { "message", result } };
-                    }
-                    if ((int)response.StatusCode >= 400 && (int)response.StatusCode <= 599)
-                    {
-                        if (response.StatusCode == System.Net.HttpStatusCode.NotFound &&
-                            json["code"] != null &&
-                            json["code"].ToObject<string>().Contains("DocumentNotFoundException"))
-                        {
-                            json = null;
-                        }
-                        else
-                        {
-                            if (json["message"] != null)
-                            {
-                                throw new ServerException(response.StatusCode, json["message"].ToObject<string>());
-                            }
-                            else
-                            {
-                                throw new ServerException(response.StatusCode, json.ToObject<string>());
-                            }
-                        }
-                    }
+                    entity = Marshaller.UnMarshal(JToken.Parse(result));
                 }
-            });
-            return json;
+                else
+                {
+                    FileInfo tmpFile = IOHelper.CreateTempFile(result);
+                    entity = new Blob(response.Content.Headers.ContentDisposition.FileName).SetFile(tmpFile);
+                }
+            }
+            else if (response.Content.IsMimeMultipartContent())
+            {
+                MultipartMemoryStreamProvider mp = await response.Content.ReadAsMultipartAsync();
+                BlobList blobs = new BlobList();
+                foreach (HttpContent part in mp.Contents)
+                {
+                    blobs.Add(new Blob(IOHelper.CreateTempFile(await part.ReadAsStreamAsync())));
+                }
+                entity = blobs;
+            }
+            else
+            {
+                entity = new Blob(IOHelper.CreateTempFile(await response.Content.ReadAsStreamAsync()));
+            }
+
+            return entity;
         }
     }
 }

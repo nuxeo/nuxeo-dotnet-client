@@ -26,39 +26,34 @@ namespace TCK.REST
     {
         private Client client;
 
+        private Document testDocument;
+
         public ContentEnrichers()
         {
             client = new Client(Config.ServerUrl());
             client.AddDefaultSchema("dublincore");
-        }
 
-        [Fact]
-        public void TestContentEnrichers()
-        {
-            CreateFolder();
-            TestThumbnailEnricher();
-            TestAclEnricher();
-            TestPreviewEnricher();
-            TestBreadcrumbEnricher();
-            DeleteFolder();
-        }
-
-        public void CreateFolder()
-        {
-            Document document = (Document)client.DocumentFromPath("/").Post(new Document
+            // populate
+            testDocument = (Document)client.DocumentFromPath("/").Post(new Document
             {
                 Type = "Folder",
                 Name = "folder2",
                 Properties = new Properties { { "dc:title", "A Folder 2" } }
             }).Result;
-            Assert.NotNull(document);
-            Assert.Equal("/folder2", document.Path);
-            Assert.Equal("A Folder 2", document.Title);
+        }
+
+        [Fact]
+        public void TestContentEnrichers()
+        {
+            TestThumbnailEnricher();
+            TestAclEnricher();
+            TestPreviewEnricher();
+            TestBreadcrumbEnricher();
         }
 
         public void TestThumbnailEnricher()
         {
-            Document document = (Document)client.DocumentFromPath("/folder2")
+            Document document = (Document)client.DocumentFromPath(testDocument.Path)
                                             .AddContentEnricher("thumbnail")
                                             .Get().Result;
             Assert.NotNull(document);
@@ -79,7 +74,7 @@ namespace TCK.REST
 
         public void TestPreviewEnricher()
         {
-            Document document = (Document)client.DocumentFromPath("/folder2")
+            Document document = (Document)client.DocumentFromPath(testDocument.Path)
                                             .AddContentEnricher("preview")
                                             .Get().Result;
             Assert.NotNull(document);
@@ -90,7 +85,7 @@ namespace TCK.REST
 
         public void TestBreadcrumbEnricher()
         {
-            Document document = (Document)client.DocumentFromPath("/folder2")
+            Document document = (Document)client.DocumentFromPath(testDocument.Path)
                                             .AddContentEnricher("breadcrumb")
                                             .Get().Result;
             Assert.NotNull(document);
@@ -100,14 +95,9 @@ namespace TCK.REST
             Assert.Equal("documents", document.ContextParameters["breadcrumb"]["entity-type"].ToObject<string>());
         }
 
-        public void DeleteFolder()
-        {
-            Document shouldBeNull = (Document)client.DocumentFromPath("/folder2").Delete().Result;
-            Assert.Null(shouldBeNull);
-        }
-
         public void Dispose()
         {
+            client.DocumentFromPath(testDocument.Path).Delete().Wait();
             client.Dispose();
         }
     }

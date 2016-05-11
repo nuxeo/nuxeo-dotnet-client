@@ -1,22 +1,23 @@
 ﻿/*
- * (C) Copyright 2015 Nuxeo SA (http://nuxeo.com/) and others.
+ * (C) Copyright 2015-2016 Nuxeo SA (http://nuxeo.com/) and others.
  *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser General Public License
- * (LGPL) version 2.1 which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-2.1.html
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  *
  * Contributors:
  *     Gabriel Barata <gbarata@nuxeo.com>
  */
 
 using NuxeoClient.Wrappers;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -139,7 +140,7 @@ namespace NuxeoClient
         /// <summary>
         /// Uploads all files in the upload queue.
         /// </summary>
-        /// <returns>A <see cref="Task"/> that will will return an instance of <see cref="EntityList"/> containing
+        /// <returns>A <see cref="Task"/> that will will return an instance of <see cref="EntityList{T}"/> containing
         /// one instance of <see cref="BatchFile"/> per file uploaded.</returns>
         public async Task<Entity> UploadFiles()
         {
@@ -149,7 +150,7 @@ namespace NuxeoClient
                 // perform handshake if needed
                 Batch = Batch ?? await client.Batch();
             }
-            catch (ServerException exception)
+            catch (ServerErrorException exception)
             {
                 throw new FailedHandshakeException("Failed to initialize batch with the server.", exception);
             }
@@ -178,39 +179,11 @@ namespace NuxeoClient
                     i = processedFilesCounter++;
                 }
 
-                if (IsChunkedUpload)
-                {
-                    FileStream fs = File.OpenRead(path);
-                    int readBytes;
-                    byte[] buffer = new byte[ChunkSize];
-                    UploadJob job;
-                    List<Blob> blobs = new List<Blob>();
-
-                    while ((readBytes = fs.Read(buffer, 0, buffer.Length)) > 0)
-                    {
-                        byte[] temp = new byte[readBytes];
-                        Array.Copy(buffer, temp, readBytes);
-                        blobs.Add(new Blob(Path.GetFileName(path)).SetContent(temp));
-                        Array.Clear(buffer, 0, ChunkSize);
-                    }
-
-                    int chunksProcessed = 0;
-                    foreach (Blob blob in blobs)
-                    {
-                        job = new UploadJob(blob).SetFileId(i)
-                                                 .SetChunkIndex(chunksProcessed)
-                                                 .SetChunkCount(blobs.Count);
-                        batch = await UploadBlob(job, true);
-                        chunksProcessed++;
-                    }
-                }
-                else
-                {
-                    byte[] contents = File.ReadAllBytes(path);
-                    Blob blob = new Blob(Path.GetFileName(path)).SetContent(contents);
-                    UploadJob job = new UploadJob(blob).SetFileId(i);
-                    batch = await UploadBlob(job);
-                }
+                UploadJob job = new UploadJob(Blob.FromFile(path));
+                job.SetFileId(i);
+                job.SetChunked(IsChunkedUpload);
+                job.SetChunkSize(ChunkSize);
+                batch = await UploadBlob(job);
             }
             finally
             {
@@ -219,20 +192,13 @@ namespace NuxeoClient
             return batch;
         }
 
-        private async Task<Batch> UploadBlob(UploadJob job, bool isChuncked = false)
+        private async Task<Batch> UploadBlob(UploadJob job)
         {
             try
             {
-                if (isChuncked)
-                {
-                    return await Batch.UploadChunk(job);
-                }
-                else
-                {
-                    return await Batch.Upload(job);
-                }
+                return await Batch.Upload(job);
             }
-            catch (ServerException exception)
+            catch (ServerErrorException exception)
             {
                 throw new FailedToUploadException(job.ToString(), exception);
             }

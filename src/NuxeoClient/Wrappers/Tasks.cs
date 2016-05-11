@@ -1,21 +1,22 @@
 ﻿/*
- * (C) Copyright 2015 Nuxeo SA (http://nuxeo.com/) and others.
+ * (C) Copyright 2015-2016 Nuxeo SA (http://nuxeo.com/) and others.
  *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser General Public License
- * (LGPL) version 2.1 which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-2.1.html
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  *
  * Contributors:
  *     Gabriel Barata <gbarata@nuxeo.com>
  */
 
-using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace NuxeoClient.Wrappers
@@ -26,18 +27,21 @@ namespace NuxeoClient.Wrappers
     /// <remarks>For more information about tasks, check
     /// <a href="https://doc.nuxeo.com/display/NXDOC60/About+Tasks">Nuxeo Documentation Center</a>.
     /// </remarks>
-    public class Tasks : Entity
+    public class Tasks : EntityList<Task>
     {
         /// <summary>
-        /// Gets the list of tasks.
+        /// Initializes a new instance of <see cref="Tasks"/>.
         /// </summary>
-        [JsonProperty(PropertyName = "entries")]
-        public List<Task> Entries { get; protected set; }
+        public Tasks() : base()
+        {
+            EntityType = "tasks";
+        }
 
         /// <summary>
         /// Initializes a new instance of <see cref="Tasks"/>.
         /// </summary>
-        public Tasks()
+        /// <param name="tasks">A list of <see cref="Task"/> to be included.</param>
+        public Tasks(List<Task> tasks) : base(tasks)
         {
             EntityType = "tasks";
         }

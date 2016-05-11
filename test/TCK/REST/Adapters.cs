@@ -32,19 +32,8 @@ namespace TCK.REST
         {
             client = new Client(Config.ServerUrl());
             client.AddDefaultSchema("dublincore");
-        }
 
-        [Fact]
-        public void TestAdapters()
-        {
-            CreateFolderAndFiles();
-            TestChildrenAdapter();
-            TestSearchAdapter();
-            DeleteFolder();
-        }
-
-        public void CreateFolderAndFiles()
-        {
+            // populate
             folder = (Document)client.DocumentFromPath("/").Post(new Document
             {
                 Type = "Folder",
@@ -68,13 +57,27 @@ namespace TCK.REST
                 Properties = new Properties { { "dc:title", "File 2" } }
             }).Result;
             Assert.NotNull(document);
+
+            Blob blob = Blob.FromFile("Puppy.docx");
+            document = (Document)client.Operation("FileManager.Import")
+                                       .SetInput(blob)
+                                       .SetContext("currentDocument", folder.Path)
+                                       .Execute()
+                                       .Result;
+        }
+
+        [Fact]
+        public void TestAdapters()
+        {
+            TestChildrenAdapter();
+            TestSearchAdapter();
         }
 
         public void TestChildrenAdapter()
         {
             Documents documents = (Documents)folder.SetAdapter(new ChildrenAdapter()).Get().Result;
             Assert.NotNull(documents);
-            Assert.Equal(2, documents.Entries.Count);
+            Assert.Equal(3, documents.Entries.Count);
         }
 
         public void TestSearchAdapter()
@@ -83,17 +86,21 @@ namespace TCK.REST
                                                  .SetSearchQuery("SELECT * FROM File WHERE ecm:parentId = \"" + folder.Uid + "\"");
             Documents documents = (Documents)folder.SetAdapter(adapter).Get().Result;
             Assert.NotNull(documents);
-            Assert.Equal(2, documents.Entries.Count);
+            Assert.Equal(3, documents.Entries.Count);
         }
 
-        public void DeleteFolder()
+        public void TestBlobAdapter()
         {
-            Document shouldBeNull = (Document)client.DocumentFromPath(folder.Path).Delete().Result;
-            Assert.Null(shouldBeNull);
+            Adapter adapter = new BlobAdapter();
+            Entity entity = folder.SetAdapter(adapter).Get().Result;
+            Assert.NotNull(entity);
+            Assert.True(entity is Blob);
+            Assert.True(IOHelper.AreFilesEqual("Puppy.docx", ((Blob)entity).File.FullName));
         }
 
         public void Dispose()
         {
+            client.DocumentFromPath(folder.Path).Delete().Wait();
             client.Dispose();
         }
     }
