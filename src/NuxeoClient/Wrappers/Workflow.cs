@@ -49,7 +49,7 @@ namespace NuxeoClient.Wrappers
         /// Gets and sets the workflow variables.
         /// </summary>
         [DefaultValue(null)]
-        [JsonProperty(PropertyName = "worflowVariables")]
+        [JsonProperty(PropertyName = "variables")]
         public Properties WorflowVariables { get; set; } = null;
 
         /// <summary>

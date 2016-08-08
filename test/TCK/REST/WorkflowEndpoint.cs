@@ -64,6 +64,7 @@ namespace TCK.REST
             Assert.NotNull(workFlow);
             Assert.Equal("wf.parallelDocumentReview.ParallelDocumentReview", workFlow.Title);
             Assert.Equal("running", workFlow.State);
+            Assert.NotNull(workFlow.WorflowVariables);
         }
 
         public void GetCurrentTask()
