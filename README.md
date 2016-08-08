@@ -1,6 +1,6 @@
 # About Nuxeo .NET Client #
 
-[![Build Status](https://qa.nuxeo.org/jenkins/buildStatus/icon?job=nuxeo-dotnet-client-master-windows)](https://qa.nuxeo.org/jenkins/job/nuxeo-dotnet-client-master-windows/)
+[![Build Status](https://qa.nuxeo.org/jenkins/buildStatus/icon?job=master/nuxeo-dotnet-client-master-windows)](https://qa.nuxeo.org/jenkins/job/master/job/nuxeo-dotnet-client-master-windows/)
 
 The Nuxeo .NET Client is a cross-platform client library developed in C# for the Nuxeo Automation and REST API.
 
