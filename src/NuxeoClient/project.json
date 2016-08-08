@@ -1,11 +1,11 @@
 ﻿{
-  "version": "1.0.0-beta-07112",
+  "version": "1.0.0-beta-10080",
   "description": ".NET Client for Nuxeo Automation and REST API",
   "authors": [ "Gabriel Barata" ],
   "tags": [ "" ],
   "projectUrl": "https://github.com/nuxeo/nuxeo-dotnet-client",
   "licenseUrl": "https://raw.githubusercontent.com/nuxeo/nuxeo-dotnet-client/master/LICENSE",
-  
+
   "dependencies": {
     "Microsoft.AspNet.WebApi.Client": "5.2.3",
     "Newtonsoft.Json": "8.0.3"
@@ -17,14 +17,14 @@
         "Microsoft.CSharp": "4.0.0-beta-23019",
         "System.Collections": "4.0.10-beta-23427",
         "System.IO": "4.0.11-beta-23427",
-        "System.IO.FileSystem": "4.0.1-beta-23405",
+        "System.IO.FileSystem": "4.0.1-beta-23409",
         "System.Linq": "4.0.0-beta-23427",
-        "System.Net.Http": "4.0.1-beta-23427",
+        "System.Net.Http": "4.0.1-beta-23516",
         "System.Runtime": "4.0.21-beta-23516",
         "System.Runtime.Extensions": "4.0.11-beta-23516",
-        "System.Text.Encoding.Extensions": "4.0.11-beta-23427",
+        "System.Text.Encoding.Extensions": "4.0.11-beta-23516",
         "System.Threading": "4.0.10-beta-23427",
-        "System.Threading.Tasks.Parallel": "4.0.1-beta-23427"
+        "System.Threading.Tasks.Parallel": "4.0.1-beta-23516"
       }
     },
     "net45": {
