@@ -631,7 +631,8 @@ namespace NuxeoClient
                 else
                 {
                     FileInfo tmpFile = IOHelper.CreateTempFile(result);
-                    entity = new Blob(response.Content.Headers.ContentDisposition.FileName).SetFile(tmpFile);
+                    entity = new Blob(response.Content.Headers.ContentDisposition.FileNameStar ??
+                                      response.Content.Headers.ContentDisposition.FileName).SetFile(tmpFile);
                 }
             }
             else if (response.Content.IsMimeMultipartContent())
