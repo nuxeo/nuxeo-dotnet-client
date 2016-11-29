@@ -4,54 +4,39 @@
 
 The Nuxeo .NET Client is a cross-platform client library developed in C# for the Nuxeo Automation and REST API.
 
-Nuxeo .NET Client targets two platforms: `net45` and `dnxcore50`. This allows it to be used to develop apps for not only Windows but also Linux and Mac OS. Bellow follows an app/platform compatibility table for the Nuxeo .NET Client library:
-
-```
-+------------------------------------+------------+
-|                                    | Compatible |
-+------------------------------------+------------+
-| Destkop .NET 4.5+                  | Yes        |
-| ASP .NET 4.5+                      | Yes        |
-| ASP .NET 5 (Native & CoreCLR)      | Yes        |
-| DNX Console App (Native & CoreCLR) | Yes        |
-| Windows 8/8.1 Store APP            | No         |
-| Windows Phone 8/8.1                | No         |
-| Universal Windows Platform (UWP)   | No         |
-| Xamarin.Android                    | Yes?       |
-| Xamarin.iOS                        | Yes?       |
-+------------------------------------+------------+
-```
+Nuxeo .NET Client targets two platforms: `net45` and `dotnetcoreapp1.0`. This allows it to be used to develop apps for not only Windows but also Linux and Mac OS.
 
 # Building #
 
-If you are developing for `net45`, build the NuxeoClient_net45 solution on Visual Studio 2013 (or above).
+If you are developing for `net45`, build the NuxeoClient_net45 solution on Visual Studio 2015 (or above).
 
-If you are developing for `dnxcore50`, run:
+If you are developing for `dotnetcoreapp1.0`, run:
 
 ```
 cd src/NuxeoClient
-dnu build
+dotnet restore
+dotnet build
 ```
 
 ## Requirements ##
 
-In order to build Nuxeo .NET Client, you must have installed the .NET Core DNX SDK, version 1.0.0-rc1-update1, or .NET 4.5 on a Windows setup.
+In order to build Nuxeo .NET Client, you must have installed the latest LTS of .NET Core 1.0.1 SDK (version 1.0.0-preview2-003133), or .NET 4.5 on a Windows setup.
 
 ### Developing for net45 ###
 
 * Download and install [.NET Framework 4.5](https://www.microsoft.com/en-us/download/details.aspx?id=30653)
 
-* Visual Studio 2013 (or above) required.
+* Visual Studio 2015 (or above) required.
 
-### Developing for dnxcore50 ###
+### Developing for netcore1.0 ###
 
 1. Install .NET Core:
 
-    * [Linux instructions](http://dotnet.readthedocs.org/en/latest/getting-started/installing-core-linux.html)
+    * [Linux instructions](https://www.microsoft.com/net/core#linuxredhat)
 
-    * [Mac OS instructions](https://docs.asp.net/en/latest/getting-started/installing-on-mac.html)
+    * [Mac OS instructions](https://www.microsoft.com/net/core#macos)
 
-    * [Windows instructions](http://dotnet.readthedocs.org/en/latest/getting-started/installing-core-windows.html)
+    * [Windows instructions](https://www.microsoft.com/net/core#windowscmd)
 
 2. Add the following feeds to NuGet config file:
 
@@ -73,49 +58,39 @@ In order to build Nuxeo .NET Client, you must have installed the .NET Core DNX S
   <packageSources>
     <add key="AspNetVNext" value="https://www.myget.org/F/aspnetvnext/" />
     <add key="NuGet" value="https://www.nuget.org/api/v2/" />
-    <add key="DotNet-Core" value="https://dotnet.myget.org/F/dotnet-core/api/v3/index.json" />
   </packageSources>
 </configuration>
 ```
 
 #### On Visual Studio 2015 ####
 
-If you are using Visual Studio 2015 on Windows, you will need to download the [Microsoft ASP.NET and Web Tools 2015 (RC) – Visual Studio](https://www.microsoft.com/en-us/download/details.aspx?id=49959). Two setup files must be installed:
-
-* *DotNetVersionManager-x64.msi*
-
-* *WebToolsExtensionsVS14.msi* for Visual Studio 2015 or *WebToolsExtensionsVWD14.msi* for Visual Studio 2015 Express
+If you are using Visual Studio 2015 on Windows, you will need to install Visual Studio Update 3 and .NET Core 1.0.1 tools for Visual Studio Preview 2. [Instructions here](https://www.microsoft.com/net/core#windowsvs2015).
 
 ## Running the TCK ##
 
-This project includes a Test Compatibility Kit (TCK) covering several tests on the client. In order for the tests to run, there must be an instance of the Nuxeo Server running, loading *nuxeo-automation-test-7.10-SNAPSHOT.jar*.
+This project includes a Test Compatibility Kit (TCK) covering several tests on the client. In order for the tests to run, there must be an instance of the Nuxeo Server running, with *nuxeo-automation-test* and *nuxeo-jsf-ui* installed.
 
 Before building and running the tests, the server's IP address should be updated in the *test/TCK/Config.cs* file.
 
 ### On Windows ###
 
-1. Build the version of the TCK you want to test, by either running `tools\BuildDnx.ps1` or  `tools\BuildNet45.ps1`.
+1. Build the version of the TCK you want to test, by either running `tools\BuildNetCore.ps1` or  `tools\BuildNet45.ps1`.
 
-2. Run the TCK with `tools\TestDnx.ps1` or `tools\TestNet45.ps1`
+2. Run the TCK with `tools\TestNetCore.ps1` or `tools\TestNet45.ps1`
 
 ### On Mac OS or Linux ###
 
 On the solution folder, run:
 
-1. `dnu restore` to download all dependencies
+1. `dotnet restore` to download all dependencies
 
 2. `cd test/TCK` to move to the TCK folder
 
-3. `dnx test` to run all tests
-
-## Limitations ##
-
-There is currently a bug where DELETE requests are sent as GET on Linux and Mac OS only, which prevents operations such as deleting documents and drop batches from working. This issue was reported [here](https://github.com/dotnet/corefx/issues/4134). **This bug causes 5 out of 9 tests of the TCK to fail**, on the last stage where all temporary files are deleted.
-.
+3. `dotnet test` to run all tests
 
 ## QA
 
-[![Build Status](https://qa.nuxeo.org/jenkins/buildStatus/icon?job=nuxeo-dotnet-client-master-windows)](https://qa.nuxeo.org/jenkins/job/nuxeo-dotnet-client-master-windows/)
+[![Build Status](https://qa.nuxeo.org/jenkins/buildStatus/icon?job=master/nuxeo-dotnet-client-master-windows)](https://qa.nuxeo.org/jenkins/job/master/job/nuxeo-dotnet-client-master-windows/)
 
 # Usage #
 
@@ -125,7 +100,7 @@ There is currently a bug where DELETE requests are sent as GET on Linux and Mac 
 
 On Visual Studio, run on the Package Manager Console: `PM> Install-Package NuxeoClient -Pre`
 
-If you are developing for dnxcore50, include NuxeoClient in your project.json file:
+If you are developing for netcoreapp1.0, include NuxeoClient in your project.json file:
 
 ```json
 {
@@ -138,7 +113,7 @@ If you are developing for dnxcore50, include NuxeoClient in your project.json fi
 }
 ```
 
-... and run `dnu restore`.
+... and run `dotnet restore`.
 
 ### 2. Reference it in the code ###
 
@@ -174,7 +149,7 @@ A demo app making use of this client is also available [here](https://github.com
 
 ## Tutorial ##
 
-Let's make a quick DNX Console App that creates a folder on the server's root and a child document. This quit tutorial assumes that you have an instance of Nuxeo Server running on your local machine.
+Let's make a quick console app using .NET Core, which creates a folder on the server's root and a child document. This quit tutorial assumes that you have an instance of Nuxeo Server running on your local machine.
 
 * Create a new directory for your project named *TestNuxeoApp* and `cd` there
 
@@ -182,22 +157,25 @@ Let's make a quick DNX Console App that creates a folder on the server's root an
 
 ```json
 {
-  "version": "1.0.0-*",
+  "version": "1.0.0",
   "description": "Nuxeo Test App",
-  "authors": [
-    "John Doe"
-  ],
-  "tags": [
-    ""
-  ],
-  "projectUrl": "",
-  "licenseUrl": "",
-  "dependencies": {
-    "System.Console": "4.0.0-beta-23409",
-    "NuxeoClient": "1.0.0-*"
+  "authors": [ "John Doe" ],
+  "buildOptions": {
+    "emitEntryPoint": true
   },
   "frameworks": {
-    "dnxcore50": {}
+    "netcoreapp1.0": {
+      "dependencies": {
+        "System.Console": "4.0.0",
+        "NuxeoClient": "1.0.0-beta-13281"
+      }
+    }
+  },
+  "dependencies": {
+    "Microsoft.NETCore.App": {
+      "type": "platform",
+      "version": "1.0.1"
+    }
   }
 }
 ```
@@ -248,9 +226,9 @@ namespace TestNuxeoApp
 }
 ```
 
-* Restore dependencies by running `dnu restore`
+* Restore dependencies by running `dotnet restore`
 
-* Run the app by running `dnx run`
+* Run the app by running `dotnet run`
 
 * Check the server and verify that the documents were created
 

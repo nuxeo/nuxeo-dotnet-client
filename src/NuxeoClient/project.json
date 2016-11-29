@@ -1,34 +1,41 @@
 ﻿{
-  "version": "1.0.0-beta-10080",
+  "version": "1.0.0-beta-13281",
   "description": ".NET Client for Nuxeo Automation and REST API",
   "authors": [ "Gabriel Barata" ],
-  "tags": [ "" ],
-  "projectUrl": "https://github.com/nuxeo/nuxeo-dotnet-client",
-  "licenseUrl": "https://raw.githubusercontent.com/nuxeo/nuxeo-dotnet-client/master/LICENSE",
+  "buildOptions": {
+    "xmlDoc": true
+  },
+  "packOptions": {
+    "tags": [ "" ],
+    "projectUrl": "https://github.com/nuxeo/nuxeo-dotnet-client",
+    "licenseUrl": "https://raw.githubusercontent.com/nuxeo/nuxeo-dotnet-client/master/LICENSE",
+  },
 
   "dependencies": {
-    "Microsoft.AspNet.WebApi.Client": "5.2.3",
-    "Newtonsoft.Json": "8.0.3"
+    "Newtonsoft.Json": "9.0.1"
   },
 
   "frameworks": {
-    "dnxcore50": {
+    "netcoreapp1.0": {
+      "imports": "dnxcore50",
       "dependencies": {
-        "Microsoft.CSharp": "4.0.0-beta-23019",
-        "System.Collections": "4.0.10-beta-23427",
-        "System.IO": "4.0.11-beta-23427",
-        "System.IO.FileSystem": "4.0.1-beta-23409",
-        "System.Linq": "4.0.0-beta-23427",
-        "System.Net.Http": "4.0.1-beta-23516",
-        "System.Runtime": "4.0.21-beta-23516",
-        "System.Runtime.Extensions": "4.0.11-beta-23516",
-        "System.Text.Encoding.Extensions": "4.0.11-beta-23516",
-        "System.Threading": "4.0.10-beta-23427",
-        "System.Threading.Tasks.Parallel": "4.0.1-beta-23516"
+        "Microsoft.CSharp": "4.0.1",
+        "System.Collections": "4.0.11",
+        "System.IO": "4.1.0",
+        "System.IO.FileSystem": "4.0.1",
+        "System.Linq": "4.1.0",
+        "System.Net.Http": "4.1.0",
+        "System.Runtime": "4.1.0",
+        "System.Runtime.Extensions": "4.1.0",
+        "System.Text.Encoding.Extensions": "4.0.11",
+        "System.Threading": "4.0.11",
+        "System.Threading.Tasks.Parallel": "4.0.1",
+        "WinInsider.System.Net.Http.Formatting": "1.0.1"
       }
     },
     "net45": {
       "dependencies": {
+        "Microsoft.AspNet.WebApi.Client": "5.2.3"
       },
       "frameworkAssemblies": {
         "System.Net.Http": "4.0.0.0"

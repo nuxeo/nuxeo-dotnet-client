@@ -8,19 +8,19 @@ $nuxeoClientSrc = Join-Path $nuxeoClientFolder src/NuxeoClient
 
 cd $nuxeoClientSrc
 
-Write-Host "Building Nuxeo Client (dnxcore50)" -ForegroundColor Yellow
-dnu restore -s https://www.myget.org/F/aspnetvnext/ -f https://www.nuget.org/api/v2/
-dnu build --configuration Release
+Write-Host "Building Nuxeo Client (netcore1)" -ForegroundColor Yellow
+dotnet restore --no-cache -s https://www.myget.org/F/aspnetvnext/ -f https://www.nuget.org/api/v2/
+dotnet build --configuration Release
 
 if ($LASTEXITCODE -ne 0)
 {
-    Write-Host "Nuxeo Client (dnxcore50) build failed" -ForegroundColor Red
+    Write-Host "Nuxeo Client (netcore1) build failed" -ForegroundColor Red
     cd $homeDir
     Exit 1
 }
 else
 {
-    Write-Host "Nuxeo Client (dnxcore50) build succeeded" -ForegroundColor Green
+    Write-Host "Nuxeo Client (netcore1) build succeeded" -ForegroundColor Green
     cd $homeDir
     Exit 0
 }

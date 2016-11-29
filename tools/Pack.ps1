@@ -15,3 +15,14 @@ if (-Not (Test-Path $nuget))
 Write-Host "Creating NuGet package" -ForegroundColor Yellow
 
 Invoke-Expression "$nuget pack"
+
+if ($LASTEXITCODE -ne 0)
+{
+    Write-Host "Packing up failed" -ForegroundColor Red
+    Exit 1
+}
+else
+{
+    Write-Host "Packing up succeeded" -ForegroundColor Green
+    Exit 0
+}

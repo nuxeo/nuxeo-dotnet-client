@@ -2,29 +2,32 @@
   "version": "1.0.0",
   "description": "TCK Class Library",
   "authors": [ "Gabriel Barata" ],
-  "tags": [ "" ],
-  "projectUrl": "",
-  "licenseUrl": "",
+  "packOptions": {
+    "tags": [ "" ],
+    "projectUrl": "",
+    "licenseUrl": ""
+  },
+  "testRunner": "xunit",
 
   "dependencies": {
-    "System.Runtime": "4.0.21-beta-23405",
-    "System.Collections": "4.0.10-beta-23019",
-    "System.Linq": "4.0.0-beta-23019",
-    "System.Threading": "4.0.10-beta-23019",
-    "Microsoft.CSharp": "4.0.0-beta-23019",
-    "Microsoft.Framework.Configuration": "1.0.0-beta8",
-    "Microsoft.Framework.Configuration.Json": "1.0.0-beta8",
-    "xunit": "2.1.0",
-    "xunit.runner.dnx": "2.1.0-rc1-build204",
-    "xunit.runner.visualstudio": "2.1.0",
+    "System.Runtime": "4.1.0",
+    "System.Collections": "4.0.11",
+    "System.Linq": "4.1.0",
+    "System.Threading": "4.0.11",
+    "Microsoft.CSharp": "4.0.1",
+    "xunit": "2.2.0-beta2-build3300",
+    "dotnet-test-xunit": "2.2.0-preview2-build1029",
     "NuxeoClient": "1.0.0-*"
   },
 
-  "commands": {
-    "test": "xunit.runner.dnx -parallel none"
-  },
-
   "frameworks": {
-    "dnxcore50": { }
+    "netcoreapp1.0": {
+      "dependencies": {
+        "Microsoft.NETCore.App": {
+          "type": "platform",
+          "version": "1.0.0"
+        }
+      }
+    }
   }
 }
