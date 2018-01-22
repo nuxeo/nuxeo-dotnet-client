@@ -89,7 +89,8 @@ namespace TCK.REST
 
         public void UploadAnotherFile()
         {
-            Blob blob = new Blob(IOHelper.CreateTempFile("Yet more content.")).SetFilename("anoterFile.pdf");
+            // test uploading a second with name that needs escaping
+            Blob blob = new Blob(IOHelper.CreateTempFile("Yet more content.")).SetFilename("行动计划 + test.pdf");
             UploadJob job = new UploadJob(blob).SetFileId(1);
             normalBatch = normalBatch.Upload(job).Result;
             Assert.NotNull(normalBatch);
@@ -107,7 +108,7 @@ namespace TCK.REST
             Assert.NotNull(files);
             Assert.Equal(2, files.Count);
             Assert.Equal("myFile.doc", ((BatchFile)files[0]).Name);
-            Assert.Equal("anoterFile.pdf", ((BatchFile)files[1]).Name);
+            Assert.Equal("行动计划 + test.pdf", ((BatchFile)files[1]).Name);
         }
 
         public void GetBatchFileInfo()

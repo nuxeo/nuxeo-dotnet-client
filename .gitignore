@@ -5,7 +5,9 @@
 *.suo
 artifacts/
 src/NuxeoClient/bin/
+src/NuxeoClient/obj/
 test/TCK/bin/
+test/TCK/obj/
 src/NuxeoClient_net45/bin/
 src/NuxeoClient_net45/obj/
 packages/
