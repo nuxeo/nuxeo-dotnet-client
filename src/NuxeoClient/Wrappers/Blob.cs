@@ -47,7 +47,7 @@ namespace NuxeoClient.Wrappers
         public bool IsChunk { get; private set; } = false;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="Blob"/>.
+        /// Initializes a new instance of <see cref="Blob"/> with no FileInfo.
         /// </summary>
         /// <param name="filename">The name of the file it represents.</param>
         public Blob(string filename) :

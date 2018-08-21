@@ -17,6 +17,7 @@
  *     Gabriel Barata <gbarata@nuxeo.com>
  */
 
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NuxeoClient.Wrappers;
 using System.Collections.Generic;
@@ -95,6 +96,16 @@ namespace NuxeoClient
             Parameters = null;
             Context = null;
             Endpoint = UrlCombiner.Combine(this.client.AutomationPath, Id);
+        }
+        /// <summary>
+        /// Sets the operation input.
+        /// </summary>
+        /// <param name="input">The operation input.</param>
+        /// <returns>The current <see cref="Operation"/> instance.</returns>
+        public Operation SetInput<T>(T input) where T:Entity
+        {
+            Input = JToken.Parse(JsonConvert.SerializeObject(input));
+            return this;
         }
 
         /// <summary>
@@ -175,6 +186,26 @@ namespace NuxeoClient
             return this;
         }
 
+        /// <summary>
+        /// Sets a parameter <see cref="Documents"/>
+        /// </summary>
+        /// <param name="property">The property's name.</param>
+        /// <param name="value">The <see cref="Documents"/> to use.</param>
+        /// <returns>The current <see cref="Operation"/> instance.</returns>
+        public Operation SetParameter(string property,Documents value)
+        {
+            return SetParameter(property, JToken.Parse(JsonConvert.SerializeObject(value)));
+        }
+        /// <summary>
+        /// Sets a parameter <see cref="Document"/>
+        /// </summary>
+        /// <param name="property">The property's name.</param>
+        /// <param name="value">The <see cref="Document"/> to use.</param>
+        /// <returns>The current <see cref="Operation"/> instance.</returns>
+        public Operation SetParameter(string property,Document value)
+        {
+            return SetParameter(property, JToken.Parse(JsonConvert.SerializeObject(value)));
+        }
         /// <summary>
         /// Sets a parameter property.
         /// </summary>
@@ -395,7 +426,7 @@ namespace NuxeoClient
 
             if (Input != null && !isBlob && !isBlobList)
             {
-                data.Add("input", (string)Input);
+                data.Add("input", (JToken)Input);
             }
 
             if (isBlob)

@@ -516,11 +516,11 @@ namespace NuxeoClient
         {
             if (data == null)
             {
-                throw new NullReferenceException("data parameter was null.");
+                throw new ArgumentNullException("data","data parameter was null.");
             }
             if (input == null)
             {
-                throw new NullReferenceException("input was null.");
+                throw new ArgumentNullException("input","input was null.");
             }
 
             HttpRequestMessage request = new HttpRequestMessage(htttpMethod ?? HttpMethod.Post, (endpoint.StartsWith("/") ? endpoint.Substring(1) : endpoint));
@@ -544,11 +544,11 @@ namespace NuxeoClient
         {
             if (data == null)
             {
-                throw new NullReferenceException("data parameter was null.");
+                throw new ArgumentNullException("data","data parameter was null.");
             }
             if (input == null)
             {
-                throw new NullReferenceException("input was null.");
+                throw new ArgumentNullException("input","input was null.");
             }
 
             HttpRequestMessage request = new HttpRequestMessage(htttpMethod ?? HttpMethod.Post, (endpoint.StartsWith("/") ? endpoint.Substring(1) : endpoint));
@@ -574,6 +574,8 @@ namespace NuxeoClient
 
         private void AddBlobToMultipartContent(MultipartContent content, Blob blob)
         {
+            if (blob.File == null) throw new ArgumentNullException("blob.File", "input blob has no file");
+            if (!blob.File.Exists) throw new FileNotFoundException(blob.File.FullName);
             HttpContent part = new StreamContent(blob.File.OpenRead());
             part.Headers.ContentType = new MediaTypeHeaderValue(blob.MimeType);
             part.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
