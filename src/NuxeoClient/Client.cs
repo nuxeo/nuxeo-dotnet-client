@@ -48,14 +48,6 @@ namespace NuxeoClient
             /// </summary>
             public const string JSON = "application/json";
             /// <summary>
-            /// The "application/json+nxrequest" content type.
-            /// </summary>
-            public const string NXREQUEST = "application/json+nxrequest";
-            /// <summary>
-            /// The "application/json+nxentity" content type.
-            /// </summary>
-            public const string NXENTITY = "application/json+nxentity";
-            /// <summary>
             /// The "application/octet-stream" content type.
             /// </summary>
             public const string OCTETSTREAM = "application/octet-stream";
@@ -512,7 +504,7 @@ namespace NuxeoClient
                                                        BlobList input,
                                                        HttpMethod htttpMethod = null,
                                                        Dictionary<string, string> additionalHeaders = null,
-                                                       string contentType = ContentType.NXREQUEST)
+                                                       string contentType = ContentType.JSON)
         {
             if (data == null)
             {
@@ -540,7 +532,7 @@ namespace NuxeoClient
                                                        Blob input,
                                                        HttpMethod htttpMethod = null,
                                                        Dictionary<string, string> additionalHeaders = null,
-                                                       string contentType = ContentType.NXREQUEST)
+                                                       string contentType = ContentType.JSON)
         {
             if (data == null)
             {
@@ -565,7 +557,7 @@ namespace NuxeoClient
             MultipartContent requestContent = new MultipartContent("related");
             string firstPartStr = JsonConvert.SerializeObject(data);
             HttpContent firstPart = new StringContent(firstPartStr);
-            firstPart.Headers.ContentType = new MediaTypeHeaderValue(Client.ContentType.NXREQUEST);
+            firstPart.Headers.ContentType = new MediaTypeHeaderValue(Client.ContentType.JSON);
             firstPart.Headers.Add("Content-Transfer-Encoding", "8bit");
             firstPart.Headers.Add("Content-ID", "request");
             requestContent.Add(new StringContent(firstPartStr));
@@ -607,7 +599,7 @@ namespace NuxeoClient
             Entity entity = null;
             MediaTypeHeaderValue contentType = response.Content.Headers.ContentType;
             bool isText = contentType.MediaType.Contains("text/");
-            bool isJson = contentType.MediaType == ContentType.JSON || contentType.MediaType == ContentType.NXENTITY;
+            bool isJson = contentType.MediaType.StartsWith(ContentType.JSON);
             bool isMultipart = response.Content.IsMimeMultipartContent();
 
             if ((int)response.StatusCode >= 400 && (int)response.StatusCode <= 499)
