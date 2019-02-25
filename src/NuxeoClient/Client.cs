@@ -583,7 +583,7 @@ namespace NuxeoClient
             {
                 foreach (KeyValuePair<string, string> pair in additionalHeaders)
                 {
-                    request.Headers.Add(pair.Key, Uri.EscapeDataString(pair.Value));
+                    request.Headers.Add(pair.Key, pair.Value);
                 }
             }
             return await ProcessResponse(await http.SendAsync(request));

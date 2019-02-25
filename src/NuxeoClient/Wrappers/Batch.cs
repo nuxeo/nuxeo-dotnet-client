@@ -101,7 +101,7 @@ namespace NuxeoClient.Wrappers
                                                 { "X-Upload-Type", "chunked" },
                                                 { "X-Upload-Chunk-Index", currentChunk.ToString() },
                                                 { "X-Upload-Chunk-Count", chunkCount.ToString() },
-                                                { "X-File-Name", job.Blob.Filename },
+                                                { "X-File-Name", Uri.EscapeDataString(job.Blob.Filename) },
                                                 { "X-File-Type", job.Blob.MimeType },
                                                 { "X-File-Size", job.Blob.File.Length.ToString() }
                                                 });
@@ -118,7 +118,7 @@ namespace NuxeoClient.Wrappers
                                                 null,
                                                 fs.ReadToEnd(),
                                                 new Dictionary<string, string>() {
-                                                    { "X-File-Name", job.Blob.Filename },
+                                                    { "X-File-Name", Uri.EscapeDataString(job.Blob.Filename) },
                                                     { "X-File-Type", job.Blob.MimeType }
                                                 });
                 }
