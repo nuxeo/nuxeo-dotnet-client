@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>NuxeoClient</id>
-    <version>1.0.0-beta-27220</version>
+    <version>1.0.0-beta-38250</version>
     <authors>Gabriel Barata</authors>
     <owners>Nuxeo</owners>
     <licenseUrl>http://www.gnu.org/licenses/lgpl-2.1.html</licenseUrl>
