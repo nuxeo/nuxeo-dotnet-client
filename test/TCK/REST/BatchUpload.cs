@@ -135,7 +135,8 @@ namespace TCK.REST
 
         public void UploadFileChuncked()
         {
-            Blob blob = new Blob(IOHelper.CreateTempFile("This content is chunked. Seriously, really chunked!")).SetFilename("chunked.docx");
+            Blob blob = new Blob(IOHelper.CreateTempFile("This content is chunked. Seriously, really chunked!"))
+                .SetFilename("chunked.txt").SetMimeType("text/plain");
             int chunkSize = (int)Math.Ceiling((double)blob.File.Length / 5);
             UploadJob job = new UploadJob(blob);
             job.SetChunked(true);
@@ -165,6 +166,7 @@ namespace TCK.REST
                                 }
             }).Result;
             Assert.NotNull(document);
+            Assert.Equal("text/plain", (string)document.Properties["file:content"]["mime-type"]);
         }
 
         public void BatchUploadWithUploader()
