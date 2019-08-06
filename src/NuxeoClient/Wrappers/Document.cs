@@ -35,6 +35,8 @@ namespace NuxeoClient.Wrappers
     /// </remarks>
     public class Document : Entity
     {
+        private bool? _isTrashed = null;
+
         /// <summary>
         /// The <see cref="Client"/> instance through which operations to this document will be performed.
         /// </summary>
@@ -117,6 +119,16 @@ namespace NuxeoClient.Wrappers
         [DefaultValue(false)]
         [JsonProperty(PropertyName = "isProxy")]
         public bool IsProxy { get; set; } = false;
+
+        /// <summary>
+        /// Gets whether the document is trashed out or not.
+        /// </summary>
+        [DefaultValue(false)]
+        [JsonProperty(PropertyName = "isTrashed")]
+        public bool IsTrashed {
+            get { return _isTrashed ?? State == "deleted"; }
+            set { _isTrashed = value; }
+        }
 
         /// <summary>
         /// Gets the document's title.
@@ -584,6 +596,24 @@ namespace NuxeoClient.Wrappers
         {
             Adapter = adapter;
             return this;
+        }
+
+        /// <summary>
+        /// Trash the current document.
+        /// </summary>
+        /// <returns>The current document.</returns>
+        public async Task<Document> Trash()
+        {
+            return (Document)await client.Operation("Document.Trash").SetInput(this).Execute();
+        }
+
+        /// <summary>
+        /// Untrash the current document.
+        /// </summary>
+        /// <returns>The current document.</returns>
+        public async Task<Document> Untrash()
+        {
+            return (Document)await client.Operation("Document.Untrash").SetInput(this).Execute();
         }
 
         /// <summary>

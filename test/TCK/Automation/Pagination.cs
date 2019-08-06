@@ -70,7 +70,7 @@ namespace TCK.Automation
             Pageable page = (Pageable)client.Operation("Document.Query")
                                             .SetParameter("query", "select * from Document where ecm:parentId = ?")
                                             .SetParameter("pageSize", "2")
-                                            .SetParameter("page", "0")
+                                            .SetParameter("currentPageIndex", "0")
                                             .SetParameter("queryParams", paginationRoot.Uid)
                                             .Execute()
                                             .Result;
@@ -86,7 +86,7 @@ namespace TCK.Automation
             Pageable page = (Pageable)client.Operation("Document.Query")
                                     .SetParameter("query", "select * from Document where ecm:parentId = ?")
                                     .SetParameter("pageSize", "2")
-                                    .SetParameter("page", "1")
+                                    .SetParameter("currentPageIndex", "1")
                                     .SetParameter("queryParams", paginationRoot.Uid)
                                     .Execute()
                                     .Result;

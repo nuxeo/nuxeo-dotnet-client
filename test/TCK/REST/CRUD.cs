@@ -41,6 +41,7 @@ namespace TCK.REST
             UpdateFolder();
             SetProperties();
             SetAndSave();
+            TrashAndUntrashDocument();
             DeleteFolder();
         }
 
@@ -114,6 +115,16 @@ namespace TCK.REST
             Assert.NotNull(document);
             Assert.NotNull(document.Properties["dc:source"]);
             Assert.Equal(newSourceValue, document.Properties["dc:source"].ToObject<string>());
+        }
+
+        public void TrashAndUntrashDocument()
+        {
+            Document document = (Document)client.DocumentFromPath("/folder").Get().Result;
+            Assert.False(document.IsTrashed);
+            document = document.Trash().Result;
+            Assert.True(document.IsTrashed);
+            document = document.Untrash().Result;
+            Assert.False(document.IsTrashed);
         }
 
         public void Dispose()
