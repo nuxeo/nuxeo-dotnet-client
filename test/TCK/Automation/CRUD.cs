@@ -19,6 +19,7 @@ using Newtonsoft.Json.Linq;
 using NuxeoClient;
 using NuxeoClient.Wrappers;
 using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace TCK.Automation
@@ -33,6 +34,8 @@ namespace TCK.Automation
 
         private Document secondChild;
 
+        private Document section;
+
         public CRUD()
         {
             client = new Client(Config.ServerUrl());
@@ -46,7 +49,10 @@ namespace TCK.Automation
             CreateFirstChild();
             CreateSecondChild();
             UpdateSecondChild();
+            UpdateAllChildren();
             GetChildren();
+            CreateSection();
+            PublishSecondChild();
             DeleteParent();
         }
 
@@ -69,7 +75,7 @@ namespace TCK.Automation
         public void CreateFirstChild()
         {
             Entity doc = client.Operation("Document.Create")
-                               .SetInput("doc:" + testFolder.Path)
+                               .SetInput(testFolder)
                                .SetParameter("type", "File")
                                .SetParameter("name", "TestFile1")
                                .SetParameter("properties", new ParamProperties { { "dc:title", "Test File 1" } })
@@ -85,7 +91,7 @@ namespace TCK.Automation
         public void CreateSecondChild()
         {
             Entity doc = client.Operation("Document.Create")
-                               .SetInput("doc:" + testFolder.Path)
+                               .SetInput(testFolder)
                                .SetParameter("type", "File")
                                .SetParameter("name", "TestFile2")
                                .SetParameter("properties", new ParamProperties { { "dc:title", "Test File 2" } })
@@ -101,7 +107,7 @@ namespace TCK.Automation
         public void UpdateSecondChild()
         {
             Entity doc = client.Operation("Document.Update")
-                               .SetInput("doc:" + secondChild.Path)
+                               .SetInput(secondChild)
                                .SetParameter("properties", new ParamProperties { { "dc:description", "Simple File" },
                                                                                  { "dc:subjects", "art,sciences" } })
                                .SetParameter("save", "true")
@@ -116,10 +122,42 @@ namespace TCK.Automation
             Assert.Equal(2, secondChild.Properties["dc:subjects"].ToObject<JArray>().Count);
         }
 
+        public void UpdateAllChildren()
+        {
+            Entity output = client.Operation("Document.Update")
+                                  .SetInput(new List<Document> { firstChild, secondChild })
+                                  .SetParameter("properties", new ParamProperties { { "dc:subjects", "comics" } })
+                                  .SetParameter("save", "true")
+                                  .Execute()
+                                  .Result;
+            Assert.NotNull(output);
+            Assert.True(output is Documents);
+            Documents docs = (Documents)output;
+            Assert.Equal(2, docs.Entries.Count);
+
+            Document child = docs.Entries[0];
+            Assert.Equal("Test File 1", child.Title);
+            Assert.NotNull(child.Properties["dc:description"]);
+            Assert.Null(child.Properties["dc:description"].ToObject<string>());
+            Assert.NotNull(child.Properties["dc:subjects"]);
+            JArray subjects = child.Properties["dc:subjects"].ToObject<JArray>();
+            Assert.Equal(1, subjects.Count);
+            Assert.Contains("comics", subjects);
+
+            child = docs.Entries[1];
+            Assert.Equal("Test File 2", child.Title);
+            Assert.NotNull(child.Properties["dc:description"]);
+            Assert.Equal("Simple File", child.Properties["dc:description"].ToObject<string>());
+            Assert.NotNull(child.Properties["dc:subjects"]);
+            subjects = child.Properties["dc:subjects"].ToObject<JArray>();
+            Assert.Equal(1, subjects.Count);
+            Assert.Contains("comics", subjects);
+        }
+
         public void GetChildren()
         {
             Entity doc = (Documents)client.Operation("Document.GetChildren")
-                                          .SetInput("doc:" + testFolder.Path)
+                                          .SetInput(testFolder)
                                           .Execute()
                                           .Result;
             Assert.NotNull(doc);
@@ -128,10 +166,40 @@ namespace TCK.Automation
             Assert.Equal(2, documents.Entries.Count);
         }
 
+
+        public void CreateSection()
+        {
+            Entity doc = client.Operation("Document.Create")
+                               .SetInput(testFolder)
+                               .SetParameter("type", "Section")
+                               .SetParameter("name", "section")
+                               .SetParameter("properties", new ParamProperties { { "dc:title", "Section" } })
+                               .Execute()
+                               .Result;
+
+            Assert.NotNull(doc);
+            Assert.True(doc is Document);
+            section = (Document)doc;
+            Assert.Equal(testFolder.Uid, section.ParentRef);
+            Assert.Equal("Section", section.Title);
+        }
+
+        public void PublishSecondChild()
+        {
+            Document doc = (Document)client.Operation("Document.PublishToSection")
+                                           .SetInput(secondChild)
+                                           .SetParameter("target", section)
+                                           .Execute()
+                                           .Result;
+            Assert.NotNull(doc);
+            Assert.Equal($"{section.Path}/TestFile2", doc.Path);
+            Assert.True(doc.IsProxy);
+        }
+
         public void DeleteParent()
         {
             Entity shouldBeNull = client.Operation("Document.Delete")
-                                        .SetInput("doc:" + testFolder.Path)
+                                        .SetInput(testFolder)
                                         .Execute()
                                         .Result;
             Assert.Null(shouldBeNull);

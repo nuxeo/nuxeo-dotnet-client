@@ -112,6 +112,13 @@ namespace NuxeoClient.Wrappers
         public bool IsCheckedOut { get; set; } = false;
 
         /// <summary>
+        /// Gets whether the document is checked out or not.
+        /// </summary>
+        [DefaultValue(false)]
+        [JsonProperty(PropertyName = "isProxy")]
+        public bool IsProxy { get; set; } = false;
+
+        /// <summary>
         /// Gets the document's title.
         /// </summary>
         [DefaultValue("")]

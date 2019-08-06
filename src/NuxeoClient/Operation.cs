@@ -17,9 +17,11 @@
  *     Gabriel Barata <gbarata@nuxeo.com>
  */
 
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NuxeoClient.Wrappers;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -142,6 +144,39 @@ namespace NuxeoClient
         }
 
         /// <summary>
+        /// Sets the operation input.
+        /// </summary>
+        /// <param name="input">The operation input.</param>
+        /// <returns>The current <see cref="Operation"/> instance.</returns>
+        public Operation SetInput(Document input)
+        {
+            Input = input;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the operation input.
+        /// </summary>
+        /// <param name="input">The operation input.</param>
+        /// <returns>The current <see cref="Operation"/> instance.</returns>
+        public Operation SetInput(ICollection<Document> input)
+        {
+            Input = input;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the operation input.
+        /// </summary>
+        /// <param name="input">The operation input.</param>
+        /// <returns>The current <see cref="Operation"/> instance.</returns>
+        public Operation SetInput(Documents input)
+        {
+            Input = input;
+            return this;
+        }
+
+        /// <summary>
         /// Sets a context property.
         /// </summary>
         /// <param name="property">The property's name.</param>
@@ -199,6 +234,40 @@ namespace NuxeoClient
             Parameters = Parameters ?? new Dictionary<string, JToken>();
             Parameters.Add(property, value.ToString());
             return this;
+        }
+
+
+        /// <summary>
+        /// Sets a parameter <see cref="Document"/>
+        /// </summary>
+        /// <param name="property">The property's name.</param>
+        /// <param name="value">The <see cref="Document"/> to use.</param>
+        /// <returns>The current <see cref="Operation"/> instance.</returns>
+        public Operation SetParameter(string property, Document value)
+        {
+            return SetParameter(property, JToken.Parse(JsonConvert.SerializeObject(value)));
+        }
+
+        /// <summary>
+        /// Sets a parameter <see cref="Documents"/>
+        /// </summary>
+        /// <param name="property">The property's name.</param>
+        /// <param name="value">The list of <see cref="Document"/> to use.</param>
+        /// <returns>The current <see cref="Operation"/> instance.</returns>
+        public Operation SetParameter(string property, ICollection<Document> value)
+        {
+            return SetParameter(property, JToken.Parse(JsonConvert.SerializeObject(value)));
+        }
+
+        /// <summary>
+        /// Sets a parameter <see cref="Documents"/>
+        /// </summary>
+        /// <param name="property">The property's name.</param>
+        /// <param name="value">The <see cref="Documents"/> to use.</param>
+        /// <returns>The current <see cref="Operation"/> instance.</returns>
+        public Operation SetParameter(string property, Documents value)
+        {
+            return SetParameter(property, JToken.Parse(JsonConvert.SerializeObject(value)));
         }
 
         /// <summary>
@@ -390,24 +459,33 @@ namespace NuxeoClient
                 data.Add("context", jsonCotext);
             }
 
-            bool isBlob = Input is Blob;
-            bool isBlobList = Input is BlobList;
-
-            if (Input != null && !isBlob && !isBlobList)
-            {
-                data.Add("input", (string)Input);
-            }
-
-            if (isBlob)
+            if (Input is Blob)
             {
                 return await client.RequestMultipart(Endpoint, data, (Blob)Input, HttpMethod.Post, headers);
             }
-            if (isBlobList)
+            if (Input is BlobList)
             {
                 return await client.RequestMultipart(Endpoint, data, (BlobList)Input, HttpMethod.Post, headers);
             }
             else
             {
+                ICollection<Document> docs = Input is Documents ? ((Documents)Input).Entries : Input as ICollection<Document>;
+                if (docs != null)
+                {
+                    data.Add("input", $"docs:{string.Join(",", docs.Select(d => d.Uid).ToArray())}");
+                }
+                else
+                {
+                    Document doc = Input as Document;
+                    if (!string.IsNullOrWhiteSpace(doc?.Uid))
+                    {
+                        data.Add("input", $"doc:{doc.Uid}");
+                    }
+                    else
+                    {
+                        data.Add("input", (string)Input);
+                    }
+                }
                 return await client.RequestJson(Endpoint, null, data, HttpMethod.Post, headers);
             }
         }
