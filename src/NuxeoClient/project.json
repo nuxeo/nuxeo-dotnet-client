@@ -1,5 +1,5 @@
 ﻿{
-  "version": "1.0.0-beta-38250",
+  "version": "1.0.0-beta-44070",
   "description": ".NET Client for Nuxeo Automation and REST API",
   "authors": [ "Gabriel Barata" ],
   "buildOptions": {
