@@ -1,8 +1,6 @@
-﻿{
-  "projects": [ "src", "test" ],
+{
   "sdk": {
-    "version": "1.0.0-preview2-003133",
-    "runtime": "coreclr",
-    "architecture": "x64"
+    "version": "3.1.100",
+    "rollForward": "latestFeature"
   }
 }

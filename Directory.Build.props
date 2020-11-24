@@ -1,0 +1,23 @@
+<Project>
+  <PropertyGroup>
+    <PackageId>NuxeoClient</PackageId>
+    <Version>1.0.0-beta-44070</Version>
+    <Title>Nuxeo .NET Client</Title>
+    <Authors>Gabriel Barata</Authors>
+    <Copyright>Copyright 2020</Copyright>
+    <Company>Nuxeo</Company>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/nuxeo/nuxeo-dotnet-client</RepositoryUrl>
+    <License>LGPL-2.1</License>
+    <RepositoryCommit></RepositoryCommit>
+    <Description>
+      Nuxeo .NET Client is a cross-platform client library developed in C# for the Nuxeo Automation and REST API.
+      REST API exposes Nuxeo resources endpoints, command endpoints and other features in an extensible and composable way (check https://doc.nuxeo.com/x/QYLQ for details).
+      Automation is a Nuxeo service that exposes common actions to most Nuxeo applications as atomic operations (check https://doc.nuxeo.com/x/Go0ZAQ for details).</Description>
+    <Tags></Tags>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+</Project>
