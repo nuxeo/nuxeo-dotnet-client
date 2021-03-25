@@ -578,7 +578,7 @@ namespace NuxeoClient
             part.Headers.ContentType = new MediaTypeHeaderValue(blob.MimeType);
             part.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
             {
-                FileName = blob.Filename
+                FileNameStar = blob.Filename
             };
             part.Headers.Add("Content-Transfer-Encoding", "binary");
             part.Headers.Add("Content-ID", "input");
