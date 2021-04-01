@@ -37,6 +37,8 @@ In order to build Nuxeo .NET Client, you must have installed the latest LTS of .
     * [Mac OS instructions](https://www.microsoft.com/net/core#macos)
 
     * [Windows instructions](https://www.microsoft.com/net/core#windowscmd)
+   
+Note: [Archived builds for .NET Core 1.0.1 SDK Preview 2 build 3131 and 3133](https://github.com/dotnet/core/blob/main/release-notes/download-archives/1.0.1-preview2-download.md).
 
 2. Add the following feeds to NuGet config file:
 
@@ -68,7 +70,7 @@ If you are using Visual Studio 2015 on Windows, you will need to install Visual 
 
 ## Running the TCK ##
 
-This project includes a Test Compatibility Kit (TCK) covering several tests on the client. In order for the tests to run, there must be an instance of the Nuxeo Server running, with *nuxeo-automation-test* and *nuxeo-jsf-ui* installed.
+This project includes a Test Compatibility Kit (TCK) covering several tests on the client. In order for the tests to run, there must be an instance of the Nuxeo Server running, with [*nuxeo-automation-test*](https://packages.nuxeo.com/#browse/search=keyword%3Dnuxeo-automation-test) and [*nuxeo-jsf-ui*](https://connect.nuxeo.com/nuxeo/site/marketplace/package/nuxeo-jsf-ui) installed.
 
 Before building and running the tests, the server's IP address should be updated in the *test/TCK/Config.cs* file.
 
@@ -76,7 +78,9 @@ Before building and running the tests, the server's IP address should be updated
 
 1. Build the version of the TCK you want to test, by either running `tools\BuildNetCore.ps1` or  `tools\BuildNet45.ps1`.
 
-2. Run the TCK with `tools\TestNetCore.ps1` or `tools\TestNet45.ps1`
+2. Run the TCK with `tools\TestNetCore.ps1` or `tools\TestNet45.ps1`.
+
+Note: If NuGet fails to install the dependencies when building the tests ("The underlying connection was closed: An unexpected error occurred on a send"), [this StackOverflow answer](https://stackoverflow.com/a/53677845) provides a fix for it.
 
 ### On Mac OS or Linux ###
 
