@@ -20,15 +20,15 @@
       "imports": "dnxcore50",
       "dependencies": {
         "Microsoft.CSharp": "4.0.1",
-        "System.Collections": "4.0.11",
-        "System.IO": "4.1.0",
-        "System.IO.FileSystem": "4.0.1",
-        "System.Linq": "4.1.0",
+        "System.Collections": "4.3.0",
+        "System.IO": "4.3.0",
+        "System.IO.FileSystem": "4.3.0",
+        "System.Linq": "4.3.0",
         "System.Net.Http": "4.3.4",
-        "System.Runtime": "4.1.0",
-        "System.Runtime.Extensions": "4.1.0",
+        "System.Runtime": "4.3.0",
+        "System.Runtime.Extensions": "4.3.0",
         "System.Text.Encoding.Extensions": "4.0.11",
-        "System.Threading": "4.0.11",
+        "System.Threading": "4.3.0",
         "System.Threading.Tasks.Parallel": "4.0.1",
         "WinInsider.System.Net.Http.Formatting": "1.0.1"
       }
